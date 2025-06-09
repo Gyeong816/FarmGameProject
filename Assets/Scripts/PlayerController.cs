@@ -4,19 +4,27 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [Header("이동")]
-    public float walkSpeed = 4f;
-    public float runSpeed = 7f;
-    public float rotationSpeed = 10f;
+    [SerializeField] private float walkSpeed = 4f;
+    [SerializeField] private float runSpeed = 7f;
+    [SerializeField] private float rotationSpeed = 10f;
 
     [Header("점프/중력")]
-    public float jumpHeight = 1.2f;
-    public float gravity = -9.81f;
+    [SerializeField] private float jumpHeight = 1.2f;
+    [SerializeField] private float gravity = -9.81f;
 
+    [Header("도구 사용 시간")]
+    [SerializeField] private float hoeingTime = 0.7f;
+    [SerializeField] private float wateringTime = 1.5f;
+    [SerializeField] private float toolDistance = 1.5f;
+    
+    
     [Header("참조")]
-    public Transform cameraTransform;
-    public Animator animator;
+    [SerializeField] private Transform cameraTransform;
+    [SerializeField] private MapManager mapManager;
+    [SerializeField] private float tileSize = 2f;
     
     private CharacterController controller;
+    private Animator animator;
     private Vector3 velocity;
     private Vector2 moveInput;
 
@@ -24,10 +32,13 @@ public class PlayerController : MonoBehaviour
     private bool isJumping;
     private bool isWalking;
     private bool isHoeing;
+    private bool isWatering;
+    private bool isPlanting;
 
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        animator = GetComponentInChildren<Animator>();
     }
 
     void Update()
@@ -35,8 +46,20 @@ public class PlayerController : MonoBehaviour
         HandleInput();
         ApplyGravity();
         
-        var state = animator.GetCurrentAnimatorStateInfo(0);
-        if (state.IsName("Hoe")) return;
+        AnimatorStateInfo state = animator.GetCurrentAnimatorStateInfo(0);
+        if (state.IsName("Hoe") && state.normalizedTime >= hoeingTime && state.normalizedTime < 1f)
+        {
+            HoeInFront();
+        }
+        else if (state.IsName("Water") && state.normalizedTime >= hoeingTime && state.normalizedTime < 1f)
+        {
+            WaterInFront();
+        }
+        else if (state.IsName("Water") && state.normalizedTime >= hoeingTime && state.normalizedTime < 1f)
+        {
+            WaterInFront();
+        }
+        if (state.IsName("Hoe") || state.IsName("Water")) return;
         
         UpdateAnimation();
         
@@ -59,6 +82,9 @@ public class PlayerController : MonoBehaviour
         isRunning = Input.GetKey(KeyCode.LeftShift);
         isJumping = Input.GetKeyDown(KeyCode.Space);
         isHoeing = Input.GetMouseButtonDown(0);
+        isWatering = Input.GetKeyDown(KeyCode.E);
+        isPlanting  = Input.GetMouseButtonDown(1);
+         
     }
     void UpdateAnimation()
     {
@@ -68,8 +94,32 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("Walk", false);
         if (isHoeing)
             animator.SetTrigger("Hoe");
+        if (isWatering)
+            animator.SetTrigger("Water");
     }
     
+    private void HoeInFront()
+    {
+        var checkPos = transform.position + transform.forward * toolDistance;
+        
+        var tile = mapManager.GetTileAtWorldPos(checkPos);
+        if (tile != null)
+            tile.Hoe();
+    }
+    private void WaterInFront()
+    {
+        var checkPos = transform.position + transform.forward * toolDistance;
+        
+        var tile = mapManager.GetTileAtWorldPos(checkPos);
+        if (tile != null) 
+            tile.Water();
+    }
+    private void PlantInFront()
+    {
+        var checkPos = transform.position + transform.forward * tileSize;
+        
+        mapManager.GetTileAtWorldPos(checkPos)?.RequestPlant();
+    }
 
     float GetCurrentSpeed()
     {

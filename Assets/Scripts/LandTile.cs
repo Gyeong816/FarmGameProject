@@ -1,47 +1,60 @@
+// LandTile.cs
+
+using System;
 using UnityEngine;
 
 public class LandTile : MonoBehaviour
 {
-    [Header("타일 Prefab")]
-    [SerializeField] private GameObject grassPrefab;   // 잔디 Prefab 에셋
-    [SerializeField] private GameObject plowedPrefab;  // 경작된 땅 Prefab 에셋
+    [SerializeField] private GameObject grassTile;
+    [SerializeField] private GameObject plowedTile;
+    [SerializeField] private GameObject wateredTile;
 
-    // 실제 씬에 생성된 인스턴스를 담아둘 변수
-    private GameObject grassInstance;
-    private GameObject plowedInstance;
-
-    private bool isPlowed = false;
-    private int gridX, gridZ;
-    private MapManager mapManager;
-
-    public void Initialize(int x, int z, MapManager manager)
+    public event Action<LandTile> onPlantRequested;
+    public Vector2Int gridPos;
+    
+    public bool isPlanted;
+    public bool isPlowed;
+    public bool isWatered;
+    
+    private void Start()
     {
-        gridX      = x;
-        gridZ      = z;
-        mapManager = manager;
+        grassTile.SetActive(true);
+        plowedTile.SetActive(false);
+        wateredTile.SetActive(false);
+    }
 
-        // Prefab 으로부터 씬 오브젝트를 생성하고, 이 LandTile의 자식으로 둬서
-        // 위치/회전/스케일을 이 트랜스폼과 함께 관리하게 합니다.
-        grassInstance  = Instantiate(grassPrefab,  transform.position, Quaternion.identity, transform);
-        plowedInstance = Instantiate(plowedPrefab, transform.position, Quaternion.identity, transform);
-
-        // 시작할 때는 잔디만 보이게
-        grassInstance .SetActive(true);
-        plowedInstance.SetActive(false);
+    // Awake 대신 MapManager에서 호출
+    public void SetGridPosition(int x, int z)
+    {
+        gridPos = new Vector2Int(x, z);
+        isPlowed = false;
+        isWatered = false;
     }
 
     public void Hoe()
     {
         if (isPlowed) return;
         isPlowed = true;
-
-        // 쟁기질 시 잔디는 숨기고, 경작 땅만 보여줍니다.
-        grassInstance .SetActive(false);
-        plowedInstance.SetActive(true);
+        grassTile.SetActive(false);
+        plowedTile.SetActive(true);
     }
-
-    public Vector2Int GetGridPosition()
+    public void Water()
     {
-        return new Vector2Int(gridX, gridZ);
+        if (!isPlowed || isWatered) return;
+        isWatered = true;
+        plowedTile.SetActive(false);
+        wateredTile.SetActive(true);
     }
+    
+    public void RequestPlant()
+    {
+        if (!isPlowed || isPlanted) return;
+        onPlantRequested?.Invoke(this);
+    }
+    public void MarkPlanted()
+    {
+        isPlanted = true;
+    }
+    
+    public Vector2Int GetGridPosition() => gridPos;
 }

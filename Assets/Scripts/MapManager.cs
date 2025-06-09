@@ -1,46 +1,58 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class MapManager : MonoBehaviour
 {
-    [SerializeField] private int width = 10;
-    [SerializeField] private int height = 10;
-    [SerializeField] private float tileSize = 2f;
-    [SerializeField] private GameObject grassTilePrefab;
-
-    private LandTile[,] tiles;
-
-    void Start()
+    [Header("타일 크기")]
+    [SerializeField] public float tileSize = 2f;
+    [Header("농작물")]
+    [SerializeField] private GameObject[] cropPrefabs;
+    
+    private readonly Dictionary<Vector2Int, LandTile> tiles = new();
+    private Dictionary<Vector2Int, GameObject> plantedCrops = new();
+    private void Awake()
     {
-        tiles = new LandTile[width, height];
-        for (int x = 0; x < width; x++)
+        foreach (var tile in GetComponentsInChildren<LandTile>())
         {
-            for (int z = 0; z < height; z++)
-            {
-                Vector3 worldPos = new Vector3(x * tileSize, 0f, z * tileSize);
-                GameObject go = Instantiate(grassTilePrefab, worldPos, Quaternion.identity, transform);
-                LandTile tile = go.GetComponent<LandTile>();
-                tile.Initialize(x, z, this);
-                tiles[x, z] = tile;
-            }
+            int x = Mathf.RoundToInt(tile.transform.position.x / tileSize);
+            int z = Mathf.RoundToInt(tile.transform.position.z / tileSize);
+            var key = new Vector2Int(x, z);
+            tiles[key] = tile;
+            tile.SetGridPosition(x, z);
         }
-    }
-
-    public bool InBounds(int x, int z)
-    {
-        return x >= 0 && x < width && z >= 0 && z < height;
-    }
-
-    public LandTile GetTile(int x, int z)
-    {
-        return InBounds(x, z) ? tiles[x, z] : null;
     }
 
     public bool WorldToGrid(Vector3 worldPos, out int x, out int z)
     {
-        x = Mathf.FloorToInt(worldPos.x / tileSize + 0.5f);
-        z = Mathf.FloorToInt(worldPos.z / tileSize + 0.5f);
-        return InBounds(x, z);
+        x = Mathf.RoundToInt(worldPos.x / tileSize);
+        z = Mathf.RoundToInt(worldPos.z / tileSize);
+        return tiles.ContainsKey(new Vector2Int(x, z));
+    }
+
+    public LandTile GetTile(int x, int z)
+    {
+        tiles.TryGetValue(new Vector2Int(x, z), out var tile);
+        return tile;
+    }
+
+    public LandTile GetTileAtWorldPos(Vector3 worldPos)
+    {
+        if (WorldToGrid(worldPos, out int x, out int z))
+            return GetTile(x, z);
+        return null;
+    }
+    
+    private void HandlePlantRequest(LandTile tile)
+    {
+        var prefab = cropPrefabs[0];
+        
+        var pos = tile.transform.position + Vector3.up * 2f;
+        
+        var crop = Instantiate(prefab, pos, Quaternion.identity, tile.transform);
+        
+        tile.MarkPlanted();
+        
+        plantedCrops[tile.gridPos] = crop;
+        
     }
 }
