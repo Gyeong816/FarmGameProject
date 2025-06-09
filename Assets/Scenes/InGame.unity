@@ -278,9 +278,6 @@ MonoBehaviour:
   plowedTile: {fileID: 2115612746}
   wateredTile: {fileID: 777613121}
   gridPos: {x: 0, y: 0}
-  isPlanted: 0
-  isPlowed: 0
-  isWatered: 0
 --- !u!1 &116350035
 GameObject:
   m_ObjectHideFlags: 0
@@ -333,7 +330,8 @@ MonoBehaviour:
   jumpHeight: 1.2
   gravity: -9.81
   hoeingTime: 0.6
-  wateringTime: 1.5
+  wateringTime: 0.6
+  PlantingTime: 0.6
   toolDistance: 1.5
   cameraTransform: {fileID: 338117951}
   mapManager: {fileID: 1194219347}
@@ -761,9 +759,6 @@ MonoBehaviour:
   plowedTile: {fileID: 1620792229}
   wateredTile: {fileID: 1749271763}
   gridPos: {x: 0, y: 0}
-  isPlanted: 0
-  isPlowed: 0
-  isWatered: 0
 --- !u!1 &417219159
 GameObject:
   m_ObjectHideFlags: 0
@@ -1169,9 +1164,6 @@ MonoBehaviour:
   plowedTile: {fileID: 1712164143}
   wateredTile: {fileID: 1087789918}
   gridPos: {x: 0, y: 0}
-  isPlanted: 0
-  isPlowed: 0
-  isWatered: 0
 --- !u!1 &746516780
 GameObject:
   m_ObjectHideFlags: 0
@@ -1328,9 +1320,6 @@ MonoBehaviour:
   plowedTile: {fileID: 1353965962}
   wateredTile: {fileID: 1524460299}
   gridPos: {x: 0, y: 0}
-  isPlanted: 0
-  isPlowed: 0
-  isWatered: 0
 --- !u!1 &777613121
 GameObject:
   m_ObjectHideFlags: 0
@@ -1487,9 +1476,6 @@ MonoBehaviour:
   plowedTile: {fileID: 1666579266}
   wateredTile: {fileID: 958186986}
   gridPos: {x: 0, y: 0}
-  isPlanted: 0
-  isPlowed: 0
-  isWatered: 0
 --- !u!1 &826824704
 GameObject:
   m_ObjectHideFlags: 0
@@ -1563,9 +1549,6 @@ MonoBehaviour:
   plowedTile: {fileID: 1346374170}
   wateredTile: {fileID: 531630039}
   gridPos: {x: 0, y: 0}
-  isPlanted: 0
-  isPlowed: 0
-  isWatered: 0
 --- !u!1 &835524115
 GameObject:
   m_ObjectHideFlags: 0
@@ -1639,9 +1622,6 @@ MonoBehaviour:
   plowedTile: {fileID: 1038316504}
   wateredTile: {fileID: 1906317637}
   gridPos: {x: 0, y: 0}
-  isPlanted: 0
-  isPlowed: 0
-  isWatered: 0
 --- !u!1 &958186986
 GameObject:
   m_ObjectHideFlags: 0
@@ -2193,9 +2173,6 @@ MonoBehaviour:
   plowedTile: {fileID: 1486157339}
   wateredTile: {fileID: 1646827392}
   gridPos: {x: 0, y: 0}
-  isPlanted: 0
-  isPlowed: 0
-  isWatered: 0
 --- !u!1 &1258435121
 GameObject:
   m_ObjectHideFlags: 0
@@ -3182,9 +3159,6 @@ MonoBehaviour:
   plowedTile: {fileID: 663091876}
   wateredTile: {fileID: 2014237273}
   gridPos: {x: 0, y: 0}
-  isPlanted: 0
-  isPlowed: 0
-  isWatered: 0
 --- !u!1 &1749271763
 GameObject:
   m_ObjectHideFlags: 0
@@ -3542,9 +3516,6 @@ MonoBehaviour:
   plowedTile: {fileID: 271961036}
   wateredTile: {fileID: 1877920772}
   gridPos: {x: 0, y: 0}
-  isPlanted: 0
-  isPlowed: 0
-  isWatered: 0
 --- !u!1 &1877920772
 GameObject:
   m_ObjectHideFlags: 0
@@ -3867,9 +3838,6 @@ MonoBehaviour:
   plowedTile: {fileID: 1258435121}
   wateredTile: {fileID: 1968696572}
   gridPos: {x: 0, y: 0}
-  isPlanted: 0
-  isPlowed: 0
-  isWatered: 0
 --- !u!1 &1967207160
 GameObject:
   m_ObjectHideFlags: 0
@@ -4358,9 +4326,6 @@ MonoBehaviour:
   plowedTile: {fileID: 1347735340}
   wateredTile: {fileID: 1677502713}
   gridPos: {x: 0, y: 0}
-  isPlanted: 0
-  isPlowed: 0
-  isWatered: 0
 --- !u!1 &2115612746
 GameObject:
   m_ObjectHideFlags: 0
@@ -5844,9 +5809,6 @@ MonoBehaviour:
   plowedTile: {fileID: 6411344774602008553}
   wateredTile: {fileID: 9071264505443171082}
   gridPos: {x: 0, y: 0}
-  isPlanted: 0
-  isPlowed: 0
-  isWatered: 0
 --- !u!4 &5759605567453588892
 Transform:
   m_ObjectHideFlags: 0
@@ -6056,9 +6018,6 @@ MonoBehaviour:
   plowedTile: {fileID: 5440877293696415457}
   wateredTile: {fileID: 7970199301139360258}
   gridPos: {x: 0, y: 0}
-  isPlanted: 0
-  isPlowed: 0
-  isWatered: 0
 --- !u!1 &6958890604109312672
 GameObject:
   m_ObjectHideFlags: 0
@@ -6740,9 +6699,6 @@ MonoBehaviour:
   plowedTile: {fileID: 7538422130721164477}
   wateredTile: {fileID: 5586695442737729630}
   gridPos: {x: 0, y: 0}
-  isPlanted: 0
-  isPlowed: 0
-  isWatered: 0
 --- !u!1 &9161655179150579630
 GameObject:
   m_ObjectHideFlags: 0
@@ -6791,9 +6747,6 @@ MonoBehaviour:
   plowedTile: {fileID: 7579724617258590996}
   wateredTile: {fileID: 5488375543273521143}
   gridPos: {x: 0, y: 0}
-  isPlanted: 0
-  isPlowed: 0
-  isWatered: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

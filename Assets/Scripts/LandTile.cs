@@ -12,9 +12,9 @@ public class LandTile : MonoBehaviour
     public event Action<LandTile> onPlantRequested;
     public Vector2Int gridPos;
     
-    public bool isPlanted;
-    public bool isPlowed;
-    public bool isWatered;
+    private bool isPlanted;
+    private bool isPlowed;
+    private bool isWatered;
     
     private void Start()
     {
@@ -29,6 +29,7 @@ public class LandTile : MonoBehaviour
         gridPos = new Vector2Int(x, z);
         isPlowed = false;
         isWatered = false;
+        isPlanted = false;
     }
 
     public void Hoe()
@@ -46,7 +47,7 @@ public class LandTile : MonoBehaviour
         wateredTile.SetActive(true);
     }
     
-    public void RequestPlant()
+    public void Plant()
     {
         if (!isPlowed || isPlanted) return;
         onPlantRequested?.Invoke(this);

@@ -7,18 +7,11 @@
     <list default="true" id="7bd28b71-29f7-441d-94c9-45fdc8d40e2c" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.FarmGameProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.FarmGameProject/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Animation/PlayerAnimator.controller" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animation/PlayerAnimator.controller" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/GrassGround.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/GrassGround.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/LandTile.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/LandTile.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/PlowedGround.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/PlowedGround.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resource/GameDev Starter Kit - Farming/Material/Color_Palette_01.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resource/GameDev Starter Kit - Farming/Material/Color_Palette_01.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resource/GameDev Starter Kit - Farming/Source File/Farm_Character_Leaf.fbx.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resource/GameDev Starter Kit - Farming/Source File/Farm_Character_Leaf.fbx.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/InGame.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/InGame.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/LandTile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/LandTile.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/MapManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/MapManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PlayerController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/URPProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/URPProjectSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -106,7 +99,7 @@
       <updated>1749432379003</updated>
       <workItem from="1749432380993" duration="16000" />
       <workItem from="1749432410020" duration="9840000" />
-      <workItem from="1749446308564" duration="10326000" />
+      <workItem from="1749446308564" duration="13899000" />
     </task>
     <servers />
   </component>
@@ -120,6 +113,17 @@
     <option name="unityProjectFolder" value="true" />
   </component>
   <component name="UnityUnitTestConfiguration" currentTestLauncher="Both" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>

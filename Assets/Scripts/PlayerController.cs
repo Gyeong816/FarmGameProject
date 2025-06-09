@@ -14,7 +14,8 @@ public class PlayerController : MonoBehaviour
 
     [Header("도구 사용 시간")]
     [SerializeField] private float hoeingTime = 0.7f;
-    [SerializeField] private float wateringTime = 1.5f;
+    [SerializeField] private float wateringTime = 0.6f;
+    [SerializeField] private float plantingTime = 0.6f;
     [SerializeField] private float toolDistance = 1.5f;
     
     
@@ -45,23 +46,22 @@ public class PlayerController : MonoBehaviour
     {
         HandleInput();
         ApplyGravity();
-        
+        UpdateAnimation();
         AnimatorStateInfo state = animator.GetCurrentAnimatorStateInfo(0);
         if (state.IsName("Hoe") && state.normalizedTime >= hoeingTime && state.normalizedTime < 1f)
         {
             HoeInFront();
         }
-        else if (state.IsName("Water") && state.normalizedTime >= hoeingTime && state.normalizedTime < 1f)
+        if (state.IsName("Water") && state.normalizedTime >= wateringTime && state.normalizedTime < 1f)
         {
             WaterInFront();
         }
-        else if (state.IsName("Water") && state.normalizedTime >= hoeingTime && state.normalizedTime < 1f)
+        if (state.IsName("Plant") && state.normalizedTime >= plantingTime && state.normalizedTime < 1f)
         {
-            WaterInFront();
+            PlantInFront();
         }
-        if (state.IsName("Hoe") || state.IsName("Water")) return;
+        if (state.IsName("Hoe") || state.IsName("Water") || state.IsName("Plant")) return;
         
-        UpdateAnimation();
         
         if (isWalking)
         {
@@ -83,7 +83,7 @@ public class PlayerController : MonoBehaviour
         isJumping = Input.GetKeyDown(KeyCode.Space);
         isHoeing = Input.GetMouseButtonDown(0);
         isWatering = Input.GetKeyDown(KeyCode.E);
-        isPlanting  = Input.GetMouseButtonDown(1);
+        isPlanting = Input.GetMouseButtonDown(1);
          
     }
     void UpdateAnimation()
@@ -92,14 +92,19 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("Walk", true);
         else
             animator.SetBool("Walk", false);
-        if (isHoeing)
+        if(isHoeing) 
             animator.SetTrigger("Hoe");
-        if (isWatering)
+        if(isWatering)
             animator.SetTrigger("Water");
+        if (isPlanting)
+            animator.SetTrigger("Plant");
+        
+            
     }
     
     private void HoeInFront()
     {
+        Debug.Log("Hoe");
         var checkPos = transform.position + transform.forward * toolDistance;
         
         var tile = mapManager.GetTileAtWorldPos(checkPos);
@@ -108,6 +113,7 @@ public class PlayerController : MonoBehaviour
     }
     private void WaterInFront()
     {
+        Debug.Log("Water");
         var checkPos = transform.position + transform.forward * toolDistance;
         
         var tile = mapManager.GetTileAtWorldPos(checkPos);
@@ -116,9 +122,12 @@ public class PlayerController : MonoBehaviour
     }
     private void PlantInFront()
     {
-        var checkPos = transform.position + transform.forward * tileSize;
+        Debug.Log("Plant");
+        var checkPos = transform.position + transform.forward * toolDistance;
         
-        mapManager.GetTileAtWorldPos(checkPos)?.RequestPlant();
+        var tile = mapManager.GetTileAtWorldPos(checkPos);
+        if (tile != null)
+            tile.Plant();
     }
 
     float GetCurrentSpeed()

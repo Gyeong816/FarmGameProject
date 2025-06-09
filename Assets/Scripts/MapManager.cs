@@ -8,17 +8,22 @@ public class MapManager : MonoBehaviour
     [Header("농작물")]
     [SerializeField] private GameObject[] cropPrefabs;
     
-    private readonly Dictionary<Vector2Int, LandTile> tiles = new();
+    private Dictionary<Vector2Int, LandTile> tiles;
     private Dictionary<Vector2Int, GameObject> plantedCrops = new();
     private void Awake()
     {
+        tiles = new Dictionary<Vector2Int, LandTile>();
         foreach (var tile in GetComponentsInChildren<LandTile>())
         {
             int x = Mathf.RoundToInt(tile.transform.position.x / tileSize);
             int z = Mathf.RoundToInt(tile.transform.position.z / tileSize);
             var key = new Vector2Int(x, z);
+
             tiles[key] = tile;
             tile.SetGridPosition(x, z);
+
+            // ← 여기를 추가!
+            tile.onPlantRequested += HandlePlantRequest;
         }
     }
 
