@@ -331,7 +331,7 @@ MonoBehaviour:
   gravity: -9.81
   hoeingTime: 0.6
   wateringTime: 0.6
-  PlantingTime: 0.6
+  plantingTime: 0.6
   toolDistance: 1.5
   cameraTransform: {fileID: 338117951}
   mapManager: {fileID: 1194219347}
