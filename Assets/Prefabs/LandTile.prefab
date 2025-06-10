@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 1105586593476293120}
   - component: {fileID: 5958944658889226895}
   m_Layer: 0
-  m_Name: LadTile
+  m_Name: LandTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -15,7 +15,7 @@ public class TimeManager : MonoBehaviour
     [SerializeField] private float fastForwardMultiplier = 2f;
     
     
-    private string currentPeriod = "Morning";
+    private string currentPeriod = "Evening";
     private int currentDay = 1;
     private float timeOfDay = 0f;
     public float NormalizedTime => timeOfDay;
@@ -56,7 +56,7 @@ public class TimeManager : MonoBehaviour
     private string GetPeriodFromHour(float hour)
     {
         if (hour >= 5f && hour < 7f) return "Dawn";        // 새벽
-        if (hour >= 8f && hour < 17f) return "Day";        // 낮
+        if (hour >= 7f && hour < 17f) return "Day";        // 낮
         if (hour >= 17f && hour < 19f) return "Sunset";    // 해질녘
         return "Evening";                                  // 그 외: 저녁 또는 밤
     }

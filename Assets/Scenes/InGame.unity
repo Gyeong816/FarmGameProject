@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 52fcefd712182d743a781fde12426775, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 9aa8ed67591432941bb76f12eb23ff91, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -217,7 +217,7 @@ GameObject:
   - component: {fileID: 112917515}
   - component: {fileID: 112917514}
   m_Layer: 0
-  m_Name: LadTile (5)
+  m_Name: LandTile (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -831,7 +831,7 @@ GameObject:
   - component: {fileID: 347843739}
   - component: {fileID: 347843738}
   m_Layer: 0
-  m_Name: LadTile (14)
+  m_Name: LandTile (14)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1285,7 +1285,7 @@ GameObject:
   - component: {fileID: 681826797}
   - component: {fileID: 681826796}
   m_Layer: 0
-  m_Name: LadTile (8)
+  m_Name: LandTile (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1487,7 +1487,7 @@ GameObject:
   - component: {fileID: 772060210}
   - component: {fileID: 772060209}
   m_Layer: 0
-  m_Name: LadTile (7)
+  m_Name: LandTile (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1643,7 +1643,7 @@ GameObject:
   - component: {fileID: 785169126}
   - component: {fileID: 785169125}
   m_Layer: 0
-  m_Name: LadTile (10)
+  m_Name: LandTile (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1791,7 +1791,7 @@ GameObject:
   - component: {fileID: 826824707}
   - component: {fileID: 826824706}
   m_Layer: 0
-  m_Name: LadTile (6)
+  m_Name: LandTile (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1864,7 +1864,7 @@ GameObject:
   - component: {fileID: 835524118}
   - component: {fileID: 835524117}
   m_Layer: 0
-  m_Name: LadTile (9)
+  m_Name: LandTile (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2483,7 +2483,7 @@ GameObject:
   - component: {fileID: 1239209515}
   - component: {fileID: 1239209514}
   m_Layer: 0
-  m_Name: LadTile (13)
+  m_Name: LandTile (13)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3469,7 +3469,7 @@ GameObject:
   - component: {fileID: 1716604509}
   - component: {fileID: 1716604508}
   m_Layer: 0
-  m_Name: LadTile (15)
+  m_Name: LandTile (15)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3645,8 +3645,8 @@ Light:
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
   m_Intensity: 1
   m_Range: 10
-  m_SpotAngle: 30
-  m_InnerSpotAngle: 21.80208
+  m_SpotAngle: 179
+  m_InnerSpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
     m_Type: 2
@@ -3701,13 +3701,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1773205636}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalRotation: {x: 0.588114, y: -0.04027419, z: 0.35640064, w: 0.724899}
+  m_LocalPosition: {x: 0, y: 29.82, z: -8.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+  m_LocalEulerAnglesHint: {x: 61.806, y: 49.792, z: 83.412}
 --- !u!114 &1773205639
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3826,7 +3826,7 @@ GameObject:
   - component: {fileID: 1824560015}
   - component: {fileID: 1824560014}
   m_Layer: 0
-  m_Name: LadTile (12)
+  m_Name: LandTile (12)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4148,7 +4148,7 @@ GameObject:
   - component: {fileID: 1936123769}
   - component: {fileID: 1936123768}
   m_Layer: 0
-  m_Name: LadTile (11)
+  m_Name: LandTile (11)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4570,7 +4570,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd696be25e3799a4fbc0a5c1d470a7f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dawnSky: {fileID: 2100000, guid: 20f6d22d93779de4ea6f62f8ab305593, type: 2}
+  dawnSky: {fileID: 2100000, guid: 528363c5c1cf6a7458140c6851c77b68, type: 2}
   daySky: {fileID: 2100000, guid: 9aa8ed67591432941bb76f12eb23ff91, type: 2}
   sunsetSky: {fileID: 2100000, guid: 20f6d22d93779de4ea6f62f8ab305593, type: 2}
   eveningSky: {fileID: 2100000, guid: 52fcefd712182d743a781fde12426775, type: 2}
@@ -4787,7 +4787,7 @@ GameObject:
   - component: {fileID: 2104824346}
   - component: {fileID: 2104824345}
   m_Layer: 0
-  m_Name: LadTile (4)
+  m_Name: LandTile (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5869,7 +5869,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 6322079823095324761, guid: 5614df044056fca4490377061f120c93, type: 3}
+  - {fileID: 2100000, guid: 384de3671d1737340a8a016c571e7dc5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5894,7 +5894,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 5012162932691923131, guid: 5614df044056fca4490377061f120c93, type: 3}
+  m_Mesh: {fileID: 4300000, guid: 966d8fbdd56da5846a58c6dbeb0d3e52, type: 2}
   m_Bones:
   - {fileID: 8333672788813448042}
   - {fileID: 7122617391896856656}
@@ -6191,7 +6191,7 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1652488861617178851}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 5614df044056fca4490377061f120c93, type: 3}
+  m_Avatar: {fileID: 9000000, guid: 8d38966c627e283498f44ee085917106, type: 2}
   m_Controller: {fileID: 9100000, guid: 64cd00681499bbb4eb359607e6fa158c, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
@@ -6420,7 +6420,7 @@ GameObject:
   - component: {fileID: 9199900699868856949}
   - component: {fileID: 2470546895065713402}
   m_Layer: 0
-  m_Name: LadTile
+  m_Name: LandTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6500,7 +6500,7 @@ GameObject:
   - component: {fileID: 9079768585792024028}
   - component: {fileID: 2586307338499089747}
   m_Layer: 0
-  m_Name: LadTile (3)
+  m_Name: LandTile (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6750,7 +6750,7 @@ GameObject:
   - component: {fileID: 5649105520175597192}
   - component: {fileID: 1405156292780674567}
   m_Layer: 0
-  m_Name: LadTile (1)
+  m_Name: LandTile (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7035,7 +7035,7 @@ GameObject:
   - component: {fileID: 6709776866321176448}
   - component: {fileID: 69897314859097871}
   m_Layer: 0
-  m_Name: LadTile (2)
+  m_Name: LandTile (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
