@@ -22,7 +22,6 @@ public class PlayerController : MonoBehaviour
     [Header("참조")]
     [SerializeField] private Transform cameraTransform;
     [SerializeField] private MapManager mapManager;
-    [SerializeField] private float tileSize = 2f;
     
     private CharacterController controller;
     private Animator animator;

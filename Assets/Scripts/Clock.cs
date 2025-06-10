@@ -9,8 +9,10 @@ public class Clock : MonoBehaviour
     [Header("하루 시간 설정")]
     public float dayDuration = 120f;
     
-    [Header("택스트 참조")]
+    [Header("참조")]
     public TMP_Text timeText;
+    
+    public TimeManager timeManager;
     
     [Header("빠른 감기 설정")]
     public float fastForwardMultiplier = 2f;
@@ -21,6 +23,8 @@ public class Clock : MonoBehaviour
     {
         if(timeText == null)
             timeText = GetComponentInChildren<TMP_Text>();
+        if (timeManager == null)
+            timeManager = FindObjectOfType<TimeManager>();
     }
 
     private void Update()
@@ -31,8 +35,11 @@ public class Clock : MonoBehaviour
             delta *= fastForwardMultiplier;
         
         timeOfDay += delta;
-        if (timeOfDay >= 1f)
+        while (timeOfDay >= 1f)
+        {
+            timeManager.DayPassed();
             timeOfDay -= 1f;
+        }
         
         UpdateTimeDisplay();
     }

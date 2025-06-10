@@ -1,18 +1,40 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class TimeManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public static TimeManager Instance { get; private set; }
+    public event Action<int> OndayPassed;
+    
+    private int currentDay = 1;
 
-    // Update is called once per frame
+    private bool isDayPassed;
+
+    void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
     void Update()
     {
-        
+        if (isDayPassed)
+        {
+            currentDay++;
+            OndayPassed?.Invoke(currentDay);
+            isDayPassed = false;
+        }
     }
+
+    public void DayPassed()
+    {
+        isDayPassed = true;
+    }
+
 }

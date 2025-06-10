@@ -1,5 +1,3 @@
-// LandTile.cs
-
 using System;
 using UnityEngine;
 
@@ -8,8 +6,7 @@ public class LandTile : MonoBehaviour
     [SerializeField] private GameObject grassTile;
     [SerializeField] private GameObject plowedTile;
     [SerializeField] private GameObject wateredTile;
-
-    public event Action<LandTile> onPlantRequested;
+    
     public Vector2Int gridPos;
     
     private bool isPlanted;
@@ -22,8 +19,7 @@ public class LandTile : MonoBehaviour
         plowedTile.SetActive(false);
         wateredTile.SetActive(false);
     }
-
-    // Awake 대신 MapManager에서 호출
+    
     public void SetGridPosition(int x, int z)
     {
         gridPos = new Vector2Int(x, z);
@@ -50,7 +46,7 @@ public class LandTile : MonoBehaviour
     public void Plant()
     {
         if (!isPlowed || isPlanted) return;
-        onPlantRequested?.Invoke(this);
+        MapManager.Instance.PlantCropAt(this);
     }
     public void MarkPlanted()
     {

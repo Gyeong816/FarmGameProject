@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class MapManager : MonoBehaviour
 {
+    public static MapManager Instance { get; private set; }
+    
     [Header("타일 크기")]
     [SerializeField] public float tileSize = 2f;
     [Header("농작물")]
@@ -12,6 +14,8 @@ public class MapManager : MonoBehaviour
     private Dictionary<Vector2Int, GameObject> plantedCrops = new();
     private void Awake()
     {
+        Instance = this;
+        
         tiles = new Dictionary<Vector2Int, LandTile>();
         foreach (var tile in GetComponentsInChildren<LandTile>())
         {
@@ -21,9 +25,7 @@ public class MapManager : MonoBehaviour
 
             tiles[key] = tile;
             tile.SetGridPosition(x, z);
-
-            // ← 여기를 추가!
-            tile.onPlantRequested += HandlePlantRequest;
+            
         }
     }
 
@@ -47,17 +49,16 @@ public class MapManager : MonoBehaviour
         return null;
     }
     
-    private void HandlePlantRequest(LandTile tile)
+    public void PlantCropAt(LandTile tile)
     {
         var prefab = cropPrefabs[0];
-        
+
         var pos = tile.transform.position + Vector3.up * 2f;
-        
+
         var crop = Instantiate(prefab, pos, Quaternion.identity, tile.transform);
-        
+
         tile.MarkPlanted();
-        
+
         plantedCrops[tile.gridPos] = crop;
-        
     }
 }
