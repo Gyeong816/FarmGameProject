@@ -13,19 +13,18 @@ public class CameraController : MonoBehaviour
     private float yaw = 0f;
     private float pitch = 45f;
     private float currentDistance = 8f;
+    public bool isInventoryOpen = false;
 
     private void Start()
     {
         Vector3 angles = transform.eulerAngles;
         yaw = angles.y;
         pitch = angles.x;
-        Cursor.lockState = CursorLockMode.Locked; // 마우스 중앙 고정
-        Cursor.visible = false;
     }
 
     void LateUpdate()
     {
-        if (target == null) return;
+        if (isInventoryOpen) return;
 
         // 마우스 이동으로 회전
         yaw += Input.GetAxis("Mouse X") * rotationSpeed;
