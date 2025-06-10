@@ -9,25 +9,39 @@ public class CropInstance : MonoBehaviour
     
     private int currentStage = 0;
     private GameObject currentModel;
+    private bool isWateredToday;
 
     private void Start()
     {
-        if (TimeManager.Instance != null)
-        {
-            TimeManager.Instance.OndayPassed += OnDayPassed;
-        }
+        
+        TimeManager.Instance.OndayPassed += OnDayPassed;
         UpdateCropModel();
     }
     
-    void OnDayPassed(int currentDay)
+    public void Water()
     {
-        if (currentStage < cropData.stagePrefabs.Length - 1)
-        {
-            currentStage++;
-            UpdateCropModel();
-        }
+        isWateredToday = true;
+        Debug.Log($"{name} 물 주기 완료");
     }
+    
+    void OnDayPassed()
+    {
+        if (isWateredToday)
+        {
+            if (currentStage < cropData.stagePrefabs.Length - 1)
+            {
+                currentStage++;
+                UpdateCropModel();
+            }    
+        }
+        else
+        {
+            Debug.Log($"{name} 물을 안 줘서 성장 불가 ");
+        }
 
+        isWateredToday = false;
+    }
+    
     void UpdateCropModel()
     {
         if(currentModel != null)

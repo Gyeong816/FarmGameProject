@@ -15,17 +15,30 @@ public class LandTile : MonoBehaviour
     
     private void Start()
     {
+        TimeManager.Instance.OndayPassed += OnDayPassed;
         grassTile.SetActive(true);
         plowedTile.SetActive(false);
         wateredTile.SetActive(false);
+    }
+
+    void OnDayPassed()
+    {
+        if (isPlowed)
+        {
+            wateredTile.SetActive(false);
+            plowedTile.SetActive(true);
+            isWatered = false;
+        }
+        else
+        {
+            grassTile.SetActive(true);
+        }
+ 
     }
     
     public void SetGridPosition(int x, int z)
     {
         gridPos = new Vector2Int(x, z);
-        isPlowed = false;
-        isWatered = false;
-        isPlanted = false;
     }
 
     public void Hoe()
@@ -41,6 +54,7 @@ public class LandTile : MonoBehaviour
         isWatered = true;
         plowedTile.SetActive(false);
         wateredTile.SetActive(true);
+        MapManager.Instance.WaterCropAt(this);
     }
     
     public void Plant()

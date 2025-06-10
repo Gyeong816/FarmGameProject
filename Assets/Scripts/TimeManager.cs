@@ -7,7 +7,7 @@ using UnityEngine;
 public class TimeManager : MonoBehaviour
 {
     public static TimeManager Instance { get; private set; }
-    public event Action<int> OndayPassed;
+    public event Action OndayPassed;
     
     private int currentDay = 1;
 
@@ -27,7 +27,7 @@ public class TimeManager : MonoBehaviour
         if (isDayPassed)
         {
             currentDay++;
-            OndayPassed?.Invoke(currentDay);
+            OndayPassed?.Invoke();
             isDayPassed = false;
         }
     }

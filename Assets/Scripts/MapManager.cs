@@ -11,7 +11,7 @@ public class MapManager : MonoBehaviour
     [SerializeField] private GameObject[] cropPrefabs;
     
     private Dictionary<Vector2Int, LandTile> tiles;
-    private Dictionary<Vector2Int, GameObject> plantedCrops = new();
+    private Dictionary<Vector2Int, CropInstance> plantedCrops = new();
     private void Awake()
     {
         Instance = this;
@@ -55,10 +55,21 @@ public class MapManager : MonoBehaviour
 
         var pos = tile.transform.position + Vector3.up * 2f;
 
-        var crop = Instantiate(prefab, pos, Quaternion.identity, tile.transform);
+        var cropGO = Instantiate(prefab, pos, Quaternion.identity, tile.transform);
 
+        var crop = cropGO.GetComponent<CropInstance>();
+        
         tile.MarkPlanted();
 
         plantedCrops[tile.gridPos] = crop;
     }
+
+    public void WaterCropAt(LandTile tile)
+    {
+        if (plantedCrops.TryGetValue(tile.gridPos, out var crop) && crop != null)
+        {
+            crop.Water();
+        }
+    }
+    
 }
