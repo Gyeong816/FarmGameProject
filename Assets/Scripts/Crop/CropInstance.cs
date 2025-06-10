@@ -14,7 +14,7 @@ public class CropInstance : MonoBehaviour
     private void Start()
     {
         
-        TimeManager.Instance.OndayPassed += OnDayPassed;
+        TimeManager.Instance.OnDayPassed += OnDayPassed;
         UpdateCropModel();
     }
     

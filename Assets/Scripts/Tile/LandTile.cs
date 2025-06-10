@@ -15,7 +15,7 @@ public class LandTile : MonoBehaviour
     
     private void Start()
     {
-        TimeManager.Instance.OndayPassed += OnDayPassed;
+        TimeManager.Instance.OnDayPassed += OnDayPassed;
         grassTile.SetActive(true);
         plowedTile.SetActive(false);
         wateredTile.SetActive(false);
