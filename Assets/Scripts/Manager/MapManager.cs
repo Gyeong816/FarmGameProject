@@ -64,6 +64,18 @@ public class MapManager : MonoBehaviour
         plantedCrops[tile.gridPos] = crop;
     }
 
+    public void HarvestCropAt(LandTile tile)
+    {
+        if (!plantedCrops.TryGetValue(tile.gridPos, out var crop) || crop == null) 
+            return;
+        if (!crop.canHarvest) 
+            return;
+
+        Debug.Log($"{crop.cropNumber} 수확물 획득");
+        Destroy(crop.gameObject);
+        plantedCrops.Remove(tile.gridPos);
+    }
+    
     public void WaterCropAt(LandTile tile)
     {
         if (plantedCrops.TryGetValue(tile.gridPos, out var crop) && crop != null)

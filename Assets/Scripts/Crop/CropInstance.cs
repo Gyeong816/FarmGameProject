@@ -7,7 +7,9 @@ public class CropInstance : MonoBehaviour
     [Header("Crop Data")]
     public CropData cropData;
 
-    public float cropNumber;
+    public int cropNumber;
+
+    public bool canHarvest;
     private int currentStage = 0;
     private GameObject currentModel;
     private bool isWateredToday;
@@ -33,6 +35,11 @@ public class CropInstance : MonoBehaviour
             {
                 currentStage++;
                 UpdateCropModel();
+                
+                if (currentStage >= 3)
+                {
+                    canHarvest = true;
+                }
             }    
         }
         else

@@ -12,6 +12,8 @@ public class ItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     public GameObject itemPrefab;
     public ItemType currentItemType;
     public int seedNumber;
+ 
+    public ItemData data;
     
     private Transform originalParent;
     private Vector2 originalPosition;

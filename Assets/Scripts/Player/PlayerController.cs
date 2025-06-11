@@ -13,9 +13,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float gravity = -9.81f;
 
     [Header("도구 사용 시간")]
-    [SerializeField] private float hoeingTime = 0.7f;
-    [SerializeField] private float wateringTime = 0.6f;
-    [SerializeField] private float plantingTime = 0.6f;
+    [SerializeField] private float usingTime = 0.7f;
     [SerializeField] private float toolDistance = 1.5f;
     
     
@@ -55,19 +53,23 @@ public class PlayerController : MonoBehaviour
         ApplyGravity();
         UpdateAnimation();
         AnimatorStateInfo state = animator.GetCurrentAnimatorStateInfo(0);
-        if (state.IsName("Hoe") && state.normalizedTime >= hoeingTime && state.normalizedTime < 1f)
+        if (state.IsName("Hoe") && state.normalizedTime >= usingTime && state.normalizedTime < 1f)
         {
             HoeInFront();
         }
-        if (state.IsName("Water") && state.normalizedTime >= wateringTime && state.normalizedTime < 1f)
+        if (state.IsName("Water") && state.normalizedTime >= usingTime && state.normalizedTime < 1f)
         {
             WaterInFront();
         }
-        if (state.IsName("Plant") && state.normalizedTime >= plantingTime && state.normalizedTime < 1f)
+        if (state.IsName("Plant") && state.normalizedTime >= usingTime && state.normalizedTime < 1f)
         {
             PlantInFront();
         }
-        if (state.IsName("Hoe") || state.IsName("Water") || state.IsName("Plant")) return;
+        if (state.IsName("Harvest") && state.normalizedTime >= usingTime && state.normalizedTime < 1f)
+        {
+            HarvestInFront();
+        }
+        if (state.IsName("Hoe") || state.IsName("Water") || state.IsName("Plant") || state.IsName("Harvest")) return;
         
         
         if (isWalking)
@@ -113,8 +115,8 @@ public class PlayerController : MonoBehaviour
             case ItemType.WateringPot:
                 animator.SetTrigger("Water"); 
                 break;
-            case ItemType.Sickle:
-               // animator.SetTrigger("Harvest"); 
+            case ItemType.Sickle: 
+                animator.SetTrigger("Harvest"); 
                 break;
             case ItemType.Seed: 
                  animator.SetTrigger("Plant"); 
@@ -155,7 +157,6 @@ public class PlayerController : MonoBehaviour
     
     private void HoeInFront()
     {
-        Debug.Log("Hoe");
         var checkPos = transform.position + transform.forward * toolDistance;
         
         var tile = mapManager.GetTileAtWorldPos(checkPos);
@@ -164,7 +165,6 @@ public class PlayerController : MonoBehaviour
     }
     private void WaterInFront()
     {
-        Debug.Log("Water");
         var checkPos = transform.position + transform.forward * toolDistance;
         
         var tile = mapManager.GetTileAtWorldPos(checkPos);
@@ -173,13 +173,19 @@ public class PlayerController : MonoBehaviour
     }
     private void PlantInFront()
     {
-        Debug.Log("Plant");
         var checkPos = transform.position + transform.forward * toolDistance;
         
         var tile = mapManager.GetTileAtWorldPos(checkPos);
         if (!tile.isPlowed || tile.isPlanted) return;
         mapManager.PlantCropAt(tile, seedNumber);
         
+    }
+    private void HarvestInFront()
+    {
+        var checkPos = transform.position + transform.forward * toolDistance;
+        
+        var tile = mapManager.GetTileAtWorldPos(checkPos);
+        mapManager.HarvestCropAt(tile);
     }
 
     float GetCurrentSpeed()
