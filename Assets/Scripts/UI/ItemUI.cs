@@ -7,9 +7,11 @@ using UnityEngine.UI;
 
 public class ItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    
+    public enum ItemType { Hoe, WateringPot, Sickle, Seed, Crop, None}
     public Canvas canvas;
     public GameObject itemPrefab;
+    public ItemType currentItemType;
+    public int seedNumber;
     
     private Transform originalParent;
     private Vector2 originalPosition;
@@ -59,6 +61,7 @@ public class ItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         transform.position = originalPosition;
         canvasGroup.blocksRaycasts = true; 
     }
+    
     
     public GameObject GetItemPrefab()
     {

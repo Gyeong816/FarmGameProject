@@ -6,7 +6,8 @@ public class CropInstance : MonoBehaviour
 {
     [Header("Crop Data")]
     public CropData cropData;
-    
+
+    public float cropNumber;
     private int currentStage = 0;
     private GameObject currentModel;
     private bool isWateredToday;

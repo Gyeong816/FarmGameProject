@@ -28,8 +28,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject wateringPotObj;
     [SerializeField] private GameObject sickleObj;
     
-    public enum ToolType { Hoe, WateringPot, Sickle, None}
-    public ToolType currentTool = ToolType.None;
+    public enum ItemType { Hoe, WateringPot, Sickle, Seed, Crop, None}
+    public ItemType currentItem = ItemType.None;
+    public int seedNumber;
     
     private CharacterController controller;
     private Animator animator;
@@ -89,7 +90,7 @@ public class PlayerController : MonoBehaviour
         isJumping = Input.GetKeyDown(KeyCode.Space);
         if (Input.GetMouseButtonDown(0))
         {
-            UseTool();
+            UseItem();
         }
         
 
@@ -102,20 +103,26 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("Walk", false);
     }
 
-    public void UseTool()
+    public void UseItem()
     {
-        switch (currentTool)
+        switch (currentItem)
         {
-            case ToolType.Hoe:
+            case ItemType.Hoe:
                 animator.SetTrigger("Hoe"); 
                 break;
-            case ToolType.WateringPot:
+            case ItemType.WateringPot:
                 animator.SetTrigger("Water"); 
                 break;
-            case ToolType.Sickle:
-                animator.SetTrigger("Plant"); 
+            case ItemType.Sickle:
+               // animator.SetTrigger("Harvest"); 
                 break;
-            case ToolType.None:
+            case ItemType.Seed: 
+                 animator.SetTrigger("Plant"); 
+                break;
+            case ItemType.Crop: 
+               // animator.SetTrigger("Eat"); 
+                break;
+            case ItemType.None:
                 Debug.Log("도구 없음");
                 break;
             default:
@@ -123,27 +130,22 @@ public class PlayerController : MonoBehaviour
         }
     }
     
-    public void SetTool()
+    public void SetItem()
     {
         hoeObj.SetActive(false);
         wateringPotObj.SetActive(false);
         sickleObj.SetActive(false);
         
-        switch (currentTool)
+        switch (currentItem)
         {
-            case ToolType.Hoe:
+            case ItemType.Hoe:
                 hoeObj.SetActive(true);
                 break;
-            case ToolType.WateringPot:
+            case ItemType.WateringPot:
                 wateringPotObj.SetActive(true);
                 break;
-            case ToolType.Sickle:
+            case ItemType.Sickle:
                 sickleObj.SetActive(true);
-                break;
-            case ToolType.None:
-                hoeObj.SetActive(false);
-                wateringPotObj.SetActive(false);
-                sickleObj.SetActive(false);
                 break;
             default:
                 break;
@@ -175,8 +177,9 @@ public class PlayerController : MonoBehaviour
         var checkPos = transform.position + transform.forward * toolDistance;
         
         var tile = mapManager.GetTileAtWorldPos(checkPos);
-        if (tile != null)
-            tile.Plant();
+        if (!tile.isPlowed || tile.isPlanted) return;
+        mapManager.PlantCropAt(tile, seedNumber);
+        
     }
 
     float GetCurrentSpeed()
@@ -187,23 +190,19 @@ public class PlayerController : MonoBehaviour
 
     void Move(float speed)
     {
-
-        // 카메라 기준 방향 구하기
+        
         Vector3 forward = cameraTransform.forward;
         Vector3 right = cameraTransform.right;
         forward.y = 0f;
         right.y = 0f;
         forward.Normalize();
         right.Normalize();
-
-        // 입력을 카메라 기준 방향으로 변환
+        
         Vector3 moveDir = forward * moveInput.y + right * moveInput.x;
         moveDir.Normalize();
-
-        // 이동
+        
         controller.Move(moveDir * speed * Time.deltaTime);
-
-        // 회전: 이동 방향 기준으로 카메라 방향을 따름
+        
         if (moveDir.sqrMagnitude > 0.01f)
         {
             Quaternion targetRotation = Quaternion.LookRotation(moveDir, Vector3.up);

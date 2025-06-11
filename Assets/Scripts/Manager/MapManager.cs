@@ -49,9 +49,9 @@ public class MapManager : MonoBehaviour
         return null;
     }
     
-    public void PlantCropAt(LandTile tile)
+    public void PlantCropAt(LandTile tile, int CropNumber)
     {
-        var prefab = cropPrefabs[0];
+        var prefab = cropPrefabs[CropNumber];
 
         var pos = tile.transform.position + Vector3.up * 2f;
 

@@ -18,7 +18,8 @@ public class PlayerInventory : MonoBehaviour
         if (player == null)
             player = FindObjectOfType<PlayerController>();
     }
-
+    
+    
     void Update()
     {
         for (int i = 0; i < smallSlots.Count; i++)
@@ -53,23 +54,62 @@ public class PlayerInventory : MonoBehaviour
         
         if (heldItemInstance != null)
             Destroy(heldItemInstance);
-        player.currentTool = PlayerController.ToolType.None;
-        player.SetTool();
+        player.currentItem = PlayerController.ItemType.None;
+        player.SetItem();
         
         var itemUI = smallSlots[index].GetComponentInChildren<ItemUI>();
-        var toolUI = smallSlots[index].GetComponentInChildren<ToolUI>();
+        
         if (itemUI != null)
         {
-            var prefab = itemUI.GetItemPrefab();
-            heldItemInstance = Instantiate(prefab, playerHandTransform.position, playerHandTransform.rotation, playerHandTransform);
-            return;  
-        }
-        if (toolUI != null)
-        {
-            toolUI.SetUITool();
-            return;
-        }
-        
+            switch (itemUI.currentItemType)
+            {
+                case ItemUI.ItemType.Hoe:
+                    player.currentItem = PlayerController.ItemType.Hoe;
+                    player.SetItem();
+                    break;
+                
+                case ItemUI.ItemType.WateringPot:
+                    player.currentItem = PlayerController.ItemType.WateringPot;
+                    player.SetItem();
+                    break;
+                
+                case ItemUI.ItemType.Sickle:
+                    player.currentItem = PlayerController.ItemType.Sickle;
+                    player.SetItem();
+                    break;
+                
+                case ItemUI.ItemType.Seed:
+                    player.seedNumber = itemUI.seedNumber;
+                    var seedPrefab = itemUI.GetItemPrefab();
+                    if (seedPrefab != null)
+                    {
+                        heldItemInstance = Instantiate(seedPrefab, playerHandTransform.position, playerHandTransform.rotation, playerHandTransform);
+                        player.currentItem = PlayerController.ItemType.Seed;
+                    }
+                    break;
+                
+                case ItemUI.ItemType.Crop:
+                    var cropPrefab = itemUI.GetItemPrefab();
+                    if (cropPrefab != null)
+                    {
+                        heldItemInstance = Instantiate(cropPrefab, playerHandTransform.position, playerHandTransform.rotation, playerHandTransform);
+                        player.currentItem = PlayerController.ItemType.Crop;
+                    }
+                    break;
+                
+                case ItemUI.ItemType.None: 
+                    player.currentItem = PlayerController.ItemType.None;
+                    break;
+                
+                default:
+                    player.currentItem = PlayerController.ItemType.None;
+                    break;
+            }     
 
+        }
+       
+        
     }
+    
+    
 }

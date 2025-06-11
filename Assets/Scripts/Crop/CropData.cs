@@ -1,4 +1,4 @@
-// SimpleCropData.cs
+      // SimpleCropData.cs
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "CropData", menuName = "ScriptableObjects/CropData")]

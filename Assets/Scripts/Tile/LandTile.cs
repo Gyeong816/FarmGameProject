@@ -9,8 +9,8 @@ public class LandTile : MonoBehaviour
     
     public Vector2Int gridPos;
     
-    private bool isPlanted;
-    private bool isPlowed;
+    public bool isPlanted;
+    public bool isPlowed;
     private bool isWatered;
     
     private void Start()
@@ -57,11 +57,6 @@ public class LandTile : MonoBehaviour
         MapManager.Instance.WaterCropAt(this);
     }
     
-    public void Plant()
-    {
-        if (!isPlowed || isPlanted) return;
-        MapManager.Instance.PlantCropAt(this);
-    }
     public void MarkPlanted()
     {
         isPlanted = true;
