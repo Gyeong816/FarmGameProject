@@ -32,9 +32,13 @@ public class CameraController : MonoBehaviour
         pitch = Mathf.Clamp(pitch, minPitch, maxPitch);
 
         // 마우스 휠로 줌 인/아웃
-        float scroll = Input.GetAxis("Mouse ScrollWheel");
-        currentDistance -= scroll * scrollSpeed;
-        currentDistance = Mathf.Clamp(currentDistance, minDistance, maxDistance);
+        if (Input.GetKey(KeyCode.C))
+        {
+            float scroll = Input.GetAxis("Mouse ScrollWheel");
+            currentDistance -= scroll * scrollSpeed;
+            currentDistance = Mathf.Clamp(currentDistance, minDistance, maxDistance);
+        }
+        
 
         // 위치 계산
         Quaternion rotation = Quaternion.Euler(pitch, yaw, 0f);
@@ -44,5 +48,15 @@ public class CameraController : MonoBehaviour
         transform.position = desiredPosition;
         transform.rotation = rotation;
         transform.LookAt(target.position + Vector3.up * 1.5f);
+    }
+
+    public void IsInventoryOpen()
+    {
+        isInventoryOpen = true;
+    }
+    
+    public void IsInventoryClose()
+    {
+        isInventoryOpen = false;
     }
 }

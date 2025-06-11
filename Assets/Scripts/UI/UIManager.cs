@@ -24,7 +24,7 @@ public class UIManager : MonoBehaviour
         {
             if (!isInventoryOpen)
             {
-                cameraController.isInventoryOpen = true;
+                cameraController.IsInventoryOpen();
                 isInventoryOpen = true;
                 InventoryUI.SetActive(true);
                 Time.timeScale = 0;
@@ -33,7 +33,7 @@ public class UIManager : MonoBehaviour
             }
             else
             {
-                cameraController.isInventoryOpen = false;
+                cameraController.IsInventoryClose();
                 isInventoryOpen = false;
                 InventoryUI.SetActive(false);
                 Time.timeScale = 1;

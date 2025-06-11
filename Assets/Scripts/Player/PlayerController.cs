@@ -23,6 +23,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform cameraTransform;
     [SerializeField] private MapManager mapManager;
     
+    [Header("도구 오브젝트")]
+    [SerializeField] private GameObject hoeObj;
+    [SerializeField] private GameObject wateringPotObj;
+    [SerializeField] private GameObject sickleObj;
+    
+    public enum ToolType { Hoe, WateringPot, Sickle, None}
+    public ToolType currentTool = ToolType.None;
+    
     private CharacterController controller;
     private Animator animator;
     private Vector3 velocity;
@@ -31,9 +39,8 @@ public class PlayerController : MonoBehaviour
     private bool isRunning;
     private bool isJumping;
     private bool isWalking;
-    private bool isHoeing;
-    private bool isWatering;
-    private bool isPlanting;
+    private bool isUsingTool;
+
 
     void Start()
     {
@@ -74,32 +81,75 @@ public class PlayerController : MonoBehaviour
         }
     }
     
-    void HandleInput()
+    private void HandleInput()
     {
         moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         isWalking = moveInput.sqrMagnitude >= 0.01f;
         isRunning = Input.GetKey(KeyCode.LeftShift);
         isJumping = Input.GetKeyDown(KeyCode.Space);
-        isHoeing = Input.GetMouseButtonDown(0);
-        isWatering = Input.GetKeyDown(KeyCode.E);
-        isPlanting = Input.GetMouseButtonDown(1);
-         
+        if (Input.GetMouseButtonDown(0))
+        {
+            UseTool();
+        }
+        
+
     }
-    void UpdateAnimation()
+    private void UpdateAnimation()
     {
         if (moveInput.sqrMagnitude >= 0.01f)
             animator.SetBool("Walk", true);
         else
             animator.SetBool("Walk", false);
-        if(isHoeing) 
-            animator.SetTrigger("Hoe");
-        if(isWatering)
-            animator.SetTrigger("Water");
-        if (isPlanting)
-            animator.SetTrigger("Plant");
-        
-            
     }
+
+    public void UseTool()
+    {
+        switch (currentTool)
+        {
+            case ToolType.Hoe:
+                animator.SetTrigger("Hoe"); 
+                break;
+            case ToolType.WateringPot:
+                animator.SetTrigger("Water"); 
+                break;
+            case ToolType.Sickle:
+                animator.SetTrigger("Plant"); 
+                break;
+            case ToolType.None:
+                Debug.Log("도구 없음");
+                break;
+            default:
+                break;
+        }
+    }
+    
+    public void SetTool()
+    {
+        hoeObj.SetActive(false);
+        wateringPotObj.SetActive(false);
+        sickleObj.SetActive(false);
+        
+        switch (currentTool)
+        {
+            case ToolType.Hoe:
+                hoeObj.SetActive(true);
+                break;
+            case ToolType.WateringPot:
+                wateringPotObj.SetActive(true);
+                break;
+            case ToolType.Sickle:
+                sickleObj.SetActive(true);
+                break;
+            case ToolType.None:
+                hoeObj.SetActive(false);
+                wateringPotObj.SetActive(false);
+                sickleObj.SetActive(false);
+                break;
+            default:
+                break;
+        }
+    }
+    
     
     private void HoeInFront()
     {
