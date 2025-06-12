@@ -257,6 +257,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   highlightSlot: {fileID: 533104596}
+  currentItemUI: {fileID: 0}
 --- !u!114 &55190587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -429,7 +430,8 @@ MonoBehaviour:
   wateringPotObj: {fileID: 4437599051273434733}
   sickleObj: {fileID: 1567509353729049724}
   currentItem: 4
-  seedNumber: 0
+  itemId: 0
+  seedId: 0
 --- !u!143 &116350038
 CharacterController:
   m_ObjectHideFlags: 0
@@ -465,6 +467,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 123072090}
+  - component: {fileID: 123072091}
   m_Layer: 5
   m_Name: Big_Inventory
   m_TagString: Untagged
@@ -495,6 +498,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &123072091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 123072089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32f2b89109c80c2448edebfa3596a273, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &156049185
 GameObject:
   m_ObjectHideFlags: 0
@@ -704,6 +719,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: 'Carrot
+
+    Crop
 
 '
   m_isRightToLeft: 0
@@ -1076,6 +1093,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   highlightSlot: {fileID: 1802619967}
+  currentItemUI: {fileID: 0}
 --- !u!114 &298952756
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1799,6 +1817,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   highlightSlot: {fileID: 1071028588}
+  currentItemUI: {fileID: 0}
 --- !u!1 &444522446
 GameObject:
   m_ObjectHideFlags: 0
@@ -1890,10 +1909,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 2037601033}
-  itemPrefab: {fileID: 8011651705776326463, guid: 5290804b01f7c4a48953ed9fbac16f9f,
-    type: 3}
-  currentItemType: 3
-  seedNumber: 0
+  data: {fileID: 11400000, guid: 1f0ddcc9ff0de364cb597ec84219866a, type: 2}
 --- !u!225 &444522451
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -2144,9 +2160,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 2037601033}
-  itemPrefab: {fileID: 0}
-  currentItemType: 0
-  seedNumber: 0
+  data: {fileID: 11400000, guid: d9a51e93f3a75b944b3f56e4a629a05a, type: 2}
 --- !u!1 &466766707
 GameObject:
   m_ObjectHideFlags: 0
@@ -4780,6 +4794,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   highlightSlot: {fileID: 1481395909}
+  currentItemUI: {fileID: 0}
 --- !u!114 &1112697897
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5008,7 +5023,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileSize: 2
-  cropPrefabs:
+  seedPrefabs:
   - {fileID: 8894821344825660221, guid: 071ff2d169252b84a8a95182ff3f1130, type: 3}
   - {fileID: 8894821344825660221, guid: a59d310f16618204a8581fa6ad1ab89c, type: 3}
 --- !u!1 &1198252376
@@ -5189,9 +5204,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 2037601033}
-  itemPrefab: {fileID: 0}
-  currentItemType: 2
-  seedNumber: 0
+  data: {fileID: 11400000, guid: bf9e740b13d09c744a36ffcd2682aff1, type: 2}
 --- !u!1 &1239209512
 GameObject:
   m_ObjectHideFlags: 0
@@ -5528,9 +5541,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 2037601033}
-  itemPrefab: {fileID: 0}
-  currentItemType: 1
-  seedNumber: 0
+  data: {fileID: 11400000, guid: 0bb0e4c20e9b7a04a84c69f294f128c0, type: 2}
 --- !u!1 &1346374170
 GameObject:
   m_ObjectHideFlags: 0
@@ -5946,6 +5957,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerHandTransform: {fileID: 313348637}
   player: {fileID: 116350037}
+  Slots: []
 --- !u!1 &1464926257
 GameObject:
   m_ObjectHideFlags: 0
@@ -6258,10 +6270,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 2037601033}
-  itemPrefab: {fileID: 5037954230689703020, guid: adb294e184d3bcb42b40fc315e549aa5,
-    type: 3}
-  currentItemType: 4
-  seedNumber: 1
+  data: {fileID: 11400000, guid: 67754bb3967b25147963cad75d32e40c, type: 2}
 --- !u!114 &1491204632
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9104,10 +9113,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 2037601033}
-  itemPrefab: {fileID: 5037954230689703020, guid: adb294e184d3bcb42b40fc315e549aa5,
-    type: 3}
-  currentItemType: 3
-  seedNumber: 1
+  data: {fileID: 11400000, guid: 275d499150f32704386df58f473aa0ba, type: 2}
 --- !u!114 &1942685179
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9526,6 +9532,60 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2028525142
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2028525143}
+  - component: {fileID: 2028525144}
+  m_Layer: 0
+  m_Name: InventoryManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2028525143
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2028525142}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 763.3896, y: 650.88696, z: -4.197474}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2028525144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2028525142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b0a6079284ba5c48b8e977357018513, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemDatabase:
+  - {fileID: 11400000, guid: 67754bb3967b25147963cad75d32e40c, type: 2}
+  - {fileID: 11400000, guid: 746acb699f76c284ba5ee48b2d33ff71, type: 2}
+  - {fileID: 11400000, guid: 275d499150f32704386df58f473aa0ba, type: 2}
+  - {fileID: 11400000, guid: 1f0ddcc9ff0de364cb597ec84219866a, type: 2}
+  - {fileID: 11400000, guid: d9a51e93f3a75b944b3f56e4a629a05a, type: 2}
+  - {fileID: 11400000, guid: bf9e740b13d09c744a36ffcd2682aff1, type: 2}
+  - {fileID: 11400000, guid: 0bb0e4c20e9b7a04a84c69f294f128c0, type: 2}
+  smallInventory: {fileID: 1423953648}
+  bigInventory: {fileID: 123072091}
 --- !u!1 &2037601030
 GameObject:
   m_ObjectHideFlags: 0
@@ -9682,6 +9742,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   highlightSlot: {fileID: 726785690}
+  currentItemUI: {fileID: 0}
 --- !u!114 &2050208906
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10013,6 +10074,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   highlightSlot: {fileID: 1620648549}
+  currentItemUI: {fileID: 0}
 --- !u!114 &2143335251
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12663,3 +12725,4 @@ SceneRoots:
   - {fileID: 610707407}
   - {fileID: 2024668732}
   - {fileID: 1129635654}
+  - {fileID: 2028525143}

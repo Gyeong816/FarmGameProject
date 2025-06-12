@@ -56,7 +56,15 @@ public class LandTile : MonoBehaviour
         wateredTile.SetActive(true);
         MapManager.Instance.WaterCropAt(this);
     }
-    
+
+    public void ResetTile()
+    {
+        isPlanted = false;
+        isWatered = false;
+        grassTile.SetActive(false);
+        wateredTile.SetActive(false);
+        plowedTile.SetActive(true);
+    }
     public void MarkPlanted()
     {
         isPlanted = true;

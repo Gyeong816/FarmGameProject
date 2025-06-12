@@ -7,13 +7,10 @@ using UnityEngine.UI;
 
 public class ItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    public enum ItemType { Hoe, WateringPot, Sickle, Seed, Crop, None}
     public Canvas canvas;
-    public GameObject itemPrefab;
-    public ItemType currentItemType;
-    public int seedNumber;
  
-    public ItemData data;
+    [Header("데이터 참조")]
+    public ItemData data; 
     
     private Transform originalParent;
     private Vector2 originalPosition;
@@ -47,9 +44,22 @@ public class ItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         
         if (target.CompareTag("S_Inven"))
         {
-            transform.SetParent(target.transform);
-            transform.position = target.transform.position;
-            canvasGroup.blocksRaycasts = true; 
+            var slot = target.GetComponent<SlotUI>();
+            if (slot != null)
+            {
+                // 2) 이미 슬롯에 있던 아이템이 있다면 원래 자리로 돌려보냄
+                if (slot.currentItemUI != null)
+                    slot.currentItemUI.ReturnItem();
+
+                // 3) 이 ItemUI를 슬롯에 자식으로 배치
+                transform.SetParent(slot.transform);
+                transform.position = slot.transform.position;
+                canvasGroup.blocksRaycasts = true;
+
+                // 4) 슬롯이 이 ItemUI를 갖도록 갱신
+                slot.SetItem(this);
+                return;
+            }
         }
         else
         {
@@ -67,6 +77,6 @@ public class ItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     
     public GameObject GetItemPrefab()
     {
-        return itemPrefab;
+        return data.itemPrefab;
     }
 }

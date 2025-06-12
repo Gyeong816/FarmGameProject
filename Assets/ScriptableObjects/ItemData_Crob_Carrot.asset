@@ -12,9 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a45709c5979ec104aa980f47cfa3e8e7, type: 3}
   m_Name: ItemData_Crob_Carrot
   m_EditorClassIdentifier: 
-  id: 0
+  id: 11
+  seedId: 1
   itemType: 4
   itemName: 
   icon: {fileID: 0}
-  worldPrefab: {fileID: 0}
-  uiPrefab: {fileID: 0}
+  itemPrefab: {fileID: 1354996048308653523, guid: da30c56b3f093764d9d473da3bb794ef,
+    type: 3}
+  uiPrefab: {fileID: 4170444221884065222, guid: f52c77781e8942241aa0ce1d02e22632,
+    type: 3}
+  price: 0

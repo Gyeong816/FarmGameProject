@@ -8,7 +8,7 @@ public class MapManager : MonoBehaviour
     [Header("타일 크기")]
     [SerializeField] public float tileSize = 2f;
     [Header("농작물")]
-    [SerializeField] private GameObject[] cropPrefabs;
+    [SerializeField] private GameObject[] seedPrefabs;
     
     private Dictionary<Vector2Int, LandTile> tiles;
     private Dictionary<Vector2Int, CropInstance> plantedCrops = new();
@@ -49,31 +49,35 @@ public class MapManager : MonoBehaviour
         return null;
     }
     
-    public void PlantCropAt(LandTile tile, int CropNumber)
+    public void PlantCropAt(LandTile tile, int seedId, int itemId)
     {
-        var prefab = cropPrefabs[CropNumber];
+        if (!tile.isPlowed || tile.isPlanted) 
+            return;
 
-        var pos = tile.transform.position + Vector3.up * 2f;
-
-        var cropGO = Instantiate(prefab, pos, Quaternion.identity, tile.transform);
-
-        var crop = cropGO.GetComponent<CropInstance>();
-        
+     
         tile.MarkPlanted();
-
-        plantedCrops[tile.gridPos] = crop;
+      
+        var prefab = seedPrefabs[seedId];
+        var pos = tile.transform.position + Vector3.up * 2f;
+        var seedGO = Instantiate(prefab, pos, Quaternion.identity, tile.transform);
+        var seed = seedGO.GetComponent<CropInstance>();
+        
+        plantedCrops[tile.gridPos] = seed;
+        
+        InventoryManager.Instance.RemoveItemById(itemId);
     }
 
     public void HarvestCropAt(LandTile tile)
     {
-        if (!plantedCrops.TryGetValue(tile.gridPos, out var crop) || crop == null) 
+        if (!plantedCrops.TryGetValue(tile.gridPos, out var seed) || seed == null) 
             return;
-        if (!crop.canHarvest) 
+        if (!seed.canHarvest) 
             return;
 
-        Debug.Log($"{crop.cropNumber} 수확물 획득");
-        Destroy(crop.gameObject);
+        InventoryManager.Instance.AddItemById(seed.cropData.itemId);
+        Destroy(seed.gameObject);
         plantedCrops.Remove(tile.gridPos);
+        tile.ResetTile();
     }
     
     public void WaterCropAt(LandTile tile)

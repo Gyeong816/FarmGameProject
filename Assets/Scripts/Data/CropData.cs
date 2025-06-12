@@ -4,9 +4,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "CropData", menuName = "ScriptableObjects/CropData")]
 public class CropData : ScriptableObject
 {
-    [Tooltip("0일→1단계, 1일→2단계, 2일→3단계(수확), 3일→4단계(시들음)")]
-    public GameObject[] stagePrefabs = new GameObject[5];
+    [Header("데이터 매핑")]
+    public int seedId;          
+    public int itemId;   
     
-    [Tooltip("수확 시 나올 아이템 프리팹")]
-    public GameObject harvestPrefab;
+    [Header("성장 단계별 프리팹")]
+    public GameObject[] stagePrefabs = new GameObject[5];
 }

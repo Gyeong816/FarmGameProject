@@ -28,7 +28,8 @@ public class PlayerController : MonoBehaviour
     
     public enum ItemType { Hoe, WateringPot, Sickle, Seed, Crop, None}
     public ItemType currentItem = ItemType.None;
-    public int seedNumber;
+    public int itemId;
+    public int seedId;
     
     private CharacterController controller;
     private Animator animator;
@@ -37,7 +38,6 @@ public class PlayerController : MonoBehaviour
 
     private bool isRunning;
     private bool isJumping;
-    private bool isWalking;
     private bool isUsingTool;
 
 
@@ -72,12 +72,8 @@ public class PlayerController : MonoBehaviour
         if (state.IsName("Hoe") || state.IsName("Water") || state.IsName("Plant") || state.IsName("Harvest")) return;
         
         
-        if (isWalking)
-        {
-            float speed = GetCurrentSpeed();
-            Move(speed);
-        }
-        
+        float speed = GetCurrentSpeed();
+        Move(speed);
         if (controller.isGrounded && isJumping)
         {
             Jump();
@@ -87,7 +83,6 @@ public class PlayerController : MonoBehaviour
     private void HandleInput()
     {
         moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-        isWalking = moveInput.sqrMagnitude >= 0.01f;
         isRunning = Input.GetKey(KeyCode.LeftShift);
         isJumping = Input.GetKeyDown(KeyCode.Space);
         if (Input.GetMouseButtonDown(0))
@@ -125,7 +120,6 @@ public class PlayerController : MonoBehaviour
                // animator.SetTrigger("Eat"); 
                 break;
             case ItemType.None:
-                Debug.Log("도구 없음");
                 break;
             default:
                 break;
@@ -174,11 +168,8 @@ public class PlayerController : MonoBehaviour
     private void PlantInFront()
     {
         var checkPos = transform.position + transform.forward * toolDistance;
-        
         var tile = mapManager.GetTileAtWorldPos(checkPos);
-        if (!tile.isPlowed || tile.isPlanted) return;
-        mapManager.PlantCropAt(tile, seedNumber);
-        
+        mapManager.PlantCropAt(tile, seedId, itemId);
     }
     private void HarvestInFront()
     {
@@ -196,23 +187,21 @@ public class PlayerController : MonoBehaviour
 
     void Move(float speed)
     {
-        
-        Vector3 forward = cameraTransform.forward;
-        Vector3 right = cameraTransform.right;
-        forward.y = 0f;
-        right.y = 0f;
-        forward.Normalize();
-        right.Normalize();
-        
+        Vector3 forward = cameraTransform.forward; forward.y = 0; forward.Normalize();
+        Vector3 right   = cameraTransform.right;   right.y   = 0; right.Normalize();
         Vector3 moveDir = forward * moveInput.y + right * moveInput.x;
         moveDir.Normalize();
         
-        controller.Move(moveDir * speed * Time.deltaTime);
+        Vector3 horizontal = moveDir * speed * Time.deltaTime;
+        Vector3 vertical   = Vector3.up * velocity.y * Time.deltaTime;
+        controller.Move(horizontal + vertical);
         
         if (moveDir.sqrMagnitude > 0.01f)
         {
             Quaternion targetRotation = Quaternion.LookRotation(moveDir, Vector3.up);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+            transform.rotation = Quaternion.Slerp(transform.rotation,
+                targetRotation,
+                Time.deltaTime * rotationSpeed);
         }
     }
 
@@ -234,7 +223,5 @@ public class PlayerController : MonoBehaviour
         {
             velocity.y += gravity * Time.deltaTime;
         }
-
-        controller.Move(Vector3.up * velocity.y * Time.deltaTime);
     }
 }

@@ -6,16 +6,20 @@
   <component name="ChangeListManager">
     <list default="true" id="7bd28b71-29f7-441d-94c9-45fdc8d40e2c" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.FarmGameProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.FarmGameProject/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Animation/PlayerAnimator.controller" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animation/PlayerAnimator.controller" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Animation/Watering.fbx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Animation/Watering.fbx.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/InGame.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/InGame.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Crop/CropData.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Crop/CropData.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Crop/CropInstance.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Crop/CropInstance.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ScriptableObjects/CropData_Carrot.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ScriptableObjects/CropData_Carrot.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ScriptableObjects/CropData_Corn.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ScriptableObjects/CropData_Corn.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ScriptableObjects/ItemData_Crob_Carrot.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ScriptableObjects/ItemData_Crob_Carrot.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ScriptableObjects/ItemData_Crob_Corn.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ScriptableObjects/ItemData_Crob_Corn.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Data/CropData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Data/CropData.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Data/ItemData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Data/ItemData.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Inventory/PlayerInventory.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Inventory/PlayerInventory.cs.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Manager/MapManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Manager/MapManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Tile/LandTile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Tile/LandTile.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/ItemUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/ItemUI.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/SlotUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/SlotUI.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,6 +112,7 @@
       <workItem from="1749446308564" duration="16123000" />
       <workItem from="1749515110624" duration="22213000" />
       <workItem from="1749601625186" duration="28187000" />
+      <workItem from="1749688195132" duration="13243000" />
     </task>
     <servers />
   </component>

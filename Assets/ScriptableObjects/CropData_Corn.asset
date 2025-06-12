@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6885c57218acfe84bbd8fd107cdf8da2, type: 3}
   m_Name: CropData_Corn
   m_EditorClassIdentifier: 
+  seedId: 0
+  itemId: 10
   stagePrefabs:
   - {fileID: 8011651705776326463, guid: 5290804b01f7c4a48953ed9fbac16f9f, type: 3}
   - {fileID: 5497211735150880983, guid: e4d6cf5dfac217e4aa57b954b8cc1105, type: 3}
   - {fileID: 5962430241588196273, guid: ff4ed0f60d4a5a54b9b1a0b2fad77c78, type: 3}
   - {fileID: 2658104347403863969, guid: 530671a6dcce5b84992a7417b0d91c86, type: 3}
   - {fileID: 2602407176142678090, guid: 2fc6b46df1e4edc439e34de1e383e94e, type: 3}
-  harvestPrefab: {fileID: 3592292179363212890, guid: 179272029244a8742b63543f435a1375,
-    type: 3}
