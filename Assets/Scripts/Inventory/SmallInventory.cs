@@ -104,6 +104,15 @@ public class SmallInventory : MonoBehaviour
                     }
                     break;
                 
+                case ItemType.Fence:
+                    var fencePrefab = itemUI.GetItemPrefab();
+                    if (fencePrefab != null)
+                    {
+                        heldItemInstance = Instantiate(fencePrefab, playerHandTransform.position, playerHandTransform.rotation, playerHandTransform);
+                        player.currentItem = PlayerController.ItemType.Crop;
+                    }
+                    break;
+                
                 case ItemType.None: 
                     player.currentItem = PlayerController.ItemType.None;
                     break;

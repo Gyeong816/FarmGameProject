@@ -73,7 +73,9 @@ public class MapManager : MonoBehaviour
             return;
         
         tile.MarkFenced();
-        
+        var prefab = fencePrefabs;
+        var pos = tile.transform.position + Vector3.up * 2f;
+        var seedGO = Instantiate(prefab, pos, Quaternion.identity, tile.transform);
         
     }
 

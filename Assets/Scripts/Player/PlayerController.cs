@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject sickleObj;
     
     public LandTile lastHighlighted; 
-    public enum ItemType { Hoe, WateringPot, Sickle, Seed, Crop, None}
+    public enum ItemType { Hoe, WateringPot, Sickle, Seed, Crop, Fence, None}
     public ItemType currentItem = ItemType.None;
     public int itemId;
     public int seedId;
@@ -71,7 +71,11 @@ public class PlayerController : MonoBehaviour
         {
             HarvestInFront();
         }
-        if (state.IsName("Hoe") || state.IsName("Water") || state.IsName("Plant") || state.IsName("Harvest")) return;
+        if (state.IsName("Build") && state.normalizedTime >= usingTime && state.normalizedTime < 1f)
+        {
+            
+        }
+        if (state.IsName("Hoe") || state.IsName("Water") || state.IsName("Plant") || state.IsName("Harvest") || state.IsName("Build") ) return;
         
         
         float speed = GetCurrentSpeed();
@@ -120,6 +124,9 @@ public class PlayerController : MonoBehaviour
                 break;
             case ItemType.Crop: 
                // animator.SetTrigger("Eat"); 
+                break;
+            case ItemType.Fence: 
+                animator.SetTrigger("Build"); 
                 break;
             case ItemType.None:
                 break;
