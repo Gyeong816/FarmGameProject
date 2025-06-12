@@ -15,7 +15,7 @@ MonoBehaviour:
   id: 10
   seedId: 0
   itemType: 4
-  itemName: 
+  itemName: Crob_Corn
   icon: {fileID: 0}
   itemPrefab: {fileID: 3592292179363212890, guid: 179272029244a8742b63543f435a1375,
     type: 3}

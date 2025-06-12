@@ -12,7 +12,10 @@ public class SlotUI : MonoBehaviour
     public ItemUI currentItemUI;
     private void Awake()
     {
-        highlightRT = highlightSlot.rectTransform;
+        if (highlightSlot != null)
+        {
+            highlightRT = highlightSlot.rectTransform;  
+        }
     }
     
     public bool IsEmpty => currentItemUI == null;

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using TMPro;
 
 public class ItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
@@ -11,6 +12,10 @@ public class ItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
  
     [Header("데이터 참조")]
     public ItemData data; 
+    
+    [Header("UI 참조")]
+    public TMP_Text nameText;   // 아이템 이름 표시
+    public TMP_Text countText;
     
     private Transform originalParent;
     private Vector2 originalPosition;
@@ -22,9 +27,14 @@ public class ItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
             canvas = gameObject.GetComponentInParent<Canvas>();
         
         canvasGroup = GetComponent<CanvasGroup>();
+        if(nameText == null)
+            nameText = GetComponentInChildren<TMP_Text>();
         
-    }
+        nameText.text = data.itemName;
+        
+     }
 
+    
     public void OnBeginDrag(PointerEventData eventData)
     {
         originalParent = transform.parent;
@@ -47,16 +57,29 @@ public class ItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
             var slot = target.GetComponent<SlotUI>();
             if (slot != null)
             {
-                // 2) 이미 슬롯에 있던 아이템이 있다면 원래 자리로 돌려보냄
                 if (slot.currentItemUI != null)
                     slot.currentItemUI.ReturnItem();
-
-                // 3) 이 ItemUI를 슬롯에 자식으로 배치
+                
                 transform.SetParent(slot.transform);
                 transform.position = slot.transform.position;
                 canvasGroup.blocksRaycasts = true;
-
-                // 4) 슬롯이 이 ItemUI를 갖도록 갱신
+                
+                slot.SetItem(this);
+                return;
+            }
+        }
+        if (target.CompareTag("B_Inven"))
+        {
+            var slot = target.GetComponent<SlotUI>();
+            if (slot != null)
+            {
+                if (slot.currentItemUI != null)
+                    slot.currentItemUI.ReturnItem();
+                
+                transform.SetParent(slot.transform);
+                transform.position = slot.transform.position;
+                canvasGroup.blocksRaycasts = true;
+                
                 slot.SetItem(this);
                 return;
             }

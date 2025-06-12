@@ -15,7 +15,7 @@ MonoBehaviour:
   id: 3
   seedId: 0
   itemType: 1
-  itemName: 
+  itemName: WateringPot
   icon: {fileID: 0}
   itemPrefab: {fileID: 0}
   uiPrefab: {fileID: 4170444221884065222, guid: f52c77781e8942241aa0ce1d02e22632,
