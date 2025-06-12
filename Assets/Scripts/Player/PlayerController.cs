@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject wateringPotObj;
     [SerializeField] private GameObject sickleObj;
     
+    public LandTile lastHighlighted; 
     public enum ItemType { Hoe, WateringPot, Sickle, Seed, Crop, None}
     public ItemType currentItem = ItemType.None;
     public int itemId;
@@ -38,7 +39,7 @@ public class PlayerController : MonoBehaviour
 
     private bool isRunning;
     private bool isJumping;
-    private bool isUsingTool;
+    private bool isHoldingTool;
 
 
     void Start()
@@ -52,6 +53,7 @@ public class PlayerController : MonoBehaviour
         HandleInput();
         ApplyGravity();
         UpdateAnimation();
+        ShowPointerInFront();
         AnimatorStateInfo state = animator.GetCurrentAnimatorStateInfo(0);
         if (state.IsName("Hoe") && state.normalizedTime >= usingTime && state.normalizedTime < 1f)
         {
@@ -136,12 +138,18 @@ public class PlayerController : MonoBehaviour
         {
             case ItemType.Hoe:
                 hoeObj.SetActive(true);
+                isHoldingTool = true;
                 break;
             case ItemType.WateringPot:
+                isHoldingTool = true;
                 wateringPotObj.SetActive(true);
                 break;
             case ItemType.Sickle:
+                isHoldingTool = true;
                 sickleObj.SetActive(true);
+                break;
+            case ItemType.None:
+                isHoldingTool = false;
                 break;
             default:
                 break;
@@ -177,6 +185,24 @@ public class PlayerController : MonoBehaviour
         
         var tile = mapManager.GetTileAtWorldPos(checkPos);
         mapManager.HarvestCropAt(tile);
+    }
+    private void ShowPointerInFront()
+    {
+        if (!isHoldingTool)
+        {
+            lastHighlighted.HideSelection();
+            return;
+        }
+        
+        var checkPos = transform.position + transform.forward * toolDistance;
+        var tile = mapManager.GetTileAtWorldPos(checkPos);
+        if (tile != null && tile != lastHighlighted)
+        {
+            lastHighlighted.HideSelection();
+            tile.ShowSelection();
+            lastHighlighted = tile; 
+        }
+        
     }
 
     float GetCurrentSpeed()

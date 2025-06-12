@@ -5,11 +5,13 @@ public class MapManager : MonoBehaviour
 {
     public static MapManager Instance { get; private set; }
     
-    [Header("타일 크기")]
-    [SerializeField] public float tileSize = 2f;
-    [Header("농작물")]
-    [SerializeField] private GameObject[] seedPrefabs;
     
+    [Header("농작물 프리팹")]
+    [SerializeField] private GameObject[] seedPrefabs;
+    [Header("펜스 프리팹")]
+    [SerializeField] private GameObject fencePrefabs;
+    
+    private float tileSize = 2f;
     private Dictionary<Vector2Int, LandTile> tiles;
     private Dictionary<Vector2Int, CropInstance> plantedCrops = new();
     private void Awake()
@@ -53,10 +55,8 @@ public class MapManager : MonoBehaviour
     {
         if (!tile.isPlowed || tile.isPlanted) 
             return;
-
-     
+        
         tile.MarkPlanted();
-      
         var prefab = seedPrefabs[seedId];
         var pos = tile.transform.position + Vector3.up * 2f;
         var seedGO = Instantiate(prefab, pos, Quaternion.identity, tile.transform);
@@ -65,6 +65,16 @@ public class MapManager : MonoBehaviour
         plantedCrops[tile.gridPos] = seed;
         
         InventoryManager.Instance.RemoveItemById(itemId);
+    }
+
+    public void BuildFenceAt(LandTile tile)
+    {
+        if (tile.isPlanted) 
+            return;
+        
+        tile.MarkFenced();
+        
+        
     }
 
     public void HarvestCropAt(LandTile tile)

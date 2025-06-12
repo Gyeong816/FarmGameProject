@@ -6,12 +6,14 @@ public class LandTile : MonoBehaviour
     [SerializeField] private GameObject grassTile;
     [SerializeField] private GameObject plowedTile;
     [SerializeField] private GameObject wateredTile;
+    [SerializeField] private GameObject SelectionPointer;
     
     public Vector2Int gridPos;
     
     public bool isPlanted;
     public bool isPlowed;
     private bool isWatered;
+    private bool isFenceInstalled;
     
     private void Start()
     {
@@ -36,6 +38,14 @@ public class LandTile : MonoBehaviour
  
     }
     
+    public void ShowSelection()
+    {
+        SelectionPointer.SetActive(true);
+    }
+    public void HideSelection()
+    {
+        SelectionPointer.SetActive(false);
+    }
     public void SetGridPosition(int x, int z)
     {
         gridPos = new Vector2Int(x, z);
@@ -68,6 +78,11 @@ public class LandTile : MonoBehaviour
     public void MarkPlanted()
     {
         isPlanted = true;
+    }
+
+    public void MarkFenced()
+    {
+        isFenceInstalled = true;
     }
     
     public Vector2Int GetGridPosition() => gridPos;
