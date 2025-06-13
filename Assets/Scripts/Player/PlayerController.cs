@@ -73,7 +73,7 @@ public class PlayerController : MonoBehaviour
         }
         if (state.IsName("Build") && state.normalizedTime >= usingTime && state.normalizedTime < 1f)
         {
-            
+            HarvestInFront();  
         }
         if (state.IsName("Hoe") || state.IsName("Water") || state.IsName("Plant") || state.IsName("Harvest") || state.IsName("Build") ) return;
         
@@ -92,10 +92,10 @@ public class PlayerController : MonoBehaviour
         isRunning = Input.GetKey(KeyCode.LeftShift);
         isJumping = Input.GetKeyDown(KeyCode.Space);
         if (Input.GetMouseButtonDown(0))
-        {
+        { 
             UseItem();
         }
-        
+         
 
     }
     private void UpdateAnimation()

@@ -5,13 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7bd28b71-29f7-441d-94c9-45fdc8d40e2c" name="변경" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.FarmGameProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.FarmGameProject/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Signe_Corn.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Signe_Corn.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/InGame.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/InGame.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Data/ItemData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Data/ItemData.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Inventory/SmallInventory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Inventory/SmallInventory.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Manager/MapManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Manager/MapManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Animation/PlayerAnimator.controller" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animation/PlayerAnimator.controller" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerController.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -106,6 +100,7 @@
       <workItem from="1749515110624" duration="22213000" />
       <workItem from="1749601625186" duration="28187000" />
       <workItem from="1749688195132" duration="28593000" />
+      <workItem from="1749775328488" duration="1825000" />
     </task>
     <servers />
   </component>
