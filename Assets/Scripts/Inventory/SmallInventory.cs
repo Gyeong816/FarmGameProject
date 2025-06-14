@@ -93,6 +93,7 @@ public class SmallInventory : MonoBehaviour
                         heldItemInstance = Instantiate(seedPrefab, playerHandTransform.position, playerHandTransform.rotation, playerHandTransform);
                         player.currentItem = PlayerController.ItemType.Seed;
                     }
+                    player.SetItem();
                     break;
                 
                 case ItemType.Crop:
@@ -102,15 +103,18 @@ public class SmallInventory : MonoBehaviour
                         heldItemInstance = Instantiate(cropPrefab, playerHandTransform.position, playerHandTransform.rotation, playerHandTransform);
                         player.currentItem = PlayerController.ItemType.Crop;
                     }
+                    player.SetItem();
                     break;
                 
                 case ItemType.Fence:
+                    player.itemId = data.id;
+                    player.currentItem = PlayerController.ItemType.Fence;
                     var fencePrefab = itemUI.GetItemPrefab();
                     if (fencePrefab != null)
                     {
                         heldItemInstance = Instantiate(fencePrefab, playerHandTransform.position, playerHandTransform.rotation, playerHandTransform);
-                        player.currentItem = PlayerController.ItemType.Crop;
                     }
+                    player.SetItem();
                     break;
                 
                 case ItemType.None: 

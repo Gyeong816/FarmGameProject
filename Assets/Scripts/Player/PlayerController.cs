@@ -41,6 +41,7 @@ public class PlayerController : MonoBehaviour
     private bool isJumping;
     private bool isHoldingTool;
 
+    private bool isPerformingAction;
 
     void Start()
     {
@@ -50,32 +51,52 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        AnimatorStateInfo state = animator.GetCurrentAnimatorStateInfo(0);
+        
         HandleInput();
         ApplyGravity();
         UpdateAnimation();
         ShowPointerInFront();
-        AnimatorStateInfo state = animator.GetCurrentAnimatorStateInfo(0);
-        if (state.IsName("Hoe") && state.normalizedTime >= usingTime && state.normalizedTime < 1f)
-        {
-            HoeInFront();
+        ShowFenceInFront();
+        if (!isPerformingAction)
+        { 
+            if (state.IsName("Hoe") && state.normalizedTime >= usingTime && state.normalizedTime < 1f)
+            {
+                HoeInFront();
+                isPerformingAction =  true;
+            }
+            if (state.IsName("Water") && state.normalizedTime >= usingTime && state.normalizedTime < 1f)
+            {
+                WaterInFront();
+                isPerformingAction =  true;
+            }
+            if (state.IsName("Plant") && state.normalizedTime >= usingTime && state.normalizedTime < 1f)
+            {
+                PlantInFront();
+                isPerformingAction =  true;
+            }
+            if (state.IsName("Harvest") && state.normalizedTime >= usingTime && state.normalizedTime < 1f)
+            {
+                HarvestInFront();
+                isPerformingAction =  true;
+            }
+            if (state.IsName("Build") && state.normalizedTime >= usingTime && state.normalizedTime < 1f)
+            {
+                BuildInFront();
+                isPerformingAction =  true;
+            }
+            
         }
-        if (state.IsName("Water") && state.normalizedTime >= usingTime && state.normalizedTime < 1f)
+
+        if (state.IsName("Hoe") || state.IsName("Water") ||
+            state.IsName("Plant") || state.IsName("Harvest") || state.IsName("Build"))
         {
-            WaterInFront();
+            return;
         }
-        if (state.IsName("Plant") && state.normalizedTime >= usingTime && state.normalizedTime < 1f)
+        else
         {
-            PlantInFront();
+            isPerformingAction =  false;
         }
-        if (state.IsName("Harvest") && state.normalizedTime >= usingTime && state.normalizedTime < 1f)
-        {
-            HarvestInFront();
-        }
-        if (state.IsName("Build") && state.normalizedTime >= usingTime && state.normalizedTime < 1f)
-        {
-            HarvestInFront();  
-        }
-        if (state.IsName("Hoe") || state.IsName("Water") || state.IsName("Plant") || state.IsName("Harvest") || state.IsName("Build") ) return;
         
         
         float speed = GetCurrentSpeed();
@@ -155,6 +176,15 @@ public class PlayerController : MonoBehaviour
                 isHoldingTool = true;
                 sickleObj.SetActive(true);
                 break;
+            case ItemType.Seed:
+                isHoldingTool = true;
+                break;
+            case ItemType.Crop:
+                isHoldingTool = false;
+                break;
+            case ItemType.Fence:
+                isHoldingTool = false;
+                break;
             case ItemType.None:
                 isHoldingTool = false;
                 break;
@@ -185,6 +215,12 @@ public class PlayerController : MonoBehaviour
         var checkPos = transform.position + transform.forward * toolDistance;
         var tile = mapManager.GetTileAtWorldPos(checkPos);
         mapManager.PlantCropAt(tile, seedId, itemId);
+    } 
+    private void BuildInFront()
+    {
+        var checkPos = transform.position + transform.forward * toolDistance;
+        var tile = mapManager.GetTileAtWorldPos(checkPos);
+        mapManager.BuildFenceAt(tile, mapManager.PreviewRotationY);
     }
     private void HarvestInFront()
     {
@@ -212,6 +248,23 @@ public class PlayerController : MonoBehaviour
         
     }
 
+    private void ShowFenceInFront()
+    {
+        if (currentItem == ItemType.Fence)
+        {
+            var checkPos = transform.position + transform.forward * toolDistance;
+            var tile = mapManager.GetTileAtWorldPos(checkPos);
+
+            mapManager.ShowFencePreview(tile);
+
+            if (Input.GetKeyDown(KeyCode.R))
+                mapManager.RotateFencePreview();
+        }
+        else
+        {
+            mapManager.HideFencePreview();
+        }
+    }
     float GetCurrentSpeed()
     {
         if (isRunning) return runSpeed;

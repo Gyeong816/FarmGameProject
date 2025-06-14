@@ -15,7 +15,7 @@ MonoBehaviour:
   id: 40
   seedId: 0
   itemType: 5
-  itemName: WateringPotFence
+  itemName: Fence
   icon: {fileID: 0}
   itemPrefab: {fileID: 152587076920126109, guid: 5c0c42afc24d6304ab9de90d08ec11f6,
     type: 3}

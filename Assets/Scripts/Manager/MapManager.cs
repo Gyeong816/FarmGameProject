@@ -10,6 +10,11 @@ public class MapManager : MonoBehaviour
     [SerializeField] private GameObject[] seedPrefabs;
     [Header("펜스 프리팹")]
     [SerializeField] private GameObject fencePrefabs;
+    [Header("펜스 프리뷰")]
+    private GameObject fencePreviewInstance;
+    [SerializeField] private GameObject fencePreviewPrefab;
+    private float previewRotationY = 0f;
+    public float PreviewRotationY => previewRotationY;
     
     private float tileSize = 2f;
     private Dictionary<Vector2Int, LandTile> tiles;
@@ -67,18 +72,62 @@ public class MapManager : MonoBehaviour
         InventoryManager.Instance.RemoveItemById(itemId);
     }
 
-    public void BuildFenceAt(LandTile tile)
+    public void BuildFenceAt(LandTile tile, float rotationY = 0f)
     {
-        if (tile.isPlanted) 
-            return;
-        
+        if (tile.isPlanted) return;
         tile.MarkFenced();
-        var prefab = fencePrefabs;
-        var pos = tile.transform.position + Vector3.up * 2f;
-        var seedGO = Instantiate(prefab, pos, Quaternion.identity, tile.transform);
-        
+
+        Vector3 pos = tile.transform.position + Vector3.up * 2f;
+        Instantiate(fencePrefabs,
+            pos,
+            Quaternion.Euler(0, rotationY, 0),
+            tile.transform);
     }
 
+    public void ShowFencePreview(LandTile tile)
+    {
+        if (tile == null)
+        {
+            HideFencePreview();
+            return;
+        }
+
+        Vector3 pos = tile.transform.position + Vector3.up * 2f;
+        if (fencePreviewInstance == null)
+        {
+            fencePreviewInstance = Instantiate(
+                fencePreviewPrefab,
+                pos,
+                Quaternion.Euler(0, previewRotationY, 0),
+                tile.transform
+            );
+        }
+        else
+        {
+            fencePreviewInstance.transform.SetParent(tile.transform);
+            fencePreviewInstance.transform.position = pos;
+            fencePreviewInstance.transform.rotation = Quaternion.Euler(0, previewRotationY, 0);
+        }
+    }
+    
+    public void RotateFencePreview()
+    {
+        previewRotationY = (previewRotationY + 90f) % 360f;
+        if (fencePreviewInstance != null)
+            fencePreviewInstance.transform.rotation = Quaternion.Euler(0, previewRotationY, 0);
+    }
+
+    public void HideFencePreview()
+    {
+        if (fencePreviewInstance != null)
+        {
+            Destroy(fencePreviewInstance);
+            fencePreviewInstance = null;
+        }
+    }
+    
+    
+    
     public void HarvestCropAt(LandTile tile)
     {
         if (!plantedCrops.TryGetValue(tile.gridPos, out var seed) || seed == null) 
