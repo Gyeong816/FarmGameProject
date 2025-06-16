@@ -7,7 +7,8 @@ public class BigInventory : MonoBehaviour
 {
     public List<SlotUI> Slots;
 
-    private void Start()
+
+    private void Awake()
     {
         Slots = new List<SlotUI>(GetComponentsInChildren<SlotUI>());
     }

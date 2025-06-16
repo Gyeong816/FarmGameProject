@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CropData_Corn
   m_EditorClassIdentifier: 
   seedId: 0
-  itemId: 10
+  itemId: 8
   stagePrefabs:
   - {fileID: 8011651705776326463, guid: 5290804b01f7c4a48953ed9fbac16f9f, type: 3}
   - {fileID: 5497211735150880983, guid: e4d6cf5dfac217e4aa57b954b8cc1105, type: 3}

@@ -29,7 +29,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject hammerCol;
     
     public LandTile lastHighlighted; 
-    public enum ItemType { Hoe, WateringPot, Sickle, Seed, Crop, Fence, Hammer, None}
     public ItemType currentItem = ItemType.None;
     public int itemId;
     public int seedId;

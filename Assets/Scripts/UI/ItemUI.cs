@@ -17,11 +17,13 @@ public class ItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     public TMP_Text nameText;   // 아이템 이름 표시
     public TMP_Text countText;
     
+    public ItemType currentItem;
+    
     private Transform originalParent;
     private Vector2 originalPosition;
     private CanvasGroup canvasGroup;
 
-    private void Start()
+    private void Awake()
     {
         if (canvas == null)
             canvas = gameObject.GetComponentInParent<Canvas>();
@@ -29,12 +31,18 @@ public class ItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         canvasGroup = GetComponent<CanvasGroup>();
         if(nameText == null)
             nameText = GetComponentInChildren<TMP_Text>();
-        
-        nameText.text = data.itemName;
-        
-     }
+    }
 
-    
+    private void Start()
+    {
+        if (!Enum.TryParse(data.itemType, out currentItem))
+        {
+            currentItem = ItemType.None; 
+        }
+        nameText.text = data.itemName;
+    }
+
+
     public void OnBeginDrag(PointerEventData eventData)
     {
         originalParent = transform.parent;
@@ -98,8 +106,8 @@ public class ItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     }
     
     
-    public GameObject GetItemPrefab()
+  /* public GameObject GetItemPrefab()
     {
-        return data.itemPrefab;
-    }
+       // return data.itemPrefab;
+    } */
 }

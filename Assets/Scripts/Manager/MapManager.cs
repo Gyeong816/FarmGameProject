@@ -136,6 +136,7 @@ public class MapManager : MonoBehaviour
             return;
 
         InventoryManager.Instance.AddItemById(seed.cropData.itemId);
+        
         Destroy(seed.gameObject);
         plantedCrops.Remove(tile.gridPos);
         tile.ResetTile();

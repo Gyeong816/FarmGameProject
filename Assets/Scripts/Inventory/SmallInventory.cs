@@ -49,7 +49,7 @@ public class SmallInventory : MonoBehaviour
     {
         if (heldItemInstance != null)
             Destroy(heldItemInstance);
-        player.currentItem = PlayerController.ItemType.None;
+        player.currentItem = ItemType.None;
         player.SetItem();
     }
     private void SelectSlot(int index)
@@ -66,55 +66,54 @@ public class SmallInventory : MonoBehaviour
         if (itemUI != null)
         {
             
-            var data = itemUI.data;
-            switch (data.itemType)
+            switch (itemUI.currentItem)
             {
                 case ItemType.Hoe:
-                    player.currentItem = PlayerController.ItemType.Hoe;
+                    player.currentItem = ItemType.Hoe;
                     player.SetItem();
                     break;
                 
                 case ItemType.WateringPot:
-                    player.currentItem = PlayerController.ItemType.WateringPot;
+                    player.currentItem = ItemType.WateringPot;
                     player.SetItem();
                     break;
                 
                 case ItemType.Sickle:
-                    player.currentItem = PlayerController.ItemType.Sickle;
+                    player.currentItem = ItemType.Sickle;
                     player.SetItem();
                     break;
                 
                 case ItemType.Hammer:
-                    player.currentItem = PlayerController.ItemType.Hammer;
+                    player.currentItem = ItemType.Hammer;
                     player.SetItem();
                     break;
                 
                 case ItemType.Seed:
-                    player.itemId = data.id;
-                    player.seedId = data.seedId;
-                    var seedPrefab = itemUI.GetItemPrefab();
+                    player.itemId = itemUI.data.id;
+                    player.seedId = itemUI.data.seedId;
+                    var seedPrefab = InventoryManager.Instance.GetPrefab(itemUI.data.prefabKey);
                     if (seedPrefab != null)
                     {
                         heldItemInstance = Instantiate(seedPrefab, playerHandTransform.position, playerHandTransform.rotation, playerHandTransform);
-                        player.currentItem = PlayerController.ItemType.Seed;
+                        player.currentItem = ItemType.Seed;
                     }
                     player.SetItem();
                     break;
                 
                 case ItemType.Crop:
-                    var cropPrefab = itemUI.GetItemPrefab();
+                    var cropPrefab = InventoryManager.Instance.GetPrefab(itemUI.data.prefabKey);
                     if (cropPrefab != null)
                     {
                         heldItemInstance = Instantiate(cropPrefab, playerHandTransform.position, playerHandTransform.rotation, playerHandTransform);
-                        player.currentItem = PlayerController.ItemType.Crop;
+                        player.currentItem = ItemType.Crop;
                     }
                     player.SetItem();
                     break;
                 
                 case ItemType.Fence:
-                    player.itemId = data.id;
-                    player.currentItem = PlayerController.ItemType.Fence;
-                    var fencePrefab = itemUI.GetItemPrefab();
+                    player.itemId = itemUI.data.id;
+                    player.currentItem = ItemType.Fence;
+                    var fencePrefab = InventoryManager.Instance.GetPrefab(itemUI.data.prefabKey);
                     if (fencePrefab != null)
                     {
                         heldItemInstance = Instantiate(fencePrefab, playerHandTransform.position, playerHandTransform.rotation, playerHandTransform);
@@ -123,15 +122,15 @@ public class SmallInventory : MonoBehaviour
                     break;
                 
                 case ItemType.None: 
-                    player.currentItem = PlayerController.ItemType.None;
+                    player.currentItem = ItemType.None;
                     break;
                 default:
                     break;   
             
             }
-            
+          
         }
-        
+         
     }
     
 }
