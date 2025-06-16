@@ -25,9 +25,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject hoeObj;
     [SerializeField] private GameObject wateringPotObj;
     [SerializeField] private GameObject sickleObj;
+    [SerializeField] private GameObject hammerObj;
+    [SerializeField] private GameObject hammerCol;
     
     public LandTile lastHighlighted; 
-    public enum ItemType { Hoe, WateringPot, Sickle, Seed, Crop, Fence, None}
+    public enum ItemType { Hoe, WateringPot, Sickle, Seed, Crop, Fence, Hammer, None}
     public ItemType currentItem = ItemType.None;
     public int itemId;
     public int seedId;
@@ -75,6 +77,11 @@ public class PlayerController : MonoBehaviour
                 PlantInFront();
                 isPerformingAction =  true;
             }
+            if (state.IsName("Hammer") && state.normalizedTime >= usingTime && state.normalizedTime < 1f)
+            {
+                hammerCol.SetActive(true);
+                isPerformingAction =  true;
+            }
             if (state.IsName("Harvest") && state.normalizedTime >= usingTime && state.normalizedTime < 1f)
             {
                 HarvestInFront();
@@ -87,14 +94,14 @@ public class PlayerController : MonoBehaviour
             }
             
         }
-
-        if (state.IsName("Hoe") || state.IsName("Water") ||
+        if (state.IsName("Hoe") || state.IsName("Water") || state.IsName("Hammer") ||
             state.IsName("Plant") || state.IsName("Harvest") || state.IsName("Build"))
         {
             return;
         }
         else
         {
+            hammerCol.SetActive(false);
             isPerformingAction =  false;
         }
         
@@ -140,6 +147,9 @@ public class PlayerController : MonoBehaviour
             case ItemType.Sickle: 
                 animator.SetTrigger("Harvest"); 
                 break;
+            case ItemType.Hammer: 
+                animator.SetTrigger("Hammer"); 
+                break;
             case ItemType.Seed: 
                  animator.SetTrigger("Plant"); 
                 break;
@@ -161,6 +171,7 @@ public class PlayerController : MonoBehaviour
         hoeObj.SetActive(false);
         wateringPotObj.SetActive(false);
         sickleObj.SetActive(false);
+        hammerObj.SetActive(false);
         
         switch (currentItem)
         {
@@ -175,6 +186,10 @@ public class PlayerController : MonoBehaviour
             case ItemType.Sickle:
                 isHoldingTool = true;
                 sickleObj.SetActive(true);
+                break;
+            case ItemType.Hammer:
+                isHoldingTool = false;
+                hammerObj.SetActive(true);
                 break;
             case ItemType.Seed:
                 isHoldingTool = true;

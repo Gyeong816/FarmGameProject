@@ -77,7 +77,7 @@ public class MapManager : MonoBehaviour
         if (tile.isPlanted) return;
         tile.MarkFenced();
 
-        Vector3 pos = tile.transform.position + Vector3.up * 2f;
+        Vector3 pos = tile.transform.position;
         Instantiate(fencePrefabs,
             pos,
             Quaternion.Euler(0, rotationY, 0),
@@ -92,7 +92,7 @@ public class MapManager : MonoBehaviour
             return;
         }
 
-        Vector3 pos = tile.transform.position + Vector3.up * 2f;
+        Vector3 pos = tile.transform.position;
         if (fencePreviewInstance == null)
         {
             fencePreviewInstance = Instantiate(

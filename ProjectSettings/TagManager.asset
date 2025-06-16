@@ -6,6 +6,7 @@ TagManager:
   tags:
   - S_Inven
   - B_Inven
+  - Hammer
   layers:
   - Default
   - TransparentFX

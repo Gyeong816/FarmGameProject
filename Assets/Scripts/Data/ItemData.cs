@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public enum ItemType { Hoe, WateringPot, Sickle, Seed, Crop, Fence, None }
+public enum ItemType { Hoe, WateringPot, Sickle, Seed, Crop, Fence, Hammer, None }
 
 [CreateAssetMenu(fileName = "ItemData", menuName = "ScriptableObjects/ItemData")]
 public class ItemData : ScriptableObject

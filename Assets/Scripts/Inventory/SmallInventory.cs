@@ -84,6 +84,11 @@ public class SmallInventory : MonoBehaviour
                     player.SetItem();
                     break;
                 
+                case ItemType.Hammer:
+                    player.currentItem = PlayerController.ItemType.Hammer;
+                    player.SetItem();
+                    break;
+                
                 case ItemType.Seed:
                     player.itemId = data.id;
                     player.seedId = data.seedId;
