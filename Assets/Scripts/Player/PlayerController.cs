@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject hammerObj;
     [SerializeField] private GameObject hammerCol;
     
-    public LandTile lastHighlighted; 
+    private LandTile lastHighlighted; 
     public ItemType currentItem = ItemType.None;
     public int itemId;
     public int seedId;
@@ -247,7 +247,8 @@ public class PlayerController : MonoBehaviour
     {
         if (!isHoldingTool)
         {
-            lastHighlighted.HideSelection();
+            if(lastHighlighted !=null)
+             lastHighlighted.HideSelection();
             return;
         }
         
@@ -255,6 +256,8 @@ public class PlayerController : MonoBehaviour
         var tile = mapManager.GetTileAtWorldPos(checkPos);
         if (tile != null && tile != lastHighlighted)
         {
+            if(lastHighlighted ==null)
+                lastHighlighted = tile;
             lastHighlighted.HideSelection();
             tile.ShowSelection();
             lastHighlighted = tile; 
