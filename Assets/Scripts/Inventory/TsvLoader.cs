@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Threading.Tasks;
 using CsvHelper;
 using CsvHelper.Configuration;
+using Unity.Profiling;
 using UnityEngine;
 
 public static class TsvLoader
@@ -16,12 +18,10 @@ public static class TsvLoader
         HeaderValidated = null,
     };
 
-    /// <summary>
-    /// StreamingAssets/Table 폴더에서 주어진 TSV 파일을 읽어 List<T>로 반환합니다. (동기 방식)
-    /// </summary>
-    public static List<T> LoadTable<T>(string tableName)
+
+    public static async Task<List<T>> LoadTableAsync<T>(string tableName)
     {
-        // 경로를 StreamingAssets로 고정
+       
         string folderPath = Path.Combine(Application.streamingAssetsPath, "Table");
         string filePath = Path.Combine(folderPath, tableName + ".tsv");
 
@@ -31,9 +31,15 @@ public static class TsvLoader
             return null;
         }
 
-        using var reader = new StreamReader(filePath);
-        using var csv = new CsvReader(reader, TsvConfig);
+        using StreamReader reader = new StreamReader(filePath);
+        using CsvReader csv = new CsvReader(reader, TsvConfig);
 
-        return new List<T>(csv.GetRecords<T>());
+        var records = new List<T>();
+        
+        await foreach (var record in csv.GetRecordsAsync<T>())
+        {
+            records.Add(record);
+        }
+        return records;
     }
 }

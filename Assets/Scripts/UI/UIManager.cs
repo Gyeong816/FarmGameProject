@@ -9,13 +9,21 @@ public class UIManager : MonoBehaviour
 
     [Header("기본 UI")]
     [SerializeField] private GameObject inventoryUI;
+    [SerializeField] private GameObject merchantInven;
+    [SerializeField] private GameObject smallInven;
     [SerializeField] private CameraController cameraController;
 
     [Header("상인 상호작용")]
-    [SerializeField] private GameObject merchantPromptUI; // 상인 근처 이미지
+    [SerializeField] private GameObject housePromptUI;
+    [SerializeField] private GameObject boxPromptUI;
+    [SerializeField] private GameObject shopPromptUI;
+    private GameObject currentPromptUI;
+    
     [SerializeField] private Vector3 worldOffset = new Vector3(0, 2f, 0);
-    private Transform merchantTarget;
+    private Transform promptTarget;
     private bool canTrade = false;
+    
+    public enum PromptType { House, Box, Shop }
 
     private bool isInventoryOpen = false;
     private Camera mainCam;
@@ -39,35 +47,47 @@ public class UIManager : MonoBehaviour
         Cursor.visible = false;
 
         inventoryUI.SetActive(false);
-        merchantPromptUI.SetActive(false);
     }
 
     private void Update()
     {
         HandleInventoryToggle();
-        UpdateMerchantPromptPosition();
+        UpdatePromptUIPosition();
     }
 
     private void HandleInventoryToggle()
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            OnInven();
+            OnInven(false);
         }
 
         if (Input.GetKeyDown(KeyCode.E) && canTrade)
         {
-            OpenTradeUI();
+            OnInven(true);
         }
     }
 
-    private void OnInven()
+    private void OnInven(bool isTrading)
     {
         if (!isInventoryOpen)
         {
             cameraController?.IsInventoryOpen();
             isInventoryOpen = true;
             inventoryUI.SetActive(true);
+
+            if (!isTrading)
+            {
+                merchantInven.SetActive(false);
+                smallInven.SetActive(true);
+            }
+            else
+            {
+                smallInven.SetActive(false);
+                merchantInven.SetActive(true);
+            }
+               
+            
             Time.timeScale = 0f;
             Cursor.lockState = CursorLockMode.Confined;
             Cursor.visible = true;
@@ -82,40 +102,56 @@ public class UIManager : MonoBehaviour
             Cursor.visible = false;
         }
     }
+    
 
-    private void OpenTradeUI()
+    private void UpdatePromptUIPosition()
     {
-        OnInven();
-    }
-
-    private void UpdateMerchantPromptPosition()
-    {
-        if (merchantTarget == null || merchantPromptUI == null)
+        if (promptTarget == null || currentPromptUI == null)
             return;
 
-        Vector3 screenPos = mainCam.WorldToScreenPoint(merchantTarget.position + worldOffset);
+        Vector3 screenPos = mainCam.WorldToScreenPoint(promptTarget.position + worldOffset);
 
         if (screenPos.z > 0)
         {
-            merchantPromptUI.transform.position = screenPos;
+            currentPromptUI.transform.position = screenPos;
         }
         else
         {
-            merchantPromptUI.SetActive(false);
+            currentPromptUI.SetActive(false);
         }
     }
 
-    public void ShowMerchantPrompt(Transform target)
+    public void ShowPromptUI(Transform target, PromptType type)
     {
-        merchantTarget = target;
-        canTrade = true;
-        merchantPromptUI.SetActive(true);
+        promptTarget = target;
+        
+        switch (type)
+        {
+            case PromptType.House:
+                currentPromptUI = housePromptUI;
+                break;
+            case PromptType.Box:
+                currentPromptUI = boxPromptUI;
+                break;
+            case PromptType.Shop:
+                currentPromptUI = shopPromptUI;
+                canTrade = true;
+                break;
+        }
+        
+        currentPromptUI.SetActive(true);
     }
+    
 
-    public void HideMerchantPrompt()
+    public void HidePromptUI()
     {
-        merchantTarget = null;
+        promptTarget = null;
         canTrade = false;
-        merchantPromptUI.SetActive(false);
+        
+        if (currentPromptUI != null)
+        {
+            currentPromptUI.SetActive(false);
+            currentPromptUI = null;
+        }
     }
 }

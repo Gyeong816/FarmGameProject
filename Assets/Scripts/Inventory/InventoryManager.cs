@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
@@ -13,9 +14,11 @@ public class InventoryManager : MonoBehaviour
   [Header("인벤토리")]
   public SmallInventory smallInventory;
   public BigInventory bigInventory;
+  public ShopInventory shopInventory;
   
   [Header("프리팹")]
   public GameObject itemUIPrefab;
+  public GameObject shopItemUIPrefab;
   public List<GameObject> prefabList;
   private Dictionary<string, GameObject> prefabDic = new Dictionary<string, GameObject>();
   private void Awake()
@@ -31,31 +34,38 @@ public class InventoryManager : MonoBehaviour
     }
   }
 
-  private void Start()
+  private async void Start()
   {
     
-    var itemDataList = TsvLoader.LoadTable<ItemData>("ItemTable");
+    var itemDataList = await TsvLoader.LoadTableAsync<ItemData>("ItemTable");
 
-    itemDatabase = itemDataList; // 아이템 전체 목록 저장
+    itemDatabase = itemDataList; 
+    shopInventory.shopItemDatabase = itemDataList;
     
     int index = 0;
     foreach (var data in itemDataList)
     {
-      if (index >= bigInventory.Slots.Count) break;
-
-      // ItemUI 인스턴스 생성
+      if (index >= 5) break;
+      
       GameObject go = Instantiate(itemUIPrefab,  bigInventory.Slots[index].transform);
       ItemUI itemUI = go.GetComponent<ItemUI>();
-
-      // 데이터 세팅
       itemUI.data = data;
-      itemUI.nameText.text = data.itemName;
-
-      // 슬롯에 등록
       bigInventory.Slots[index].SetItem(itemUI);
-
       index++;
     }
+    
+    
+    int index_s = 0;
+    foreach (var data in itemDataList)
+    {
+      if (index_s >= shopInventory.ShopSlots.Count) break;
+      
+      GameObject go = Instantiate(shopItemUIPrefab, shopInventory.ShopSlots[index_s].transform);
+      ShopItemUI shopItemUI = go.GetComponent<ShopItemUI>();
+      shopItemUI.data = data;
+      index_s++;
+    }
+    
   }
 
   
