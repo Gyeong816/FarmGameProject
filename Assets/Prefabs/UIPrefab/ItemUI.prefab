@@ -230,6 +230,7 @@ MonoBehaviour:
   canvas: {fileID: 0}
   nameText: {fileID: 2577861363035260983}
   countText: {fileID: 0}
+  currentItem: 0
 --- !u!225 &3607023530272468584
 CanvasGroup:
   m_ObjectHideFlags: 0

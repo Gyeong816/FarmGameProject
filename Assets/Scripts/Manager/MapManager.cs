@@ -135,7 +135,7 @@ public class MapManager : MonoBehaviour
         if (!seed.canHarvest) 
             return;
 
-        InventoryManager.Instance.AddItemById(seed.cropData.itemId);
+        InventoryManager.Instance.AddItemToSmallInventory(seed.cropData.itemId);
         Destroy(seed.gameObject);
         plantedCrops.Remove(tile.gridPos);
         tile.ResetTile();

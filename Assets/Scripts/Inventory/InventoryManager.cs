@@ -66,7 +66,7 @@ public class InventoryManager : MonoBehaviour
   }
   
 
-  public void AddItemById(int itemId)
+  public void AddItemToSmallInventory(int itemId)
   {
     var data = itemDatabase.Find(x => x.id == itemId);
     if (data == null)
@@ -76,6 +76,27 @@ public class InventoryManager : MonoBehaviour
     }
     
     var emptySlot = smallInventory.Slots.Find(s => s.IsEmpty);
+    if (emptySlot == null)
+    {
+      AddItemToBigInventory(itemId);
+      return;
+    }
+    var go = Instantiate(itemUIPrefab, emptySlot.transform);
+    var itemUI = go.GetComponent<ItemUI>();
+    itemUI.data = data;
+    emptySlot.SetItem(itemUI);
+  }
+  
+  public void AddItemToBigInventory(int itemId)
+  {
+    var data = itemDatabase.Find(x => x.id == itemId);
+    if (data == null)
+    {
+      Debug.LogWarning($"[InventoryManager] ItemData not found for id={itemId}");
+      return;
+    }
+    
+    var emptySlot = bigInventory.Slots.Find(s => s.IsEmpty);
     if (emptySlot == null)
     {
       Debug.LogWarning("[InventoryManager] 빈 슬롯이 없습니다.");

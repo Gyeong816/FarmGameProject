@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,128 +7,127 @@ public class TradeManager : MonoBehaviour
 {
     public static TradeManager Instance;
 
-    public GameObject confirmPanel;
-    public GameObject warningPanel;
-    public TextMeshProUGUI itemNameText;
-    public TextMeshProUGUI priceText;
-    public GameObject BuyButton;
-    public GameObject SellButton;
-    
+    [Header("Confirm UI")]
+    [SerializeField] private GameObject confirmPanel;
+    [SerializeField] private GameObject warningPanel;
+    [SerializeField] private TextMeshProUGUI itemNameText;
+    [SerializeField] private TextMeshProUGUI priceText;
+
+    [Header("Confirm Buttons")]
+    [SerializeField] private Button buyButton;    // 구매 확정
+    [SerializeField] private Button sellButton;   // 판매 확정
+    [SerializeField] private Button cancelButton; // 취소
+
     [Header("Money")]
-    public int playerDollar= 150;
-    public int vendorDollar = 10000;
+    [SerializeField] private TextMeshProUGUI playerDollarText;
+    [SerializeField] private TextMeshProUGUI vendorDollarText;
+    [SerializeField] private int playerDollar  = 150;
+    [SerializeField] private int vendorDollar  = 10000;
 
-    public TextMeshProUGUI playerDollarText;
-    public TextMeshProUGUI vendorDollarText;
-    
+    private Action _onConfirm;
+    private Action _onCancel;
 
-    private Action onConfirm;
-    private Action onCancel;
-
-    private bool isSelling;
     private void Awake()
     {
-        
-        
         Instance = this;
+
         confirmPanel.SetActive(false);
         warningPanel.SetActive(false);
-        
+
+        // 버튼 리스너 정리 & 연결
+        buyButton.onClick.RemoveAllListeners();
+        buyButton.onClick.AddListener(OnConfirm);
+
+        sellButton.onClick.RemoveAllListeners();
+        sellButton.onClick.AddListener(OnConfirm);
+
+        cancelButton.onClick.RemoveAllListeners();
+        cancelButton.onClick.AddListener(OnCancel);
     }
 
     private void Start()
     {
-       // playerDollar = GameData.Instance.playerDollar;
-      //  vendorDollar = GameData.Instance.vendorDollar;
-        
         UpdateDollarUI();
     }
-
-    public void ShowWarningPanel()
-    {
-        warningPanel.SetActive(true);
-    }
-    public void HideWarningPanel()
-    {
-        warningPanel.SetActive(false);
-    }
     
-    public void ShowConfirm(bool isSelling, string itemName, int price, Action confirmCallback, Action cancelCallback)
+    public void RequestPurchase(ShopItemUI shopItemUI)
+    {
+        ShowConfirm(
+            isSelling:      false,
+            itemName:       shopItemUI.data.itemName,
+            price:          shopItemUI.data.price,
+            confirmAction:  () => ExecutePurchase(shopItemUI),
+            cancelAction:   () => { /* 필요 시 추가 */ }
+        );
+    }
+
+    public void RequestSale(ItemData data)
+    {
+        ShowConfirm(
+            isSelling:      true,
+            itemName:       data.itemName,
+            price:          data.price,
+            confirmAction:  () => ExecuteSale(data),
+            cancelAction:   () => { /* 필요 시 추가 */ }
+        );
+    }
+
+    private void ShowConfirm(bool isSelling, string itemName, int price, Action confirmAction, Action cancelAction)
     {
         itemNameText.text = itemName;
-        priceText.text = $"${price}";
+        priceText.text    = $"${price}";
 
-        onConfirm = confirmCallback;
-        onCancel = cancelCallback;
+        _onConfirm = confirmAction;
+        _onCancel  = cancelAction;
         confirmPanel.SetActive(true);
-        if (isSelling)
-        {
-            BuyButton.SetActive(false);
-            SellButton.SetActive(true);
-        }
-        else
-        {
-            BuyButton.SetActive(true);
-            SellButton.SetActive(false);
-        }
+
+        buyButton.gameObject.SetActive(!isSelling);
+        sellButton.gameObject.SetActive(isSelling);
     }
-    
-    public void OnConfirm()
+
+    private void OnConfirm()
     {
         confirmPanel.SetActive(false);
-        onConfirm?.Invoke();
+        _onConfirm?.Invoke();
+        UpdateDollarUI();
     }
 
-    public void OnCancel()
+    private void OnCancel()
     {
         confirmPanel.SetActive(false);
-        onCancel?.Invoke();
-    }
-    
-    
-    public void AddPlayerDoller(int amount)
-    {
-        playerDollar += amount;
-       // GameData.Instance.playerDollar = playerDollar;
-        UpdateDollarUI();
+        _onCancel?.Invoke();
     }
 
-    public void SubtractPlayerDoller(int amount)
+    private void ExecutePurchase(ShopItemUI shopItemUI)
     {
-        playerDollar -= amount;
-      //  GameData.Instance.playerDollar = playerDollar;
-        UpdateDollarUI();
+        if (playerDollar < shopItemUI.data.price)
+        {
+            warningPanel.SetActive(true);
+            return;
+        }
+        
+        playerDollar -= shopItemUI.data.price;
+        vendorDollar += shopItemUI.data.price;
+        InventoryManager.Instance.AddItemToBigInventory(shopItemUI.data.id);
+        shopItemUI.SoldOut();
     }
 
-    public void AddVendorDoller(int amount)
+    private void ExecuteSale(ItemData data)
     {
-        vendorDollar += amount;
-      //  GameData.Instance.vendorDollar = vendorDollar;
-        UpdateDollarUI();
-    }
+        if (vendorDollar < data.price)
+        {
+            warningPanel.SetActive(true);
+            return;
+        }
 
-    public void SubtractVendorDoller(int amount)
-    {
-        vendorDollar -= amount;
-     //   GameData.Instance.vendorDollar = vendorDollar;
-        UpdateDollarUI();
+        playerDollar += data.price;
+        vendorDollar -= data.price;
+        InventoryManager.Instance.RemoveItemById(data.id);
     }
 
     private void UpdateDollarUI()
     {
-        playerDollarText.text = $"Your money (${playerDollar})";
-        vendorDollarText.text = $"Vendors money (${vendorDollar})";
-    }
-    
-    
-    
-    
-    public bool CanPlayerAfford(int amount)
-    {
-        return playerDollar >= amount;
-    }
-    public bool CanVendorAfford(int amount)
-    {
-        return vendorDollar >= amount;
+        playerDollarText.text = playerDollar.ToString();
+        vendorDollarText.text = vendorDollar.ToString();
     }
 }

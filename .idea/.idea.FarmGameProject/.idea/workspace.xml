@@ -6,12 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="7bd28b71-29f7-441d-94c9-45fdc8d40e2c" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.FarmGameProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.FarmGameProject/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/UIPrefab/ShopitemUI.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/UIPrefab/ShopitemUI.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/UIPrefab/ItemUI.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/UIPrefab/ItemUI.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/InGame.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/InGame.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Inventory/InventoryManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Inventory/InventoryManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Shop/ShopInventory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Shop/ShopInventory.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Manager/MapManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Manager/MapManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Manager/TradeManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Manager/TradeManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Shop/ShopItemUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Shop/ShopItemUI.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Shop/ShopSlot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Shop/ShopSlot.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/ItemUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/ItemUI.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,6 +31,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Player/PlayerController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Shop/ShopItemUI.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Shop/ShopSlot.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Shop/WarningPanel.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/UI/ItemUI.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Editor/UI/GraphicEditor.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/EventSystem/EventInterfaces.cs" root0="SKIP_HIGHLIGHTING" />
@@ -120,7 +122,7 @@
       <workItem from="1749911086947" duration="1804000" />
       <workItem from="1750033569596" duration="3519000" />
       <workItem from="1750049948144" duration="13381000" />
-      <workItem from="1750120222946" duration="14565000" />
+      <workItem from="1750120222946" duration="26582000" />
     </task>
     <servers />
   </component>

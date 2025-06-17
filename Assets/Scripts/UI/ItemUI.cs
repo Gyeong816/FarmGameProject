@@ -35,10 +35,8 @@ public class ItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
 
     private void Start()
     {
-        if (!Enum.TryParse(data.itemType, out currentItem))
-        {
-            currentItem = ItemType.None; 
-        }
+        Enum.TryParse(data.itemType, out currentItem);
+  
         nameText.text = data.itemName;
     }
 
