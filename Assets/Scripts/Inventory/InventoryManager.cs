@@ -18,7 +18,6 @@ public class InventoryManager : MonoBehaviour
   
   [Header("프리팹")]
   public GameObject itemUIPrefab;
-  public GameObject shopItemUIPrefab;
   public List<GameObject> prefabList;
   private Dictionary<string, GameObject> prefabDic = new Dictionary<string, GameObject>();
   private void Awake()
@@ -39,8 +38,9 @@ public class InventoryManager : MonoBehaviour
     
     var itemDataList = await TsvLoader.LoadTableAsync<ItemData>("ItemTable");
 
-    itemDatabase = itemDataList; 
-    shopInventory.shopItemDatabase = itemDataList;
+    itemDatabase = itemDataList;
+    shopInventory.shopItemDatabase = itemDataList;  
+    shopInventory.ShowAllItems();
     
     int index = 0;
     foreach (var data in itemDataList)
@@ -52,18 +52,6 @@ public class InventoryManager : MonoBehaviour
       itemUI.data = data;
       bigInventory.Slots[index].SetItem(itemUI);
       index++;
-    }
-    
-    
-    int index_s = 0;
-    foreach (var data in itemDataList)
-    {
-      if (index_s >= shopInventory.ShopSlots.Count) break;
-      
-      GameObject go = Instantiate(shopItemUIPrefab, shopInventory.ShopSlots[index_s].transform);
-      ShopItemUI shopItemUI = go.GetComponent<ShopItemUI>();
-      shopItemUI.data = data;
-      index_s++;
     }
     
   }

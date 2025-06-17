@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class ShopSlot : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private ShopItemUI currentItemUI;
+
+    public void SetItem(ShopItemUI itemUI)
     {
-        
+        currentItemUI = itemUI;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ClearSlot()
     {
-        
+        if (currentItemUI != null)
+        {
+            Destroy(currentItemUI.gameObject);
+            currentItemUI = null;
+        }
     }
 }
