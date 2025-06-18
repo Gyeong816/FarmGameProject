@@ -4,20 +4,21 @@ using UnityEngine;
 
 public class ShopInventory : MonoBehaviour
 {
-    public List<ShopSlot> shopSlots;
+    //public List<ShopSlot> shopSlots;
     public List<ItemData> shopItemDatabase;
+    public List<ShopItemUI> shopItems;
     public GameObject shopItemUIPrefab;
 
-    private void Awake()
-    {
-        shopSlots = new List<ShopSlot>(GetComponentsInChildren<ShopSlot>());
-    }
+    public GameObject shopPanel;
     
 
     public void ShowItemsByType(params ItemType[] types)
     {
-        foreach (var slot in shopSlots)
-            slot.ClearSlot();
+        foreach (var itemUI in shopItems.ToArray())
+        {
+            Destroy(itemUI.gameObject);
+            shopItems.Remove(itemUI);
+        }
         
         HashSet<string> typeStrings = new HashSet<string>();
         foreach (var t in types)
@@ -27,26 +28,36 @@ public class ShopInventory : MonoBehaviour
             typeStrings.Contains(data.itemType)
         );
         
-        for (int i = 0; i < shopSlots.Count && i < filtered.Count; i++)
+        for (int i = 0; i < filtered.Count; i++)
         {
-            GameObject go = Instantiate(shopItemUIPrefab, shopSlots[i].transform);
+            GameObject go = Instantiate(shopItemUIPrefab, shopPanel.transform);
             ShopItemUI itemUI = go.GetComponent<ShopItemUI>();
             itemUI.data = filtered[i];
-            shopSlots[i].SetItem(itemUI);
+            shopItems.Add(itemUI);
+            
+            if (itemUI.data.isSoldOut)
+                itemUI.SoldOut();
+            
         }
     }
 
     public void ShowAllItems()
     {
-        foreach (var slot in shopSlots)
-            slot.ClearSlot();
-
-        for (int i = 0; i < shopSlots.Count && i < shopItemDatabase.Count; i++)
+        foreach (var item in shopItems.ToArray())
         {
-            GameObject go = Instantiate(shopItemUIPrefab, shopSlots[i].transform);
+            Destroy(item.gameObject);
+            shopItems.Remove(item);
+        }
+
+        for (int i = 0;  i < shopItemDatabase.Count; i++)
+        {
+            GameObject go = Instantiate(shopItemUIPrefab, shopPanel.transform);
             ShopItemUI itemUI = go.GetComponent<ShopItemUI>();
             itemUI.data = shopItemDatabase[i];
-            shopSlots[i].SetItem(itemUI);
+            shopItems.Add(itemUI);
+            
+            if (itemUI.data.isSoldOut)
+                itemUI.SoldOut();
         }
     }
 

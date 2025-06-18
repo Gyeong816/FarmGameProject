@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 
-public class ItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class ItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler 
 {
     public Canvas canvas;
  
@@ -16,9 +16,10 @@ public class ItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     [Header("UI 참조")]
     public TMP_Text nameText;   // 아이템 이름 표시
     public TMP_Text countText;
-    
+    public SlotUI originalSlotUI;
     public ItemType currentItem;
-    
+
+    public bool canSell;
     private Transform originalParent;
     private Vector2 originalPosition;
     private CanvasGroup canvasGroup;
@@ -43,6 +44,7 @@ public class ItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        
         originalParent = transform.parent;
         originalPosition = transform.position;
         transform.SetParent(canvas.transform);
@@ -66,11 +68,13 @@ public class ItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
                 if (slot.currentItemUI != null)
                     slot.currentItemUI.ReturnItem();
                 
+                originalSlotUI.UnsetItem(this);
                 transform.SetParent(slot.transform);
                 transform.position = slot.transform.position;
                 canvasGroup.blocksRaycasts = true;
                 
                 slot.SetItem(this);
+                originalSlotUI = slot;
                 return;
             }
         }
@@ -82,11 +86,13 @@ public class ItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
                 if (slot.currentItemUI != null)
                     slot.currentItemUI.ReturnItem();
                 
+                originalSlotUI.UnsetItem(this);
                 transform.SetParent(slot.transform);
                 transform.position = slot.transform.position;
                 canvasGroup.blocksRaycasts = true;
                 
                 slot.SetItem(this);
+                originalSlotUI = slot;
                 return;
             }
         }
@@ -104,8 +110,11 @@ public class ItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     }
     
     
-  /* public GameObject GetItemPrefab()
-    {
-       // return data.itemPrefab;
-    } */
+  public void OnPointerClick(PointerEventData eventData)
+  {
+      if (canSell)
+      {
+          TradeManager.Instance.RequestSale(this); 
+      }
+  }
 }

@@ -10,4 +10,6 @@ public class ItemData
     public string prefabKey { get; set; }
     public string uiPrefabKey { get; set; }
     public int price { get; set; }
+
+    [NonSerialized] public bool isSoldOut = false;
 }

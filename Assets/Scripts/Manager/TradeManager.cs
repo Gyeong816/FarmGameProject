@@ -61,13 +61,13 @@ public class TradeManager : MonoBehaviour
         );
     }
 
-    public void RequestSale(ItemData data)
+    public void RequestSale(ItemUI itemUI)
     {
         ShowConfirm(
             isSelling:      true,
-            itemName:       data.itemName,
-            price:          data.price,
-            confirmAction:  () => ExecuteSale(data),
+            itemName:       itemUI.data.itemName,
+            price:          itemUI.data.price,
+            confirmAction:  () => ExecuteSale(itemUI),
             cancelAction:   () => { /* 필요 시 추가 */ }
         );
     }
@@ -100,6 +100,7 @@ public class TradeManager : MonoBehaviour
 
     private void ExecutePurchase(ShopItemUI shopItemUI)
     {
+        var data = shopItemUI.data;
         if (playerDollar < shopItemUI.data.price)
         {
             warningPanel.SetActive(true);
@@ -109,20 +110,21 @@ public class TradeManager : MonoBehaviour
         playerDollar -= shopItemUI.data.price;
         vendorDollar += shopItemUI.data.price;
         InventoryManager.Instance.AddItemToBigInventory(shopItemUI.data.id);
+        data.isSoldOut = true;
         shopItemUI.SoldOut();
     }
 
-    private void ExecuteSale(ItemData data)
+    private void ExecuteSale(ItemUI itemUI)
     {
-        if (vendorDollar < data.price)
+        if (vendorDollar < itemUI.data.price)
         {
             warningPanel.SetActive(true);
             return;
         }
 
-        playerDollar += data.price;
-        vendorDollar -= data.price;
-        InventoryManager.Instance.RemoveItemById(data.id);
+        playerDollar += itemUI.data.price;
+        vendorDollar -= itemUI.data.price;
+        InventoryManager.Instance.RemoveItemFromBigInventory(itemUI.data.id);
     }
 
     private void UpdateDollarUI()

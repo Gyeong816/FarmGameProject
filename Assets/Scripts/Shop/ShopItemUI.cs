@@ -18,12 +18,14 @@ public class ShopItemUI : MonoBehaviour
     
     private Button buyButton;
    
+    public bool isSoldOut;
 
- 
-
-    private void Start()
+    private void Awake()
     {
         buyButton = GetComponent<Button>();
+    }
+    private void Start()
+    {
         
         nameText.text = data.itemName;
         priceText.text = data.price.ToString();
@@ -33,7 +35,6 @@ public class ShopItemUI : MonoBehaviour
         buyButton.onClick.RemoveAllListeners();
         buyButton.onClick.AddListener(() => TradeManager.Instance.RequestPurchase(this));
         
-        soldOutImage.SetActive(false);
     }
 
 

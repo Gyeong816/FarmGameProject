@@ -119,6 +119,25 @@ public class InventoryManager : MonoBehaviour
     smallInventory.DestroyCurrentItem();
   }
   
+  public void RemoveItemFromBigInventory(int itemId)
+  {
+    var slot = bigInventory.Slots.Find(s => s.currentItemUI != null && s.currentItemUI.data.id == itemId);
+    if (slot == null) return;
+    
+    Destroy(slot.currentItemUI.gameObject);
+    slot.currentItemUI = null;
+  }
+
+
+  public void RemoveItemFromSmallInventory(int itemId)
+  {
+    var slot = smallInventory.Slots.Find(s => s.currentItemUI != null && s.currentItemUI.data.id == itemId);
+    if (slot == null) return;
+    
+    Destroy(slot.currentItemUI.gameObject);
+    slot.currentItemUI = null;
+    smallInventory.DestroyCurrentItem();
+  }
   
   
 }

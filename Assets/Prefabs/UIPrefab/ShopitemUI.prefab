@@ -366,9 +366,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameText: {fileID: 5029765370791424506}
   priceText: {fileID: 5897732974382792524}
-  canvasGroup: {fileID: 0}
   soldOutImage: {fileID: 8373602418632504415}
   itemType: 7
+  isSoldOut: 0
 --- !u!114 &-4310923470164441159
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -517,7 +517,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6293735537028287497
 RectTransform:
   m_ObjectHideFlags: 0

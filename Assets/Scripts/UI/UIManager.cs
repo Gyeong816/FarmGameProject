@@ -17,6 +17,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject housePromptUI;
     [SerializeField] private GameObject boxPromptUI;
     [SerializeField] private GameObject shopPromptUI;
+    [SerializeField] private BigInventory bigInventory;
+    
     private GameObject currentPromptUI;
     
     [SerializeField] private Vector3 worldOffset = new Vector3(0, 2f, 0);
@@ -80,11 +82,13 @@ public class UIManager : MonoBehaviour
             {
                 merchantInven.SetActive(false);
                 smallInven.SetActive(true);
+                bigInventory.CanSell(false);
             }
             else
             {
                 smallInven.SetActive(false);
                 merchantInven.SetActive(true);
+                bigInventory.CanSell(true);
             }
                
             

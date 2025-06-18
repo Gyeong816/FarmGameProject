@@ -12,4 +12,23 @@ public class BigInventory : MonoBehaviour
     {
         Slots = new List<SlotUI>(GetComponentsInChildren<SlotUI>());
     }
+
+    public void CanSell(bool canSell)
+    {
+        if (canSell)
+        {
+            foreach (var slot in Slots)
+            {
+                slot.CanSell(true);
+            }  
+        }
+        else
+        {
+            foreach (var slot in Slots)
+            {
+                slot.CanSell(false);
+            }  
+        }
+    }
+    
 }
