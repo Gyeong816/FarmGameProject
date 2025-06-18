@@ -8,8 +8,11 @@ public class ItemData
     public string itemType { get; set; }
     public string itemName { get; set; }
     public string prefabKey { get; set; }
+    
     public string uiPrefabKey { get; set; }
     public int price { get; set; }
+    
+    public int shopStockCount { get; set; }
 
     [NonSerialized] public bool isSoldOut = false;
 }

@@ -19,6 +19,7 @@ public class ItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     public SlotUI originalSlotUI;
     public ItemType currentItem;
 
+    public int itemCount;
     public bool canSell;
     private Transform originalParent;
     private Vector2 originalPosition;
@@ -33,14 +34,27 @@ public class ItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         if(nameText == null)
             nameText = GetComponentInChildren<TMP_Text>();
     }
-
-    private void Start()
+    
+    public void Init(ItemData data)
     {
+        this.data = data;
+        canSell = true;
         Enum.TryParse(data.itemType, out currentItem);
-  
+        itemCount       = 0;
         nameText.text = data.itemName;
+        countText.text = itemCount.ToString();
     }
-
+    public void AddItemCount(int count)
+    {
+        itemCount += count;
+        countText.text = itemCount.ToString();
+    }
+    public void SubtractItemCount(int count)
+    {
+        itemCount -= count;
+        countText.text = itemCount.ToString();
+    }
+    
 
     public void OnBeginDrag(PointerEventData eventData)
     {

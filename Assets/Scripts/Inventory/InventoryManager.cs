@@ -49,8 +49,9 @@ public class InventoryManager : MonoBehaviour
       
       GameObject go = Instantiate(itemUIPrefab,  bigInventory.Slots[index].transform);
       ItemUI itemUI = go.GetComponent<ItemUI>();
-      itemUI.data = data;
       bigInventory.Slots[index].SetItem(itemUI);
+      itemUI.Init(data);
+      itemUI.AddItemCount(1);
       index++;
     }
     
@@ -66,7 +67,7 @@ public class InventoryManager : MonoBehaviour
   }
   
 
-  public void AddItemToSmallInventory(int itemId)
+  public void AddItemToSmallInventory(int itemId, int amount)
   {
     var data = itemDatabase.Find(x => x.id == itemId);
     if (data == null)
@@ -78,7 +79,7 @@ public class InventoryManager : MonoBehaviour
     var emptySlot = smallInventory.Slots.Find(s => s.IsEmpty);
     if (emptySlot == null)
     {
-      AddItemToBigInventory(itemId);
+      AddItemToBigInventory(itemId, amount);
       return;
     }
     var go = Instantiate(itemUIPrefab, emptySlot.transform);
@@ -87,13 +88,22 @@ public class InventoryManager : MonoBehaviour
     emptySlot.SetItem(itemUI);
   }
   
-  public void AddItemToBigInventory(int itemId)
+  public void AddItemToBigInventory(int itemId, int amount)
   {
     var data = itemDatabase.Find(x => x.id == itemId);
     if (data == null)
     {
       Debug.LogWarning($"[InventoryManager] ItemData not found for id={itemId}");
       return;
+    }
+    foreach (var slot in bigInventory.Slots)
+    {
+      var existing = slot.currentItemUI;
+      if (existing != null && existing.data.id == itemId)
+      {
+        existing.AddItemCount(amount);
+        return;
+      }
     }
     
     var emptySlot = bigInventory.Slots.Find(s => s.IsEmpty);
@@ -104,39 +114,43 @@ public class InventoryManager : MonoBehaviour
     }
     var go = Instantiate(itemUIPrefab, emptySlot.transform);
     var itemUI = go.GetComponent<ItemUI>();
-    itemUI.data = data;
     emptySlot.SetItem(itemUI);
+    itemUI.Init(data);
+    itemUI.AddItemCount(amount);
   }
-  
-  public void RemoveItemById(int id)
-  {
-  
-    var slot = smallInventory.Slots.Find(s => s.currentItemUI != null && s.currentItemUI.data.id == id);
-    if (slot == null) return;
-    
-    Destroy(slot.currentItemUI.gameObject);
-    slot.currentItemUI = null;
-    smallInventory.DestroyCurrentItem();
-  }
-  
-  public void RemoveItemFromBigInventory(int itemId)
+
+  public void SubtractItemToBigInventory(int itemId, int amount)
   {
     var slot = bigInventory.Slots.Find(s => s.currentItemUI != null && s.currentItemUI.data.id == itemId);
     if (slot == null) return;
     
-    Destroy(slot.currentItemUI.gameObject);
-    slot.currentItemUI = null;
+    var itemUI = slot.currentItemUI;
+    itemUI.SubtractItemCount(amount);
+    
+    if(itemUI.itemCount <= 0)
+    {
+      Destroy(slot.currentItemUI.gameObject);
+      slot.currentItemUI = null;
+    }
   }
+  
+  
 
-
-  public void RemoveItemFromSmallInventory(int itemId)
+  public void SubtractItemFromSmallInventory(int itemId, int amount)
   {
     var slot = smallInventory.Slots.Find(s => s.currentItemUI != null && s.currentItemUI.data.id == itemId);
     if (slot == null) return;
     
-    Destroy(slot.currentItemUI.gameObject);
-    slot.currentItemUI = null;
-    smallInventory.DestroyCurrentItem();
+    var itemUI = slot.currentItemUI;
+    
+    itemUI.SubtractItemCount(amount);
+    
+    if (itemUI.itemCount <= 0)
+    {
+      Destroy(slot.currentItemUI.gameObject);
+      slot.currentItemUI = null;
+      smallInventory.DestroyCurrentItem();
+    }
   }
   
   

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -11,6 +12,7 @@ public class ShopItemUI : MonoBehaviour
     [Header("UI 참조")]
     [SerializeField] private TMP_Text nameText;  
     [SerializeField] private TMP_Text priceText;
+    [SerializeField] private TMP_Text countText;
     [SerializeField] private GameObject soldOutImage;
     
     public ItemData data; 
@@ -18,6 +20,7 @@ public class ShopItemUI : MonoBehaviour
     
     private Button buyButton;
    
+    public int itemCount;
     public bool isSoldOut;
 
     private void Awake()
@@ -26,10 +29,11 @@ public class ShopItemUI : MonoBehaviour
     }
     private void Start()
     {
-        
+        itemCount = data.shopStockCount;
         nameText.text = data.itemName;
         priceText.text = data.price.ToString();
-
+       
+        countText.text = itemCount.ToString();
         Enum.TryParse(data.itemType, out itemType);
        
         buyButton.onClick.RemoveAllListeners();
@@ -37,6 +41,10 @@ public class ShopItemUI : MonoBehaviour
         
     }
 
+    public void UpdateItemCount()
+    {
+        countText.text = itemCount.ToString();
+    }
 
     public void SoldOut()
     {

@@ -10,27 +10,35 @@ public class TradeManager : MonoBehaviour
     [Header("Confirm UI")]
     [SerializeField] private GameObject confirmPanel;
     [SerializeField] private GameObject warningPanel;
-    [SerializeField] private TextMeshProUGUI itemNameText;
-    [SerializeField] private TextMeshProUGUI priceText;
+    [SerializeField] private TMP_Text itemNameText;
+    [SerializeField] private TMP_Text priceText;
 
     [Header("Confirm Buttons")]
-    [SerializeField] private Button buyButton;    // 구매 확정
-    [SerializeField] private Button sellButton;   // 판매 확정
-    [SerializeField] private Button cancelButton; // 취소
+    [SerializeField] private Button buyButton;    
+    [SerializeField] private Button sellButton;   
+    [SerializeField] private Button cancelButton; 
+    [SerializeField] private Button plusButton; 
+    [SerializeField] private Button minusButton; 
+    [SerializeField] private TMP_Text tradeCountText;
 
     [Header("Money")]
-    [SerializeField] private TextMeshProUGUI playerDollarText;
-    [SerializeField] private TextMeshProUGUI vendorDollarText;
+    [SerializeField] private TMP_Text playerDollarText;
+    [SerializeField] private TMP_Text vendorDollarText;
     [SerializeField] private int playerDollar  = 150;
     [SerializeField] private int vendorDollar  = 10000;
 
     private Action _onConfirm;
     private Action _onCancel;
 
+    private int tradeCount;
+    private int tradePrice;
+    private int itemCount;
+    private int itemPrice;
+
     private void Awake()
     {
         Instance = this;
-
+  
         confirmPanel.SetActive(false);
         warningPanel.SetActive(false);
 
@@ -43,6 +51,13 @@ public class TradeManager : MonoBehaviour
 
         cancelButton.onClick.RemoveAllListeners();
         cancelButton.onClick.AddListener(OnCancel);
+        
+        plusButton.onClick.RemoveAllListeners();
+        plusButton.onClick.AddListener(AddTradeCount);
+        
+        minusButton.onClick.RemoveAllListeners();
+        minusButton.onClick.AddListener(SubtractTradeCount);
+        
     }
 
     private void Start()
@@ -56,6 +71,7 @@ public class TradeManager : MonoBehaviour
             isSelling:      false,
             itemName:       shopItemUI.data.itemName,
             price:          shopItemUI.data.price,
+            itemCount:      shopItemUI.itemCount,
             confirmAction:  () => ExecutePurchase(shopItemUI),
             cancelAction:   () => { /* 필요 시 추가 */ }
         );
@@ -64,25 +80,33 @@ public class TradeManager : MonoBehaviour
     public void RequestSale(ItemUI itemUI)
     {
         ShowConfirm(
-            isSelling:      true,
-            itemName:       itemUI.data.itemName,
-            price:          itemUI.data.price,
+            isSelling: true,
+            itemName: itemUI.data.itemName,
+            price:  itemUI.data.price,
+            itemCount:   itemUI.itemCount,
             confirmAction:  () => ExecuteSale(itemUI),
             cancelAction:   () => { /* 필요 시 추가 */ }
         );
     }
 
-    private void ShowConfirm(bool isSelling, string itemName, int price, Action confirmAction, Action cancelAction)
+    private void ShowConfirm(bool isSelling, string itemName, int price, int itemCount, Action confirmAction, Action cancelAction)
     {
+        tradeCount = 1;
+        itemPrice = price;
+        tradePrice = itemPrice;
         itemNameText.text = itemName;
-        priceText.text    = $"${price}";
-
+        this.itemCount = itemCount;
+        tradeCountText.text = tradeCount.ToString();
+        priceText.text    = itemPrice.ToString();
+        
         _onConfirm = confirmAction;
         _onCancel  = cancelAction;
+        
         confirmPanel.SetActive(true);
 
         buyButton.gameObject.SetActive(!isSelling);
         sellButton.gameObject.SetActive(isSelling);
+        
     }
 
     private void OnConfirm()
@@ -101,30 +125,36 @@ public class TradeManager : MonoBehaviour
     private void ExecutePurchase(ShopItemUI shopItemUI)
     {
         var data = shopItemUI.data;
-        if (playerDollar < shopItemUI.data.price)
+        if (playerDollar < tradePrice)
         {
             warningPanel.SetActive(true);
             return;
         }
         
-        playerDollar -= shopItemUI.data.price;
-        vendorDollar += shopItemUI.data.price;
-        InventoryManager.Instance.AddItemToBigInventory(shopItemUI.data.id);
-        data.isSoldOut = true;
-        shopItemUI.SoldOut();
+        playerDollar -= tradePrice;
+        vendorDollar += tradePrice;
+        
+        InventoryManager.Instance.AddItemToBigInventory(shopItemUI.data.id, tradeCount);
+        shopItemUI.itemCount -= tradeCount;
+        shopItemUI.UpdateItemCount();
+        if (shopItemUI.itemCount <= 0)
+        {
+            data.isSoldOut = true;
+            shopItemUI.SoldOut();
+        }
     }
 
     private void ExecuteSale(ItemUI itemUI)
     {
-        if (vendorDollar < itemUI.data.price)
+        if (vendorDollar < tradePrice)
         {
             warningPanel.SetActive(true);
             return;
         }
-
-        playerDollar += itemUI.data.price;
-        vendorDollar -= itemUI.data.price;
-        InventoryManager.Instance.RemoveItemFromBigInventory(itemUI.data.id);
+        playerDollar += tradePrice;
+        vendorDollar -= tradePrice;
+        
+        InventoryManager.Instance.SubtractItemToBigInventory(itemUI.data.id, tradeCount);
     }
 
     private void UpdateDollarUI()
@@ -132,4 +162,28 @@ public class TradeManager : MonoBehaviour
         playerDollarText.text = playerDollar.ToString();
         vendorDollarText.text = vendorDollar.ToString();
     }
+
+    public void AddTradeCount()
+    {
+        if (tradeCount < itemCount)
+        {
+            tradeCount++;
+            tradePrice += itemPrice;
+            tradeCountText.text = tradeCount.ToString();
+            priceText.text = tradePrice.ToString();   
+        }
+    }
+
+    public void SubtractTradeCount()
+    {
+        if (tradeCount > 1)
+        {
+            tradeCount--;
+            tradePrice -= itemPrice;
+            tradeCountText.text = tradeCount.ToString();
+            priceText.text = tradePrice.ToString();
+        }
+    }
+    
+    
 }

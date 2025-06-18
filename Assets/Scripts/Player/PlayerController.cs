@@ -234,7 +234,7 @@ public class PlayerController : MonoBehaviour
     {
         var checkPos = transform.position + transform.forward * toolDistance;
         var tile = mapManager.GetTileAtWorldPos(checkPos);
-        mapManager.BuildFenceAt(tile, mapManager.PreviewRotationY);
+        mapManager.BuildFenceAt(tile, mapManager.PreviewRotationY, itemId);
     }
     private void HarvestInFront()
     {

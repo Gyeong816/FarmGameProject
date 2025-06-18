@@ -69,10 +69,10 @@ public class MapManager : MonoBehaviour
         
         plantedCrops[tile.gridPos] = seed;
         
-        InventoryManager.Instance.RemoveItemById(itemId);
+        InventoryManager.Instance.SubtractItemFromSmallInventory(itemId, 1);
     }
 
-    public void BuildFenceAt(LandTile tile, float rotationY = 0f)
+    public void BuildFenceAt(LandTile tile, float rotationY, int itemId)
     {
         if (tile.isPlanted) return;
         tile.MarkFenced();
@@ -82,6 +82,7 @@ public class MapManager : MonoBehaviour
             pos,
             Quaternion.Euler(0, rotationY, 0),
             tile.transform);
+        InventoryManager.Instance.SubtractItemFromSmallInventory(itemId, 1);
     }
 
     public void ShowFencePreview(LandTile tile)
@@ -135,7 +136,7 @@ public class MapManager : MonoBehaviour
         if (!seed.canHarvest) 
             return;
 
-        InventoryManager.Instance.AddItemToSmallInventory(seed.cropData.itemId);
+        InventoryManager.Instance.AddItemToSmallInventory(seed.cropData.itemId,1);
         Destroy(seed.gameObject);
         plantedCrops.Remove(tile.gridPos);
         tile.ResetTile();
