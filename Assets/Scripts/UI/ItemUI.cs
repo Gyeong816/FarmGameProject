@@ -49,6 +49,12 @@ public class ItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         itemCount += count;
         countText.text = itemCount.ToString();
     }
+
+    public void SetCount(int count)
+    {
+        itemCount = count;
+        countText.text = itemCount.ToString();
+    }
     public void SubtractItemCount(int count)
     {
         itemCount -= count;

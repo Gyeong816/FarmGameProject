@@ -12,11 +12,9 @@ public class SmallInventory : MonoBehaviour
     public List<SlotUI> Slots;
     private int currentIndex = 0; 
     
-    private void Start()
+    private void Awake()
     {
         Slots = new List<SlotUI>(GetComponentsInChildren<SlotUI>());
-        if (player == null)
-            player = FindObjectOfType<PlayerController>();
     }
     
     

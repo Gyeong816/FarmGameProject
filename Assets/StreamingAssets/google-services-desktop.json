@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "259940403483",
+    "firebase_url": "https://farmgameproject-default-rtdb.firebaseio.com",
     "project_id": "farmgameproject",
     "storage_bucket": "farmgameproject.firebasestorage.app"
   },

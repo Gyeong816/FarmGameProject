@@ -42,28 +42,61 @@ public class InventoryManager : MonoBehaviour
     shopInventory.shopItemDatabase = itemDataList;  
     shopInventory.ShowAllItems();
     
-    int index = 0;
-    foreach (var data in itemDataList)
-    {
-      if (index >= 5) break;
-      
-      GameObject go = Instantiate(itemUIPrefab,  bigInventory.Slots[index].transform);
-      ItemUI itemUI = go.GetComponent<ItemUI>();
-      bigInventory.Slots[index].SetItem(itemUI);
-      itemUI.Init(data);
-      itemUI.AddItemCount(1);
-      index++;
-    }
-    
   }
 
-  
-  public GameObject GetPrefab(string key)
+
+  public InventorySaveData GetSaveData()
   {
-    if (prefabDic.TryGetValue(key, out var result))
-      return result;
-    Debug.LogWarning($"프리팹 키 {key}를 찾을 수 없음");
-    return null;
+    var save = new InventorySaveData {
+      savedInvenDatas = new List<SlotSaveData>()};
+
+    for (int i = 0; i < smallInventory.Slots.Count; i++)
+    {
+      var ui = smallInventory.Slots[i].currentItemUI;
+      if (ui != null)
+      {
+        save.savedInvenDatas.Add(new SlotSaveData {
+          inventoryType = InventoryType.Small,
+          slotIndex     = i,
+          itemId        = ui.data.id,
+          count         = ui.itemCount
+        });
+      }
+    }
+    for (int i = 0; i < bigInventory.Slots.Count; i++)
+    {
+      var ui = bigInventory.Slots[i].currentItemUI;
+      if (ui != null)
+      {
+        save.savedInvenDatas.Add(new SlotSaveData {
+          inventoryType = InventoryType.Big,
+          slotIndex     = i,
+          itemId        = ui.data.id,
+          count         = ui.itemCount
+        });
+      }
+    }
+    
+    return save;
+  }
+
+  public void LoadSlot(SlotSaveData data)
+  {
+    var slots = (data.inventoryType == InventoryType.Small) 
+      ? smallInventory.Slots : bigInventory.Slots;
+    
+    var targetSlot = slots[data.slotIndex];
+    
+    if (targetSlot.currentItemUI != null)
+      Destroy(targetSlot.currentItemUI.gameObject);
+    
+    var go     = Instantiate(itemUIPrefab, targetSlot.transform);
+    var itemUI = go.GetComponent<ItemUI>();
+    var itemdata = itemDatabase.Find(x => x.id == data.itemId);
+    
+    itemUI.Init(itemdata);
+    itemUI.SetCount(data.count);
+    targetSlot.SetItem(itemUI);
   }
   
 
@@ -152,6 +185,12 @@ public class InventoryManager : MonoBehaviour
       smallInventory.DestroyCurrentItem();
     }
   }
-  
+  public GameObject GetPrefab(string key)
+  {
+    if (prefabDic.TryGetValue(key, out var result))
+      return result;
+    Debug.LogWarning($"프리팹 키 {key}를 찾을 수 없음");
+    return null;
+  }
   
 }

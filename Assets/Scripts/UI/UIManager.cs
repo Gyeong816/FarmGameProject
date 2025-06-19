@@ -11,7 +11,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject inventoryUI;
     [SerializeField] private GameObject merchantInven;
     [SerializeField] private GameObject smallInven;
+    [SerializeField] private GameObject pauseMenuPanel;
     [SerializeField] private CameraController cameraController;
+    [SerializeField] private Button closePauseMenuPanel;
 
     [Header("상인 상호작용")]
     [SerializeField] private GameObject housePromptUI;
@@ -26,6 +28,7 @@ public class UIManager : MonoBehaviour
     private bool canTrade;
     private bool canSleep;
     private bool canOpenBox;
+    private bool openMenu;
     
     public enum PromptType { House, Box, Shop }
 
@@ -43,6 +46,7 @@ public class UIManager : MonoBehaviour
         }
 
         mainCam = Camera.main;
+        closePauseMenuPanel.onClick.AddListener(OnPauseMenuPanel);
     }
 
     private void Start()
@@ -72,8 +76,36 @@ public class UIManager : MonoBehaviour
              OnInven(true);
             
         }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            OnPauseMenuPanel();
+        }
     }
 
+    private void OnPauseMenuPanel()
+    {
+        if (!openMenu)
+        {
+            cameraController?.IsInventoryOpen();
+            openMenu = true;
+            pauseMenuPanel.SetActive(true);
+            
+            Time.timeScale = 0f;
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = true;
+        }
+        else
+        {
+            cameraController?.IsInventoryClose();
+            openMenu = false;
+            pauseMenuPanel.SetActive(false);
+            
+            Time.timeScale = 1f;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+    }
+    
     private void OnInven(bool isTrading)
     {
         if (!isInventoryOpen)
