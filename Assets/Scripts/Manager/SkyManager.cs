@@ -1,79 +1,117 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 
 public class SkyManager : MonoBehaviour
 {
-  [Header("SkyMateraial")] 
-  public Material dawnSky;
-  public Material daySky;
-  public Material sunsetSky;
-  public Material eveningSky;
-
-  
-  private Material blendedSky;
-
-  private void Start()
-  {
-    blendedSky = new Material(eveningSky);
-    RenderSettings.skybox = blendedSky;
+    public float blendDuration;
     
-    TimeManager.Instance.OnTimePeriodChanged += OnPeriodChanged;
-  }
+    [Header("Sky Materials")]
+    public Material dawnSky;
+    public Material daySky;
+    public Material sunsetSky;
+    public Material eveningSky;
 
-  private void OnPeriodChanged(string period)
-  {
-    if (period == "Dawn")
+    [Header("Directional Light")]
+    public Light directionalLight;
+    public Color dawnLightColor;
+    public Color dayLightColor;
+    public Color sunsetLightColor;
+    public Color eveningLightColor;
+
+    private Material blendedSky;
+    private Color startLightColor;
+    private Color targetLightColor;
+    private string currentPhase = "Evening";
+
+    private void Start()
     {
-      StartCoroutine(BlendSkybox(eveningSky, dawnSky, 10f));
+        // 스카이박스 초기 설정
+        blendedSky = new Material(eveningSky);
+        RenderSettings.skybox = blendedSky;
+
+        // 라이트 초기 컬러 세팅
+        directionalLight.color = eveningLightColor;
+        startLightColor = eveningLightColor;
+        targetLightColor = eveningLightColor;
+
+        // 시간대 변경 이벤트 구독
+        TimeManager.Instance.OnTimePeriodChanged += OnPeriodChanged;
     }
-    else if (period == "Day")
+
+    private void OnPeriodChanged(string newPhase)
     {
-      StartCoroutine(BlendSkybox(dawnSky, daySky, 10f));
+        // 이전 단계 머티리얼과 새 단계 머티리얼 가져오기
+        Material oldSky = GetSkyMaterial(currentPhase);
+        Material nextSky = GetSkyMaterial(newPhase);
+
+        // null 예외처리 없이 바로 라이트 컬러 가져오기
+        startLightColor = directionalLight.color;
+        targetLightColor = GetLightColor(newPhase);
+
+        // 현재 단계 업데이트
+        currentPhase = newPhase;
+
+        // 보간 코루틴 실행
+        StartCoroutine(BlendSkyAndLight(oldSky, nextSky, blendDuration));
     }
-    else if (period == "Sunset")
+
+    private IEnumerator BlendSkyAndLight(Material oldM, Material newM, float duration)
     {
-      StartCoroutine(BlendSkybox(daySky, sunsetSky, 10f));
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            float t = elapsed / duration;
+            LerpSky(oldM, newM, t);
+            directionalLight.color = Color.Lerp(startLightColor, targetLightColor, t);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+        // 최종 보간값 확정
+        LerpSky(oldM, newM, 1f);
+        directionalLight.color = targetLightColor;
     }
-    else 
+
+    private void LerpSky(Material oldM, Material newM, float t)
     {
-      StartCoroutine(BlendSkybox(sunsetSky, eveningSky, 10f));
-    }
-  }
+        blendedSky.SetColor("_SunDiscColor", Color.Lerp(oldM.GetColor("_SunDiscColor"), newM.GetColor("_SunDiscColor"), t));
+        blendedSky.SetFloat("_SunDiscMultiplier", Mathf.Lerp(oldM.GetFloat("_SunDiscMultiplier"), newM.GetFloat("_SunDiscMultiplier"), t));
+        blendedSky.SetFloat("_SunDiscExponent", Mathf.Lerp(oldM.GetFloat("_SunDiscExponent"), newM.GetFloat("_SunDiscExponent"), t));
 
-  private IEnumerator BlendSkybox(Material oldM, Material newM, float duration)
-  {
-    float elapsed = 0f;
-    while (elapsed < duration)
+        blendedSky.SetColor("_SunHaloColor", Color.Lerp(oldM.GetColor("_SunHaloColor"), newM.GetColor("_SunHaloColor"), t));
+        blendedSky.SetFloat("_SunHaloExponent", Mathf.Lerp(oldM.GetFloat("_SunHaloExponent"), newM.GetFloat("_SunHaloExponent"), t));
+        blendedSky.SetFloat("_SunHaloContribution", Mathf.Lerp(oldM.GetFloat("_SunHaloContribution"), newM.GetFloat("_SunHaloContribution"), t));
+
+        blendedSky.SetColor("_HorizonLineColor", Color.Lerp(oldM.GetColor("_HorizonLineColor"), newM.GetColor("_HorizonLineColor"), t));
+        blendedSky.SetFloat("_HorizonLineExponent", Mathf.Lerp(oldM.GetFloat("_HorizonLineExponent"), newM.GetFloat("_HorizonLineExponent"), t));
+        blendedSky.SetFloat("_HorizonLineContribution", Mathf.Lerp(oldM.GetFloat("_HorizonLineContribution"), newM.GetFloat("_HorizonLineContribution"), t));
+
+        blendedSky.SetColor("_SkyGradientTop", Color.Lerp(oldM.GetColor("_SkyGradientTop"), newM.GetColor("_SkyGradientTop"), t));
+        blendedSky.SetColor("_SkyGradientBottom", Color.Lerp(oldM.GetColor("_SkyGradientBottom"), newM.GetColor("_SkyGradientBottom"), t));
+        blendedSky.SetFloat("_SkyGradientExponent", Mathf.Lerp(oldM.GetFloat("_SkyGradientExponent"), newM.GetFloat("_SkyGradientExponent"), t));
+    }
+
+    private Material GetSkyMaterial(string phase)
     {
-      float t = elapsed / duration;
-      LerpSky(oldM, newM, t);
-      elapsed += Time.deltaTime;
-      yield return null;
+        switch (phase)
+        {
+            case "Dawn":    return dawnSky;
+            case "Day":     return daySky;
+            case "Sunset":  return sunsetSky;
+            case "Evening": return eveningSky;
+            default:         return eveningSky;
+        }
     }
-    LerpSky(oldM, newM, 1f);
-  }
 
-  private void LerpSky(Material oldM, Material newM, float t)
-  {
-    blendedSky.SetColor("_SunDiscColor", Color.Lerp(oldM.GetColor("_SunDiscColor"), newM.GetColor("_SunDiscColor"), t));
-    blendedSky.SetFloat("_SunDiscMultiplier", Mathf.Lerp(oldM.GetFloat("_SunDiscMultiplier"), newM.GetFloat("_SunDiscMultiplier"), t));
-    blendedSky.SetFloat("_SunDiscExponent", Mathf.Lerp(oldM.GetFloat("_SunDiscExponent"), newM.GetFloat("_SunDiscExponent"), t));
-
-    blendedSky.SetColor("_SunHaloColor", Color.Lerp(oldM.GetColor("_SunHaloColor"), newM.GetColor("_SunHaloColor"), t));
-    blendedSky.SetFloat("_SunHaloExponent", Mathf.Lerp(oldM.GetFloat("_SunHaloExponent"), newM.GetFloat("_SunHaloExponent"), t));
-    blendedSky.SetFloat("_SunHaloContribution", Mathf.Lerp(oldM.GetFloat("_SunHaloContribution"), newM.GetFloat("_SunHaloContribution"), t));
-
-    blendedSky.SetColor("_HorizonLineColor", Color.Lerp(oldM.GetColor("_HorizonLineColor"), newM.GetColor("_HorizonLineColor"), t));
-    blendedSky.SetFloat("_HorizonLineExponent", Mathf.Lerp(oldM.GetFloat("_HorizonLineExponent"), newM.GetFloat("_HorizonLineExponent"), t));
-    blendedSky.SetFloat("_HorizonLineContribution", Mathf.Lerp(oldM.GetFloat("_HorizonLineContribution"), newM.GetFloat("_HorizonLineContribution"), t));
-
-    blendedSky.SetColor("_SkyGradientTop", Color.Lerp(oldM.GetColor("_SkyGradientTop"), newM.GetColor("_SkyGradientTop"), t));
-    blendedSky.SetColor("_SkyGradientBottom", Color.Lerp(oldM.GetColor("_SkyGradientBottom"), newM.GetColor("_SkyGradientBottom"), t));
-    blendedSky.SetFloat("_SkyGradientExponent", Mathf.Lerp(oldM.GetFloat("_SkyGradientExponent"), newM.GetFloat("_SkyGradientExponent"), t));
-  }
-
-
+    private Color GetLightColor(string phase)
+    {
+        switch (phase)
+        {
+            case "Dawn":    return dawnLightColor;
+            case "Day":     return dayLightColor;
+            case "Sunset":  return sunsetLightColor;
+            case "Evening": return eveningLightColor;
+            default:         return eveningLightColor;
+        }
+    }
 }

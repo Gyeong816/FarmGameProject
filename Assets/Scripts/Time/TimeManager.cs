@@ -11,7 +11,7 @@ public class TimeManager : MonoBehaviour
     [SerializeField] private float dayDuration = 120f;          // 하루 길이(초)
     [SerializeField] private float fastForwardMultiplier = 2f;  // 빠른 진행 배율
 
-    private const float DayStartOffset = 5f / 24f;              // normalized 기준 AM 5시
+    private const float DayStartOffset = 4f / 24f;              // normalized 기준 AM 5시
     private bool hasPassedDayStart;                             // 하루 경계 감지 플래그
 
     private int currentDay = 1;
@@ -78,9 +78,23 @@ public class TimeManager : MonoBehaviour
     // 시간대 반환 (Dawn, Day, Sunset, Evening)
     private string GetPeriodFromHour(float hour)
     {
-        if (hour >= 5.1f && hour < 7f)  return "Dawn";
-        if (hour >= 7f && hour < 17f) return "Day";
-        if (hour >= 17f && hour < 19f) return "Sunset";
-        return "Evening";
+        // 19:00 이상 또는 05:00 미만 → Evening
+        if (hour >= 19f)
+        {
+            return "Evening";
+        }
+        if (hour >= 17f)
+        {
+            return "Sunset";
+        }
+        if (hour >= 7f)
+        {
+            return "Day";
+        }
+        if (hour >= 5f)
+        {
+            return "Dawn";
+        }
+        return null;
     }
 }

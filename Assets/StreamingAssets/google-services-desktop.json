@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "259940403483",
+    "project_id": "farmgameproject",
+    "storage_bucket": "farmgameproject.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:259940403483:android:44fbc748f08deeeaba2bbe",
+        "android_client_info": {
+          "package_name": "com.UnityTechnologies.com.unity.template.urpblank"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvtzQVFssyI-7h_4OD_Vgqtj4DSXj6pZo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
