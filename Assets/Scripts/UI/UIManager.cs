@@ -23,7 +23,9 @@ public class UIManager : MonoBehaviour
     
     [SerializeField] private Vector3 worldOffset = new Vector3(0, 2f, 0);
     private Transform promptTarget;
-    private bool canTrade = false;
+    private bool canTrade;
+    private bool canSleep;
+    private bool canOpenBox;
     
     public enum PromptType { House, Box, Shop }
 
@@ -64,9 +66,11 @@ public class UIManager : MonoBehaviour
             OnInven(false);
         }
 
-        if (Input.GetKeyDown(KeyCode.E) && canTrade)
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            OnInven(true);
+            if(canTrade)
+             OnInven(true);
+            
         }
     }
 
