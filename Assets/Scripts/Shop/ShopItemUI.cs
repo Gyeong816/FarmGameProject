@@ -22,23 +22,21 @@ public class ShopItemUI : MonoBehaviour
    
     public int itemCount;
     public bool isSoldOut;
-
-    private void Awake()
+    
+    
+    public void Init(ItemData data)
     {
-        buyButton = GetComponent<Button>();
-    }
-    private void Start()
-    {
+        this.data = data;
         itemCount = data.shopStockCount;
         nameText.text = data.itemName;
         priceText.text = data.price.ToString();
        
         countText.text = itemCount.ToString();
         Enum.TryParse(data.itemType, out itemType);
-       
+
+        buyButton = GetComponent<Button>();
         buyButton.onClick.RemoveAllListeners();
         buyButton.onClick.AddListener(() => TradeManager.Instance.RequestPurchase(this));
-        
     }
 
     public void UpdateItemCount()

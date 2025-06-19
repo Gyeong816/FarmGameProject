@@ -28,16 +28,12 @@ public class ShopInventory : MonoBehaviour
             typeStrings.Contains(data.itemType)
         );
         
-        for (int i = 0; i < filtered.Count; i++)
+        foreach (var data in filtered)
         {
-            GameObject go = Instantiate(shopItemUIPrefab, shopPanel.transform);
-            ShopItemUI itemUI = go.GetComponent<ShopItemUI>();
-            itemUI.data = filtered[i];
+            var go     = Instantiate(shopItemUIPrefab, shopPanel.transform);
+            var itemUI = go.GetComponent<ShopItemUI>();
+            itemUI.Init(data);         
             shopItems.Add(itemUI);
-            
-            if (itemUI.data.isSoldOut)
-                itemUI.SoldOut();
-            
         }
     }
 
@@ -53,9 +49,8 @@ public class ShopInventory : MonoBehaviour
         {
             GameObject go = Instantiate(shopItemUIPrefab, shopPanel.transform);
             ShopItemUI itemUI = go.GetComponent<ShopItemUI>();
-            itemUI.data = shopItemDatabase[i];
+            itemUI.Init(shopItemDatabase[i]);
             shopItems.Add(itemUI);
-            
             if (itemUI.data.isSoldOut)
                 itemUI.SoldOut();
         }
