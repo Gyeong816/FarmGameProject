@@ -114,4 +114,21 @@ public class SkyManager : MonoBehaviour
             default:         return eveningLightColor;
         }
     }
+    
+    // 저장용
+    public SkySaveData GetSaveData()
+    {
+        return new SkySaveData { phase = currentPhase };
+    }
+    
+    public void LoadFromSave(SkySaveData data)
+    {
+        // 머티리얼 속성 그대로 복사
+        var m = GetSkyMaterial(data.phase);
+        RenderSettings.skybox.CopyPropertiesFromMaterial(m);
+
+        // 라이트 컬러 설정
+        directionalLight.color = GetLightColor(data.phase);
+        currentPhase = data.phase;
+    }
 }

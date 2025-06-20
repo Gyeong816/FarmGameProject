@@ -11,7 +11,8 @@ public class TimeManager : MonoBehaviour
     [SerializeField] private float dayDuration = 120f;          // 하루 길이(초)
     [SerializeField] private float fastForwardMultiplier = 2f;  // 빠른 진행 배율
 
-    private const float DayStartOffset = 4f / 24f;              // normalized 기준 AM 5시
+    private float DayStartOffset = 5f / 24f;  
+    private float dayRolloverHour = 12 / 24f;
     private bool hasPassedDayStart;                             // 하루 경계 감지 플래그
 
     private int currentDay = 1;
@@ -51,13 +52,13 @@ public class TimeManager : MonoBehaviour
             timeOfDay -= 1f;
 
         // 3) AM 5시 경계 단발성 감지
-        if (!hasPassedDayStart && timeOfDay >= DayStartOffset)
+        if (!hasPassedDayStart && timeOfDay >= dayRolloverHour)
         {
             hasPassedDayStart = true;
             currentDay++;
             OnDayPassed?.Invoke();
         }
-        else if (hasPassedDayStart && timeOfDay < DayStartOffset)
+        else if (hasPassedDayStart && timeOfDay < dayRolloverHour)
         {
             hasPassedDayStart = false;
         }
@@ -72,7 +73,7 @@ public class TimeManager : MonoBehaviour
         }
     }
 
-    // normalized 값을 시(hour) 단위로 환산
+    // normalized 값을 시(hour) 단위로 환산[
     public float GetCurrentHour() => timeOfDay * 24f;
 
     // 시간대 반환 (Dawn, Day, Sunset, Evening)
@@ -87,14 +88,37 @@ public class TimeManager : MonoBehaviour
         {
             return "Sunset";
         }
-        if (hour >= 7f)
+        if (hour >= 8f)
         {
             return "Day";
         }
-        if (hour >= 5f)
+        if (hour >= 6f)
         {
             return "Dawn";
         }
         return null;
     }
+    
+    // 저장 및 로드
+
+    public TimeSaveData GetSaveData()
+    {
+        return new TimeSaveData
+        {
+            day = currentDay,
+            timeOfDay = this.timeOfDay
+        };
+    }
+
+    public void LoadFromSave(TimeSaveData data)
+    {
+        currentDay = data.day;
+        timeOfDay = data.timeOfDay;
+        hasPassedDayStart = true;
+        currentPeriod = GetPeriodFromHour(GetCurrentHour());
+        
+        OnDayPassed?.Invoke();
+        OnTimePeriodChanged?.Invoke(currentPeriod);
+    }
+    
 }

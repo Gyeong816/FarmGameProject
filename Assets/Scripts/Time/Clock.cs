@@ -9,6 +9,23 @@ public class Clock : MonoBehaviour
     
     [Header("참조")]
     public TMP_Text timeText;
+    public TMP_Text dayText;
+    
+    private void Start()
+    {
+        // 1) 이벤트 구독 (이제 NullReferenceException 없음)
+        TimeManager.Instance.OnDayPassed += UpdateDayText;
+        // 2) 초기 표시
+        UpdateDayText();
+    }
+
+    private void OnDestroy()
+    {
+        // 언구독(메모리 누수 방지)
+        if (TimeManager.Instance != null)
+            TimeManager.Instance.OnDayPassed -= UpdateDayText;
+    }
+
     
     private void Update()
     {
@@ -31,6 +48,14 @@ public class Clock : MonoBehaviour
         }
         
         string ampmText = isPM ? "PM" : "AM";
-        timeText.text = $"{displayHour:00}:{minutes:00} {ampmText}";
+        timeText.text = $"{ampmText} {displayHour:00}:{minutes:00}";
+        
+        
     }
+    
+    private void UpdateDayText()
+    {
+        dayText.text = $"Day {TimeManager.Instance.CurrentDay}";
+    }
+    
 }
