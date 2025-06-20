@@ -39,7 +39,7 @@ public class SkyManager : MonoBehaviour
         TimeManager.Instance.OnTimePeriodChanged += OnPeriodChanged;
     }
 
-    private void OnPeriodChanged(string newPhase)
+    public void OnPeriodChanged(string newPhase)
     {
         // 이전 단계 머티리얼과 새 단계 머티리얼 가져오기
         Material oldSky = GetSkyMaterial(currentPhase);
@@ -55,6 +55,7 @@ public class SkyManager : MonoBehaviour
         // 보간 코루틴 실행
         StartCoroutine(BlendSkyAndLight(oldSky, nextSky, blendDuration));
     }
+    
 
     private IEnumerator BlendSkyAndLight(Material oldM, Material newM, float duration)
     {
@@ -121,14 +122,20 @@ public class SkyManager : MonoBehaviour
         return new SkySaveData { phase = currentPhase };
     }
     
-    public void LoadFromSave(SkySaveData data)
+    
+    public void SetPhaseImmediate(string phase)
     {
-        // 머티리얼 속성 그대로 복사
-        var m = GetSkyMaterial(data.phase);
+        // 1) 머티리얼 즉시 복사
+        var m = GetSkyMaterial(phase);
         RenderSettings.skybox.CopyPropertiesFromMaterial(m);
 
-        // 라이트 컬러 설정
-        directionalLight.color = GetLightColor(data.phase);
-        currentPhase = data.phase;
+        // 2) 라이트 즉시 설정
+        directionalLight.color = GetLightColor(phase);
+
+        // 3) 내부 상태만 교체
+        currentPhase = phase;
     }
+    
+   
+    
 }

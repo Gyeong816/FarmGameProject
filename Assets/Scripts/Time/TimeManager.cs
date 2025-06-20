@@ -13,10 +13,6 @@ public class TimeManager : MonoBehaviour
 
     private float DayStartOffset = 5f / 24f;  
     
-    private int dayRolloverHour = 12;
-    private float DayRolloverOffset => dayRolloverHour / 24f; 
-
-    private bool hasPassedDayStart;                             // 하루 경계 감지 플래그
 
     private int currentDay = 1;
     private float timeOfDay;                                    // 0.0 ~ 1.0 (0==00:00, 1==24:00)
@@ -33,7 +29,6 @@ public class TimeManager : MonoBehaviour
 
             // 게임 시작 시 AM 5시로 초기화
             timeOfDay         = DayStartOffset;
-            hasPassedDayStart = true;  
             currentPeriod     = GetPeriodFromHour(GetCurrentHour());
         }
         else
@@ -49,22 +44,16 @@ public class TimeManager : MonoBehaviour
         if (Input.GetKey(KeyCode.T))
             delta *= fastForwardMultiplier;
         timeOfDay += delta;
-
-        // 2) normalized 값 유지 (하루 단위 순환)
-        if (timeOfDay >= 1f)
-            timeOfDay -= 1f;
+        
 
         // 3) AM 5시 경계 단발성 감지
-        if (!hasPassedDayStart && timeOfDay >= dayRolloverHour)
+        if (timeOfDay >= 1f)
         {
-            hasPassedDayStart = true;
+            timeOfDay -= 1f;
             currentDay++;
             OnDayPassed?.Invoke();
         }
-        else if (hasPassedDayStart && timeOfDay < dayRolloverHour)
-        {
-            hasPassedDayStart = false;
-        }
+
 
         // 4) 시간대 변경 판단
         string newPeriod = GetPeriodFromHour(GetCurrentHour());
@@ -117,7 +106,6 @@ public class TimeManager : MonoBehaviour
     {
         currentDay = data.day;
         timeOfDay = data.timeOfDay;
-        hasPassedDayStart = true;
         currentPeriod = GetPeriodFromHour(GetCurrentHour());
         
         OnDayPassed?.Invoke();

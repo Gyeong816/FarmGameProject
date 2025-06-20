@@ -25,6 +25,7 @@ public class DataSaveManager : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
 
+            FirebaseDatabase.DefaultInstance.SetPersistenceEnabled(false);
             // Firebase 초기화
             auth   = FirebaseAuth.DefaultInstance;
             dbRoot = FirebaseDatabase.DefaultInstance.RootReference;
@@ -91,6 +92,8 @@ public class DataSaveManager : MonoBehaviour
                 string raw = task.Result.GetRawJsonValue();
                 var save  = JsonUtility.FromJson<GameSaveData>(raw);
 
+                TimeManager.Instance.OnTimePeriodChanged -= skyMgr.OnPeriodChanged;
+                
                 // 1) 인벤토리 복원
                 inventoryMgr.LoadFromSave(save.inventory);
 
@@ -98,8 +101,9 @@ public class DataSaveManager : MonoBehaviour
                 timeMgr.LoadFromSave(save.time);
 
                 // 3) 하늘 복원
-                skyMgr.LoadFromSave(save.sky);
+                skyMgr.SetPhaseImmediate(save.sky.phase);
 
+                TimeManager.Instance.OnTimePeriodChanged += skyMgr.OnPeriodChanged;
                 Debug.Log("[DataSaveManager] 게임 전체 로드 완료");
             }
             else

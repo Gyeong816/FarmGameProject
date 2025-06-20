@@ -13,8 +13,7 @@ public class SaveLoadController : MonoBehaviour
 
     private void Start()
     {
-        saveCompleted = false;
-        mainmenuButton.interactable = false;      // 저장 전에는 돌아가기 금지
+        saveCompleted = false; // 저장 전에는 돌아가기 금지
 
         // 씬 시작 시 전체 데이터(인벤토리·시간·하늘)를 불러와 복원
         DataSaveManager.Instance.LoadGame();
@@ -32,8 +31,7 @@ public class SaveLoadController : MonoBehaviour
             {
                 if (task.IsCompleted)
                 {
-                    saveCompleted = true;
-                    mainmenuButton.interactable = true;  // 저장 완료 후에만 버튼 활성화
+                    saveCompleted = true; 
                     Debug.Log("[SaveLoadController] 저장 완료");
                 }
                 else
