@@ -26,9 +26,7 @@ public class DataSaveManager : MonoBehaviour
 
             auth      = FirebaseAuth.DefaultInstance;
             firestore = FirebaseFirestore.DefaultInstance;
-
-         
-            // firestore.Settings = new FirestoreSettings { PersistenceEnabled = false };
+            
         }
         else
         {
