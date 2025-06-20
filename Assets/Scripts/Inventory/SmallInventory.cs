@@ -99,6 +99,7 @@ public class SmallInventory : MonoBehaviour
                     break;
                 
                 case ItemType.Crop:
+                    player.itemId = itemUI.data.id;
                     var cropPrefab = InventoryManager.Instance.GetPrefab(itemUI.data.prefabKey);
                     if (cropPrefab != null)
                     {

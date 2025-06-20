@@ -10,7 +10,7 @@ public class CropInstance : MonoBehaviour
     public int cropNumber;
 
     public bool canHarvest;
-    private int currentStage = 0;
+    public int currentStage = 0;
     private GameObject currentModel;
     private bool isWateredToday;
 
@@ -56,5 +56,13 @@ public class CropInstance : MonoBehaviour
             Destroy(currentModel);
         
         currentModel = Instantiate(cropData.stagePrefabs[currentStage], transform);
+    }
+    
+    public void SetStage(int stage)
+    {
+        currentStage = stage;
+        UpdateCropModel();
+
+        canHarvest = (currentStage >= cropData.stagePrefabs.Length - 1);
     }
 }

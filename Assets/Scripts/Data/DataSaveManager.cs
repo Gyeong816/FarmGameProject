@@ -14,6 +14,7 @@ public class DataSaveManager : MonoBehaviour
     [SerializeField] private InventoryManager inventoryMgr;
     [SerializeField] private TimeManager      timeMgr;
     [SerializeField] private SkyManager       skyMgr;
+    [SerializeField] private MapManager      mapMgr;
 
     private FirebaseAuth      auth;
     private DatabaseReference dbRoot;
@@ -52,7 +53,8 @@ public class DataSaveManager : MonoBehaviour
         {
             inventory = inventoryMgr.GetSaveData(),
             time      = timeMgr.GetSaveData(),
-            sky       = skyMgr.GetSaveData()
+            sky       = skyMgr.GetSaveData(),
+            map       = mapMgr.GetSaveData()
         };
 
         // 2) JSON 직렬화
@@ -94,14 +96,17 @@ public class DataSaveManager : MonoBehaviour
 
                 TimeManager.Instance.OnTimePeriodChanged -= skyMgr.OnPeriodChanged;
                 
-                // 1) 인벤토리 복원
+                // 인벤토리 복원
                 inventoryMgr.LoadFromSave(save.inventory);
 
-                // 2) 시간 복원
+                // 시간 복원
                 timeMgr.LoadFromSave(save.time);
 
-                // 3) 하늘 복원
+                // 하늘 복원
                 skyMgr.SetPhaseImmediate(save.sky.phase);
+                
+                // 타일정보 복원
+                mapMgr.LoadFromSave(save.map);
 
                 TimeManager.Instance.OnTimePeriodChanged += skyMgr.OnPeriodChanged;
                 Debug.Log("[DataSaveManager] 게임 전체 로드 완료");

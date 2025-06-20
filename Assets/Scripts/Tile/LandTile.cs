@@ -69,11 +69,12 @@ public class LandTile : MonoBehaviour
 
     public void ResetTile()
     {
+        isPlowed = false;
         isPlanted = false;
         isWatered = false;
-        grassTile.SetActive(false);
+        grassTile.SetActive(true);
         wateredTile.SetActive(false);
-        plowedTile.SetActive(true);
+        plowedTile.SetActive(false);
     }
     public void MarkPlanted()
     {
@@ -84,6 +85,9 @@ public class LandTile : MonoBehaviour
     {
         isFenceInstalled = true;
     }
-    
+    public bool IsWateredThisDay()
+    {
+        return isWatered;
+    }
     public Vector2Int GetGridPosition() => gridPos;
 }

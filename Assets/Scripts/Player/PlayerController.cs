@@ -91,10 +91,15 @@ public class PlayerController : MonoBehaviour
                 BuildInFront();
                 isPerformingAction =  true;
             }
+            if (state.IsName("Eat") && state.normalizedTime >= usingTime && state.normalizedTime < 1f)
+            {
+                EatItem();
+                isPerformingAction =  true;
+            }
             
         }
         if (state.IsName("Hoe") || state.IsName("Water") || state.IsName("Hammer") ||
-            state.IsName("Plant") || state.IsName("Harvest") || state.IsName("Build"))
+            state.IsName("Plant") || state.IsName("Harvest") || state.IsName("Build") || state.IsName("Eat"))
         {
             return;
         }
@@ -153,7 +158,7 @@ public class PlayerController : MonoBehaviour
                  animator.SetTrigger("Plant"); 
                 break;
             case ItemType.Crop: 
-               // animator.SetTrigger("Eat"); 
+                animator.SetTrigger("Eat"); 
                 break;
             case ItemType.Fence: 
                 animator.SetTrigger("Build"); 
@@ -206,8 +211,11 @@ public class PlayerController : MonoBehaviour
                 break;
         }
     }
-    
-    
+
+    private void EatItem()
+    {
+        InventoryManager.Instance.SubtractItemFromSmallInventory(itemId, 1);
+    }
     private void HoeInFront()
     {
         var checkPos = transform.position + transform.forward * toolDistance;
