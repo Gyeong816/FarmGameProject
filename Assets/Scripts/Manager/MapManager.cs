@@ -76,7 +76,6 @@ public class MapManager : MonoBehaviour
     public void BuildFenceAt(LandTile tile, float rotationY, int itemId)
     {
         if (tile.isPlanted) return;
-        tile.MarkFenced();
 
         Vector3 pos = tile.transform.position;
         Instantiate(fencePrefabs,

@@ -13,7 +13,7 @@ public class LandTile : MonoBehaviour
     public bool isPlanted;
     public bool isPlowed;
     private bool isWatered;
-    private bool isFenceInstalled;
+  
     
     private void Start()
     {
@@ -80,11 +80,7 @@ public class LandTile : MonoBehaviour
     {
         isPlanted = true;
     }
-
-    public void MarkFenced()
-    {
-        isFenceInstalled = true;
-    }
+    
     public bool IsWateredThisDay()
     {
         return isWatered;
