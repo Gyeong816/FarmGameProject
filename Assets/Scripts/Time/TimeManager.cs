@@ -12,7 +12,10 @@ public class TimeManager : MonoBehaviour
     [SerializeField] private float fastForwardMultiplier = 2f;  // 빠른 진행 배율
 
     private float DayStartOffset = 5f / 24f;  
-    private float dayRolloverHour = 12 / 24f;
+    
+    private int dayRolloverHour = 12;
+    private float DayRolloverOffset => dayRolloverHour / 24f; 
+
     private bool hasPassedDayStart;                             // 하루 경계 감지 플래그
 
     private int currentDay = 1;

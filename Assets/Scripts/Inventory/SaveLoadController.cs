@@ -1,62 +1,51 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Firebase.Extensions;
+using System.Threading.Tasks;
 
 public class SaveLoadController : MonoBehaviour
 {
     [SerializeField] private Button saveButton;
     [SerializeField] private Button mainmenuButton;
 
-    private InventoryManager     inventoryManager;
-    private InventoryDataManager dataManager;
-
     private bool saveCompleted;
+
     private void Start()
     {
         saveCompleted = false;
-        inventoryManager = InventoryManager.Instance;
-        dataManager      = FindObjectOfType<InventoryDataManager>();
+        mainmenuButton.interactable = false;      // 저장 전에는 돌아가기 금지
 
-        dataManager.LoadInventory(OnInventoryLoaded);
+        // 씬 시작 시 전체 데이터(인벤토리·시간·하늘)를 불러와 복원
+        DataSaveManager.Instance.LoadGame();
+
         saveButton.onClick.AddListener(OnSaveClicked);
         mainmenuButton.onClick.AddListener(GoToMainMenu);
-    }
-    
-    private void OnInventoryLoaded(List<SlotSaveData> slots)
-    {
-        foreach (var slot in slots)
-            inventoryManager.LoadSlot(slot);
     }
 
     private void OnSaveClicked()
     {
-        // 1) 현재 슬롯 상태를 JSON으로 직렬화
-        var saveData = inventoryManager.GetSaveData();
-        string json  = JsonUtility.ToJson(saveData);
-
-        // 2) 비동기로 저장 시작
-        dataManager
-            .SaveRawJsonAsync(json)
-            .ContinueWithOnMainThread(task =>
+        // 전체 상태를 비동기로 저장
+        DataSaveManager.Instance
+            .SaveGameAsync()
+            .ContinueWithOnMainThread((Task task) =>
             {
                 if (task.IsCompleted)
                 {
                     saveCompleted = true;
+                    mainmenuButton.interactable = true;  // 저장 완료 후에만 버튼 활성화
+                    Debug.Log("[SaveLoadController] 저장 완료");
                 }
                 else
                 {
-                    Debug.LogError("저장 실패: " + task.Exception);
+                    Debug.LogError("[SaveLoadController] 저장 실패: " + task.Exception);
                 }
             });
     }
 
     private void GoToMainMenu()
     {
-        if(!saveCompleted) return;
-        
+        if (!saveCompleted) return;
         SceneManager.LoadScene("MainMenu");
     }
-    
 }

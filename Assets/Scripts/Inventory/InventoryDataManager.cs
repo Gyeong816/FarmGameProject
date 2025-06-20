@@ -31,25 +31,6 @@ public class InventoryDataManager : MonoBehaviour
             .SetRawJsonValueAsync(rawJson);
     }
     
-    public void LoadRawJson(Action<string> onLoaded)
-    {
-        if (auth.CurrentUser == null)
-        {
-            onLoaded?.Invoke(null);
-            return;
-        }
-
-        string path = $"users/{auth.CurrentUser.UserId}/inventory";
-        dbRoot.Child(path)
-            .GetValueAsync()
-            .ContinueWithOnMainThread(task =>
-            {
-                if (task.IsCompleted && task.Result.Exists)
-                    onLoaded?.Invoke(task.Result.GetRawJsonValue());
-                else
-                    onLoaded?.Invoke(null);
-            });
-    }
 
     public void LoadInventory(Action<List<SlotSaveData>> onLoaded)
     {

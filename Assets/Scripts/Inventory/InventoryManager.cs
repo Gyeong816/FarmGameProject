@@ -79,25 +79,7 @@ public class InventoryManager : MonoBehaviour
     
     return save;
   }
-
-  public void LoadSlot(SlotSaveData data)
-  {
-    var slots = (data.inventoryType == InventoryType.Small) 
-      ? smallInventory.Slots : bigInventory.Slots;
-    
-    var targetSlot = slots[data.slotIndex];
-    
-    if (targetSlot.currentItemUI != null)
-      Destroy(targetSlot.currentItemUI.gameObject);
-    
-    var go     = Instantiate(itemUIPrefab, targetSlot.transform);
-    var itemUI = go.GetComponent<ItemUI>();
-    var itemdata = itemDatabase.Find(x => x.id == data.itemId);
-    
-    itemUI.Init(itemdata);
-    itemUI.SetCount(data.count);
-    targetSlot.SetItem(itemUI);
-  }
+  
   
 
   public void AddItemToSmallInventory(int itemId, int amount)
@@ -193,4 +175,54 @@ public class InventoryManager : MonoBehaviour
     return null;
   }
   
+  
+  
+  
+  public void ClearAllSlots()
+  {
+    void Clear(List<SlotUI> slots)
+    {
+      foreach (var slot in slots)
+      {
+        if (slot.currentItemUI != null)
+        {
+          Destroy(slot.currentItemUI.gameObject);
+          slot.currentItemUI = null;
+        }
+      }
+    }
+
+    Clear(smallInventory.Slots);
+    Clear(bigInventory.Slots);
+  }
+
+
+  public void LoadFromSave(InventorySaveData saveData)
+  {
+    // 1) 이전에 표시된 모든 아이템 UI를 지우고
+    ClearAllSlots();
+
+    // 2) 저장된 슬롯 정보만큼 LoadSlot 호출
+    foreach (var slot in saveData.savedInvenDatas)
+      LoadSlot(slot);
+  }
+  
+  public void LoadSlot(SlotSaveData data)
+  {
+    var slots = (data.inventoryType == InventoryType.Small) 
+      ? smallInventory.Slots : bigInventory.Slots;
+    
+    var targetSlot = slots[data.slotIndex];
+    
+    if (targetSlot.currentItemUI != null)
+      Destroy(targetSlot.currentItemUI.gameObject);
+    
+    var go     = Instantiate(itemUIPrefab, targetSlot.transform);
+    var itemUI = go.GetComponent<ItemUI>();
+    var itemdata = itemDatabase.Find(x => x.id == data.itemId);
+    
+    itemUI.Init(itemdata);
+    itemUI.SetCount(data.count);
+    targetSlot.SetItem(itemUI);
+  }
 }
