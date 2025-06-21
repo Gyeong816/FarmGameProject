@@ -1,10 +1,10 @@
-id	seedId	itemType	itemName	prefabKey	uiPrefabKey	price	shopStockCount
-0	-1	Hoe	Hoe	Hoe	UI_Hoe	100	1
-1	-1	WateringPot	WateringPot	WateringPot	UI_WateringPot	150	1
-2	-1	Sickle	Sickle	Sickle	UI_Sickle	120	1
-4	-1	Hammer	Hammer	Hammer	UI_Hammer	100	1
-5	-1	Fence	Fence	Fence	UI_Fence	25	10
-6	0	Seed	Seed_Corn	Seed_Corn	UI_Seed_Corn	20	5
-7	1	Seed	Seed_Carrot	Seed_Carrot	UI_Seed_Carrot	30	5
-8	-1	Crop	Crop_Corn	Crop_Corn	UI_Crop_Corn	40	2
-9	-1	Crop	Crop_Carrot	Crop_Carrot	UI_Crop_Carrot	50	2
+id	seedId	itemType	itemName	prefabKey	uiPrefabKey	price	itemCount	staminaRecovery
+0	-1	Hoe	Hoe	Hoe	UI_Hoe	100	1	0
+1	-1	WateringPot	WateringPot	WateringPot	UI_WateringPot	150	1	0
+2	-1	Sickle	Sickle	Sickle	UI_Sickle	120	1	0
+4	-1	Hammer	Hammer	Hammer	UI_Hammer	100	1	0
+5	-1	Fence	Fence	Fence	UI_Fence	25	10	0
+6	0	Seed	Seed_Corn	Seed_Corn	UI_Seed_Corn	20	5	0
+7	1	Seed	Seed_Carrot	Seed_Carrot	UI_Seed_Carrot	30	5	0
+8	-1	Crop	Crop_Corn	Crop_Corn	UI_Crop_Corn	40	2	15
+9	-1	Crop	Crop_Carrot	Crop_Carrot	UI_Crop_Carrot	50	2	20

@@ -91,6 +91,21 @@ public class TimeManager : MonoBehaviour
         return null;
     }
     
+    public void SkipNight()
+    {
+        // 1) 날짜 증가
+        currentDay++;
+        OnDayPassed?.Invoke();
+
+        // 2) 시간 초기화 (AM 5시)
+        timeOfDay     = DayStartOffset;
+        currentPeriod = GetPeriodFromHour(GetCurrentHour());
+        OnTimePeriodChanged?.Invoke(currentPeriod);
+        
+        Debug.Log($"Skipped to Day {currentDay}");
+    }
+    
+    
     // 저장 및 로드
 
     public TimeSaveData GetSaveData()

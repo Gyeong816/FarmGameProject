@@ -10,6 +10,7 @@ public class InventoryManager : MonoBehaviour
 
   [Header("아이템 데이터베이스")] 
   public List<ItemData> itemDatabase;
+  private Dictionary<int, ItemData> dataDict;
   
   [Header("인벤토리")]
   public SmallInventory smallInventory;
@@ -31,6 +32,8 @@ public class InventoryManager : MonoBehaviour
       if (prefab != null)
         prefabDic[prefab.name] = prefab;
     }
+    
+    dataDict = new Dictionary<int, ItemData>();
   }
 
   private async void Start()
@@ -39,6 +42,13 @@ public class InventoryManager : MonoBehaviour
     var itemDataList = await TsvLoader.LoadTableAsync<ItemData>("ItemTable");
 
     itemDatabase = itemDataList;
+    
+    dataDict.Clear();
+    foreach (var data in itemDatabase)
+    {
+      dataDict[data.id] = data;
+    }
+    
     shopInventory.shopItemDatabase = itemDataList;  
     shopInventory.ShowAllItems();
     
@@ -91,16 +101,28 @@ public class InventoryManager : MonoBehaviour
       return;
     }
     
+    foreach (var slot in smallInventory.Slots)
+    {
+      var existing = slot.currentItemUI;
+      if (existing != null && existing.data.id == itemId)
+      {
+        existing.AddItemCount(amount);
+        return;
+      }
+    }
+    
     var emptySlot = smallInventory.Slots.Find(s => s.IsEmpty);
     if (emptySlot == null)
     {
       AddItemToBigInventory(itemId, amount);
       return;
     }
+    
     var go = Instantiate(itemUIPrefab, emptySlot.transform);
     var itemUI = go.GetComponent<ItemUI>();
-    itemUI.data = data;
     emptySlot.SetItem(itemUI);
+    itemUI.Init(data);
+    itemUI.AddItemCount(amount);
   }
   
   public void AddItemToBigInventory(int itemId, int amount)
@@ -175,6 +197,12 @@ public class InventoryManager : MonoBehaviour
     return null;
   }
   
+  public ItemData GetItemData(int id)
+  {
+    if (dataDict.TryGetValue(id, out var data))
+      return data;
+    return null;
+  }
   
   
   

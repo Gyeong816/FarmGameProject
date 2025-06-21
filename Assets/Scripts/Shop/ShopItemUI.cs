@@ -27,7 +27,7 @@ public class ShopItemUI : MonoBehaviour
     public void Init(ItemData data)
     {
         this.data = data;
-        itemCount = data.shopStockCount;
+        itemCount = data.itemCount;
         nameText.text = data.itemName;
         priceText.text = data.price.ToString();
        

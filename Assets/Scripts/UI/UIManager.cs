@@ -12,6 +12,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject merchantInven;
     [SerializeField] private GameObject smallInven;
     [SerializeField] private GameObject pauseMenuPanel;
+    [SerializeField] private GameObject sleepPanel;
     [SerializeField] private CameraController cameraController;
     [SerializeField] private Button closePauseMenuPanel;
 
@@ -21,6 +22,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject shopPromptUI;
     [SerializeField] private BigInventory bigInventory;
     
+    [Header("수면 UI")]
+    [SerializeField] private Button sleepButton;
+    
     private GameObject currentPromptUI;
     
     [SerializeField] private Vector3 worldOffset = new Vector3(0, 2f, 0);
@@ -29,6 +33,7 @@ public class UIManager : MonoBehaviour
     private bool canSleep;
     private bool canOpenBox;
     private bool openMenu;
+    private bool openSleepPanel;
     
     public enum PromptType { House, Box, Shop }
 
@@ -47,6 +52,7 @@ public class UIManager : MonoBehaviour
 
         mainCam = Camera.main;
         closePauseMenuPanel.onClick.AddListener(OnPauseMenuPanel);
+        sleepButton.onClick.AddListener(OnSleep);
     }
 
     private void Start()
@@ -72,9 +78,14 @@ public class UIManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if(canTrade)
-             OnInven(true);
-            
+            if (canTrade)
+            {
+                OnInven(true);
+            }
+            if (canSleep)
+            {
+                OnSleepPanel();
+            }
         }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -82,6 +93,30 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    private void OnSleepPanel()
+    {
+        if (!openSleepPanel)
+        {
+            cameraController?.IsInventoryOpen();
+            openSleepPanel = true;
+            sleepPanel.SetActive(true);
+            
+            Time.timeScale = 0f;
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = true;
+        }
+        else
+        {
+            cameraController?.IsInventoryClose();
+            openSleepPanel = false;
+            sleepPanel.SetActive(false);
+            
+            Time.timeScale = 1f;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+    }
+    
     private void OnPauseMenuPanel()
     {
         if (!openMenu)
@@ -122,7 +157,7 @@ public class UIManager : MonoBehaviour
             }
             else
             {
-                smallInven.SetActive(false);
+                smallInven.SetActive(true);
                 merchantInven.SetActive(true);
                 bigInventory.CanSell(true);
             }
@@ -163,12 +198,14 @@ public class UIManager : MonoBehaviour
 
     public void ShowPromptUI(Transform target, PromptType type)
     {
+    
         promptTarget = target;
         
         switch (type)
         {
             case PromptType.House:
                 currentPromptUI = housePromptUI;
+                canSleep = true;
                 break;
             case PromptType.Box:
                 currentPromptUI = boxPromptUI;
@@ -187,6 +224,7 @@ public class UIManager : MonoBehaviour
     {
         promptTarget = null;
         canTrade = false;
+        canSleep = false;
         
         if (currentPromptUI != null)
         {
@@ -194,4 +232,20 @@ public class UIManager : MonoBehaviour
             currentPromptUI = null;
         }
     }
+    
+    private void OnSleep()
+    {
+        // 2) 시간 스킵
+        TimeManager.Instance.SkipNight();
+        
+        
+
+        // 3) 게임 재시작(시간 정상 진행)
+        Time.timeScale = 1f;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
+        Debug.Log("Player slept. Time skipped to next morning.");
+    }
+
 }

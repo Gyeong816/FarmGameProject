@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
@@ -28,6 +29,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject hammerObj;
     [SerializeField] private GameObject hammerCol;
     
+    [Header("스태미나")]
+    [SerializeField] private Slider staminaSlider; 
+    [SerializeField] private float maxStamina = 100f;
+    [SerializeField] private float staminaCostPerAction = 5f;    // 도구 사용 시 고정 감소량
+    [SerializeField] private float staminaRecoveryPerFood = 20f;  // 음식 먹을 때 고정 회복량
+    public float currentStamina;
+    
     private LandTile lastHighlighted; 
     public ItemType currentItem = ItemType.None;
     public int itemId;
@@ -46,6 +54,11 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        currentStamina = maxStamina;
+        staminaSlider.minValue = 0f;
+        staminaSlider.maxValue = maxStamina;
+        staminaSlider.value    = currentStamina;
+        
         controller = GetComponent<CharacterController>();
         animator = GetComponentInChildren<Animator>();
     }
@@ -64,31 +77,37 @@ public class PlayerController : MonoBehaviour
             if (state.IsName("Hoe") && state.normalizedTime >= usingTime && state.normalizedTime < 1f)
             {
                 HoeInFront();
+                ChangeStamina(-staminaCostPerAction);
                 isPerformingAction =  true;
             }
             if (state.IsName("Water") && state.normalizedTime >= usingTime && state.normalizedTime < 1f)
             {
                 WaterInFront();
+                ChangeStamina(-staminaCostPerAction);
                 isPerformingAction =  true;
             }
             if (state.IsName("Plant") && state.normalizedTime >= usingTime && state.normalizedTime < 1f)
             {
                 PlantInFront();
+                ChangeStamina(-staminaCostPerAction);
                 isPerformingAction =  true;
             }
             if (state.IsName("Hammer") && state.normalizedTime >= usingTime && state.normalizedTime < 1f)
             {
                 hammerCol.SetActive(true);
+                ChangeStamina(-staminaCostPerAction);
                 isPerformingAction =  true;
             }
             if (state.IsName("Harvest") && state.normalizedTime >= usingTime && state.normalizedTime < 1f)
             {
                 HarvestInFront();
+                ChangeStamina(-staminaCostPerAction);
                 isPerformingAction =  true;
             }
             if (state.IsName("Build") && state.normalizedTime >= usingTime && state.normalizedTime < 1f)
             {
                 BuildInFront();
+                ChangeStamina(-staminaCostPerAction);
                 isPerformingAction =  true;
             }
             if (state.IsName("Eat") && state.normalizedTime >= usingTime && state.normalizedTime < 1f)
@@ -212,9 +231,20 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void ChangeStamina(float amount)
+    {
+        currentStamina = Mathf.Clamp(currentStamina + amount, 0, maxStamina);
+        staminaSlider.value = currentStamina;
+    }
     private void EatItem()
     {
         InventoryManager.Instance.SubtractItemFromSmallInventory(itemId, 1);
+        
+        var itemData = InventoryManager.Instance.GetItemData(itemId);
+        if (itemData != null)
+        {
+            ChangeStamina(itemData.staminaRecovery);
+        }
     }
     private void HoeInFront()
     {

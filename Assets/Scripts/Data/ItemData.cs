@@ -12,7 +12,9 @@ public class ItemData
     public string uiPrefabKey { get; set; }
     public int price { get; set; }
     
-    public int shopStockCount { get; set; }
+    public int itemCount { get; set; }
+    
+    public int staminaRecovery { get; set; }
 
     [NonSerialized] public bool isSoldOut = false;
 }
