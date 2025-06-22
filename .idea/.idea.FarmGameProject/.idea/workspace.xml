@@ -27,6 +27,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Shop/ShopItemUI.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Shop/WarningPanel.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/UI/ItemUI.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Weather/WeatherManager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Editor/UI/GraphicEditor.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/EventSystem/EventInterfaces.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
@@ -132,7 +133,13 @@
       <workItem from="1750379157737" duration="25991000" />
       <workItem from="1750501410192" duration="394000" />
       <workItem from="1750501843939" duration="141000" />
-      <workItem from="1750502820367" duration="5061000" />
+      <workItem from="1750502820367" duration="5562000" />
+      <workItem from="1750575515883" duration="1571000" />
+      <workItem from="1750577287354" duration="57000" />
+      <workItem from="1750577378972" duration="110000" />
+      <workItem from="1750577533184" duration="321000" />
+      <workItem from="1750578797258" duration="1898000" />
+      <workItem from="1750580745231" duration="606000" />
     </task>
     <servers />
   </component>

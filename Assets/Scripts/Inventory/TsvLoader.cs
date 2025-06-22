@@ -19,7 +19,7 @@ public static class TsvLoader
     };
 
 
-    public static async Task<List<ItemData>> LoadTableAsync<ItemData>(string tableName)
+    public static async Task<List<ItemData>> LoadTableAsync<T>(string tableName)
     {
        
         string folderPath = Path.Combine(Application.streamingAssetsPath, "Table");

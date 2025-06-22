@@ -70,6 +70,9 @@ public class MapManager : MonoBehaviour
         
         plantedCrops[tile.gridPos] = seed;
         
+        if (tile.IsWateredThisDay())
+            seed.Water();  
+        
         InventoryManager.Instance.SubtractItemFromSmallInventory(itemId, 1);
     }
 
@@ -148,6 +151,25 @@ public class MapManager : MonoBehaviour
         {
             crop.Water();
         }
+    }
+    
+    public void WaterAllPlowedTiles()
+    {
+        // (1) 타일 중 plowed 상태인 것만 Water() 호출
+        foreach (var tile in tiles.Values)
+        {
+            if (tile.isPlowed && !tile.IsWateredThisDay())
+                tile.Water();
+        }
+
+        // (2) 이미 심어진 작물에도 Water()
+        foreach (var crop in plantedCrops.Values)
+        {
+            if (crop != null)
+                crop.Water();
+        }
+
+        Debug.Log("[MapManager] Plowed tiles have been watered.");
     }
     
     // 저장 및 로드

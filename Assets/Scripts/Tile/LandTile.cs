@@ -54,9 +54,14 @@ public class LandTile : MonoBehaviour
     public void Hoe()
     {
         if (isPlowed) return;
+        
+        
         isPlowed = true;
         grassTile.SetActive(false);
         plowedTile.SetActive(true);
+        
+        if (WeatherManager.Instance.isRaining)
+            Water();
     }
     public void Water()
     {
@@ -65,6 +70,7 @@ public class LandTile : MonoBehaviour
         plowedTile.SetActive(false);
         wateredTile.SetActive(true);
         MapManager.Instance.WaterCropAt(this);
+        
     }
 
     public void ResetTile()
