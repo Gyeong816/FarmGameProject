@@ -1,5 +1,0 @@
-npcId	id	text	nextId	option1	option1Next	option2	option2Next	option3	option3Next
-Merchant	1	Hello! What can I do for you?	0	Show me your goods	2	Is there anything I can help you with?	3	See you next time!	4
-Merchant	2	I have a variety of items in stock.	0					
-Merchant	3	Could you bring me two ears of corn? I'll reward you generously.	0					
-Merchant	4	Please come by again!	0			

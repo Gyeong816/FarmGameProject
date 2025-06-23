@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -7,14 +8,20 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
 
-    [Header("기본 UI")]
-    [SerializeField] private GameObject inventoryUI;
-    [SerializeField] private GameObject merchantInven;
-    [SerializeField] private GameObject smallInven;
+    [Header("기본 Panel")]
+    [SerializeField] private GameObject shopInvenPanel;
+    [SerializeField] private GameObject bigInvenPanel;
     [SerializeField] private GameObject pauseMenuPanel;
     [SerializeField] private GameObject sleepPanel;
+    [SerializeField] private GameObject dialoguePanel;
+    [SerializeField] private GameObject backGround;
+    
+    
+    [Header("기본 참조")]
     [SerializeField] private CameraController cameraController;
     [SerializeField] private Button closePauseMenuPanel;
+    [SerializeField] private DialogueManager dialogueManager;
+    
    
 
     [Header("상인 상호작용")]
@@ -23,46 +30,46 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject shopPromptUI;
     [SerializeField] private BigInventory bigInventory;
     
-    [Header("수면 UI")]
+    [Header("버튼 UI")]
     [SerializeField] private Button sleepButton;
-    
+    [SerializeField] private Button confirmButton;
+    [SerializeField] private Button openShopButton;
+    [SerializeField] private Button closeShopButton;
     private GameObject currentPromptUI;
     
     [SerializeField] private Vector3 worldOffset = new Vector3(0, 2f, 0);
     private Transform promptTarget;
-    private bool canTrade;
-    private bool canSleep;
-    private bool canOpenBox;
-    private bool openMenu;
-    private bool openSleepPanel;
     
-    public enum PromptType { House, Box, Shop }
-
-    private bool isInventoryOpen = false;
-    public bool IsInventoryOpen => isInventoryOpen;
+    public enum PromptType { House, Box, Npc, None }
+    
+    private PromptType currentPromptType = PromptType.None;
+    public bool IsPanelOpen => isPanelOpen;
+    
+    private bool isPanelOpen; 
     private Camera mainCam;
-
+    private int npcId;
+    
     private void Awake()
     {
         if (Instance == null)
             Instance = this;
         else
-        {
             Destroy(gameObject);
-            return;
-        }
+        
 
         mainCam = Camera.main;
-        closePauseMenuPanel.onClick.AddListener(OnPauseMenuPanel);
+        
+        closePauseMenuPanel.onClick.AddListener(() => TogglePanel(pauseMenuPanel));
         sleepButton.onClick.AddListener(OnSleep);
+        confirmButton.onClick.AddListener(() => TogglePanel(dialoguePanel));
+        openShopButton.onClick.AddListener(OpenShopPanel);
+        closeShopButton.onClick.AddListener(() => TogglePanel(bigInvenPanel,shopInvenPanel));
     }
 
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-
-        inventoryUI.SetActive(false);
     }
 
     private void Update()
@@ -71,116 +78,72 @@ public class UIManager : MonoBehaviour
         UpdatePromptUIPosition();
     }
 
+    
     private void HandleInventoryToggle()
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            OnInven(false);
+            TogglePanel(bigInvenPanel);
         }
-
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (canTrade)
+            switch (currentPromptType)
             {
-                OnInven(true);
-            }
-            if (canSleep)
-            {
-                OnSleepPanel();
+                case PromptType.House:
+                    TogglePanel(sleepPanel);
+                    break;
+                case PromptType.Box:
+                    //TogglePanel(boxPanel);
+                    break;
+                case PromptType.Npc:
+                    dialogueManager.ShowNpcDialogue(npcId, 0);
+                    TogglePanel(dialoguePanel);
+                    break;
             }
         }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            OnPauseMenuPanel();
+            TogglePanel(pauseMenuPanel);
         }
     }
 
-    private void OnSleepPanel()
-    {
-        if (!openSleepPanel)
-        {
-            cameraController?.IsInventoryOpen();
-            openSleepPanel = true;
-            sleepPanel.SetActive(true);
-            
-            Time.timeScale = 0f;
-            Cursor.lockState = CursorLockMode.Confined;
-            Cursor.visible = true;
-        }
-        else
-        {
-            cameraController?.IsInventoryClose();
-            openSleepPanel = false;
-            sleepPanel.SetActive(false);
-            
-            Time.timeScale = 1f;
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        }
-    }
-    
-    private void OnPauseMenuPanel()
-    {
-        if (!openMenu)
-        {
-            cameraController?.IsInventoryOpen();
-            openMenu = true;
-            pauseMenuPanel.SetActive(true);
-            
-            Time.timeScale = 0f;
-            Cursor.lockState = CursorLockMode.Confined;
-            Cursor.visible = true;
-        }
-        else
-        {
-            cameraController?.IsInventoryClose();
-            openMenu = false;
-            pauseMenuPanel.SetActive(false);
-            
-            Time.timeScale = 1f;
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        }
-    }
-    
-    private void OnInven(bool isTrading)
-    {
-        if (!isInventoryOpen)
-        {
-            cameraController?.IsInventoryOpen();
-            isInventoryOpen = true;
-            inventoryUI.SetActive(true);
 
-            if (!isTrading)
-            {
-                merchantInven.SetActive(false);
-                smallInven.SetActive(true);
-                bigInventory.CanSell(false);
-            }
-            else
-            {
-                smallInven.SetActive(true);
-                merchantInven.SetActive(true);
-                bigInventory.CanSell(true);
-            }
-               
+    public void OpenShopPanel()
+    {
+        TogglePanel(dialoguePanel);
+        TogglePanel(bigInvenPanel,shopInvenPanel);
+    }
+    
+    private void TogglePanel(params GameObject[] panels)
+    {
+        if (!isPanelOpen)
+        {
+            isPanelOpen = true;
             
-            Time.timeScale = 0f;
-            Cursor.lockState = CursorLockMode.Confined;
-            Cursor.visible = true;
+            foreach (var p in panels)
+                p.SetActive(true);
+            backGround.SetActive(true);
+            cameraController?.IsInventoryOpen();
+            Time.timeScale       = 0f;
+            Cursor.lockState     = CursorLockMode.Confined;
+            Cursor.visible       = true;
         }
         else
         {
+            isPanelOpen = false;
+            
+            foreach (var p in panels)
+                p.SetActive(false);
+            backGround.SetActive(false);
             cameraController?.IsInventoryClose();
-            isInventoryOpen = false;
-            inventoryUI.SetActive(false);
-            Time.timeScale = 1f;
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
+            Time.timeScale       = 1f;
+            Cursor.lockState     = CursorLockMode.Locked;
+            Cursor.visible       = false;
         }
     }
-    
 
+
+    
     private void UpdatePromptUIPosition()
     {
         if (promptTarget == null || currentPromptUI == null)
@@ -198,35 +161,34 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void ShowPromptUI(Transform target, PromptType type)
-    {
     
+    
+    public void ShowPromptUI(Transform target, PromptType type, int npcId)
+    {
+        this.npcId = npcId;
         promptTarget = target;
-        
         switch (type)
         {
             case PromptType.House:
                 currentPromptUI = housePromptUI;
-                canSleep = true;
+                currentPromptType = PromptType.House;
                 break;
             case PromptType.Box:
                 currentPromptUI = boxPromptUI;
+                currentPromptType = PromptType.Box;
                 break;
-            case PromptType.Shop:
-                currentPromptUI = shopPromptUI;
-                canTrade = true;
+            case PromptType.Npc:
+                currentPromptUI = shopPromptUI;  
+                currentPromptType = PromptType.Npc;
                 break;
         }
-        
         currentPromptUI.SetActive(true);
     }
     
-
     public void HidePromptUI()
     {
         promptTarget = null;
-        canTrade = false;
-        canSleep = false;
+        npcId = 0;
         
         if (currentPromptUI != null)
         {
@@ -237,16 +199,11 @@ public class UIManager : MonoBehaviour
     
     private void OnSleep()
     {
-        // 2) 시간 스킵
         TimeManager.Instance.SkipNight();
-        
-
-        // 3) 게임 재시작(시간 정상 진행)
+        MapManager.Instance.WaterAllPlowedTiles();
         Time.timeScale = 1f;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-
-        Debug.Log("Player slept. Time skipped to next morning.");
     }
 
 }

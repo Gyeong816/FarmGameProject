@@ -19,7 +19,7 @@ public static class TsvLoader
     };
 
 
-    public static async Task<List<ItemData>> LoadTableAsync<T>(string tableName)
+    public static async Task<List<T>> LoadTableAsync<T>(string tableName)
     {
        
         string folderPath = Path.Combine(Application.streamingAssetsPath, "Table");
@@ -34,9 +34,9 @@ public static class TsvLoader
         using StreamReader reader = new StreamReader(filePath);
         using CsvReader csv = new CsvReader(reader, TsvConfig);
 
-        var records = new List<ItemData>();
+        var records = new List<T>();
         
-        await foreach (var record in csv.GetRecordsAsync<ItemData>())
+        await foreach (var record in csv.GetRecordsAsync<T>())
         {
             records.Add(record);
         }

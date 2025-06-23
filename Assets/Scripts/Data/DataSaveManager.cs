@@ -22,8 +22,6 @@ public class DataSaveManager : MonoBehaviour
         
         auth      = FirebaseAuth.DefaultInstance;
         firestore = FirebaseFirestore.DefaultInstance;
-        
-        LoadGame();
     }
 
 

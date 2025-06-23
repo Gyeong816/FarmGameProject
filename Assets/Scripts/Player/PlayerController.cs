@@ -139,7 +139,7 @@ public class PlayerController : MonoBehaviour
     
     private void HandleInput()
     {
-        if (UIManager.Instance.IsInventoryOpen)
+        if (UIManager.Instance.IsPanelOpen)
             return;
         
         moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));

@@ -17,7 +17,8 @@ public class SaveLoadController : MonoBehaviour
     {
         saveCompleted = false; 
         
-
+        dataSaveManager.LoadGame();
+        
         saveButton.onClick.AddListener(OnSaveClicked);
         mainmenuButton.onClick.AddListener(GoToMainMenu);
     }
@@ -44,6 +45,7 @@ public class SaveLoadController : MonoBehaviour
     private void GoToMainMenu()
     {
         if (!saveCompleted) return;
+        Time.timeScale = 1f; 
         SceneManager.LoadScene("MainMenu");
     }
 }

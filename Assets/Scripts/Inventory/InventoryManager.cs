@@ -40,6 +40,8 @@ public class InventoryManager : MonoBehaviour
     
     dataDict = new Dictionary<int, ItemData>();
   }
+  
+  
 
   private async void Start()
   {

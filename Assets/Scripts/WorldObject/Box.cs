@@ -8,7 +8,7 @@ public class Box : MonoBehaviour
     {
         if (!other.CompareTag("Player")) return;
 
-        UIManager.Instance.ShowPromptUI(gameObject.transform,UIManager.PromptType.Box);
+        UIManager.Instance.ShowPromptUI(gameObject.transform,UIManager.PromptType.Box,0);
     }
 
     private void OnTriggerExit(Collider other)
