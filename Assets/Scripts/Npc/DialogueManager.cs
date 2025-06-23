@@ -26,6 +26,8 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private GameObject confirmButtonObj;
     [SerializeField] private GameObject optionButtonObj;
     [SerializeField] private GameObject shopButtonObj;
+    [SerializeField] private GameObject denyButtonObj;
+    [SerializeField] private GameObject acceptButtonObj;
     
     public List<DialogueLine> dialogueDatabase;
     
@@ -61,6 +63,8 @@ public class DialogueManager : MonoBehaviour
     {
         shopButtonObj.SetActive(false);
         confirmButtonObj.SetActive(false);
+        denyButtonObj.SetActive(false);
+        acceptButtonObj.SetActive(false);
         optionButtonObj.SetActive(true);
         
         optionButton1.onClick.RemoveAllListeners();
@@ -91,7 +95,8 @@ public class DialogueManager : MonoBehaviour
             case 2:
                 npcCurrentText.text = dialogueDict[npcId].answer2;
                 optionButtonObj.SetActive(false);
-                confirmButtonObj.SetActive(true);
+                acceptButtonObj.SetActive(true);
+                denyButtonObj.SetActive(true);
                 break;
             case 3:
                 npcCurrentText.text = dialogueDict[npcId].answer3;
@@ -100,6 +105,8 @@ public class DialogueManager : MonoBehaviour
                 break;
    
         }
+        
+        
     }
 
 

@@ -154,10 +154,18 @@ public class PlayerController : MonoBehaviour
     }
     private void UpdateAnimation()
     {
-        if (moveInput.sqrMagnitude >= 0.01f)
-            animator.SetBool("Walk", true);
-        else
+        bool isMoving = moveInput.sqrMagnitude >= 0.01f;
+
+        // 달리기 중이면 Run, 아니면 Walk
+        animator.SetBool("Run", isMoving && isRunning);
+        animator.SetBool("Walk", isMoving);
+
+        // 멈췄으면 둘 다 끔
+        if (!isMoving)
+        {
+            animator.SetBool("Run", false);
             animator.SetBool("Walk", false);
+        }
     }
 
     public void UseItem()
