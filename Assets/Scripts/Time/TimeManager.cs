@@ -10,7 +10,7 @@ public class TimeManager : MonoBehaviour
     [Header("시간 설정")]
     [SerializeField] private float dayDuration = 120f;          // 하루 길이(초)
     [SerializeField] private float fastForwardMultiplier = 2f;  // 빠른 진행 배율
-
+    [SerializeField] private SkyManager skyManager;
     private float DayStartOffset = 5f / 24f;  
     
 
@@ -26,15 +26,17 @@ public class TimeManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-
-            // 게임 시작 시 AM 5시로 초기화
-            timeOfDay         = DayStartOffset;
-            currentPeriod     = GetPeriodFromHour(GetCurrentHour());
         }
         else
         {
             Destroy(gameObject);
         }
+    }
+
+    private void Start()
+    {
+        timeOfDay         = DayStartOffset;
+        currentPeriod     = GetPeriodFromHour(GetCurrentHour());
     }
 
     private void Update()
@@ -101,6 +103,9 @@ public class TimeManager : MonoBehaviour
         timeOfDay     = DayStartOffset;
         currentPeriod = GetPeriodFromHour(GetCurrentHour());
         OnTimePeriodChanged?.Invoke(currentPeriod);
+        
+        skyManager.StopAllCoroutines();
+        skyManager.SetPhaseImmediate(currentPeriod);
         
         Debug.Log($"Skipped to Day {currentDay}");
     }

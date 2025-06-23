@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MapManager : MonoBehaviour
 {
-    public static MapManager Instance { get; private set; }
+    public static MapManager Instance;
     
     
     [Header("농작물 프리팹")]
@@ -22,7 +22,10 @@ public class MapManager : MonoBehaviour
     private Dictionary<Vector2Int, CropInstance> plantedCrops = new();
     private void Awake()
     {
-        Instance = this;
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
         
         tiles = new Dictionary<Vector2Int, LandTile>();
         foreach (var tile in GetComponentsInChildren<LandTile>())

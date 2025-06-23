@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 using Firebase;
 using Firebase.Auth;
 using Firebase.Extensions;
+using TMPro;
 
 public class LoginManager : MonoBehaviour
 {
@@ -15,7 +16,7 @@ public class LoginManager : MonoBehaviour
     [SerializeField] private InputField loginEmail;
     [SerializeField] private InputField loginPassword;
     [SerializeField] private Button loginButton;
-    [SerializeField] private Text loginStatus;
+    [SerializeField] private TMP_Text loginStatus;
     [SerializeField] private Button goToRegisterButton;
 
     [Header("Register UI")]

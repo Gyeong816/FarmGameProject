@@ -15,6 +15,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject sleepPanel;
     [SerializeField] private CameraController cameraController;
     [SerializeField] private Button closePauseMenuPanel;
+   
 
     [Header("상인 상호작용")]
     [SerializeField] private GameObject housePromptUI;
@@ -38,6 +39,7 @@ public class UIManager : MonoBehaviour
     public enum PromptType { House, Box, Shop }
 
     private bool isInventoryOpen = false;
+    public bool IsInventoryOpen => isInventoryOpen;
     private Camera mainCam;
 
     private void Awake()
@@ -237,7 +239,6 @@ public class UIManager : MonoBehaviour
     {
         // 2) 시간 스킵
         TimeManager.Instance.SkipNight();
-        
         
 
         // 3) 게임 재시작(시간 정상 진행)

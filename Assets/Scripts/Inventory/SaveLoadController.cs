@@ -8,15 +8,15 @@ public class SaveLoadController : MonoBehaviour
 {
     [SerializeField] private Button saveButton;
     [SerializeField] private Button mainmenuButton;
+    [SerializeField] private DataSaveManager dataSaveManager;
+    
 
     private bool saveCompleted;
 
     private void Start()
     {
-        saveCompleted = false; // 저장 전에는 돌아가기 금지
-
-        // 씬 시작 시 전체 데이터(인벤토리·시간·하늘)를 불러와 복원
-        DataSaveManager.Instance.LoadGame();
+        saveCompleted = false; 
+        
 
         saveButton.onClick.AddListener(OnSaveClicked);
         mainmenuButton.onClick.AddListener(GoToMainMenu);
@@ -24,8 +24,8 @@ public class SaveLoadController : MonoBehaviour
 
     private void OnSaveClicked()
     {
-        // 전체 상태를 비동기로 저장
-        DataSaveManager.Instance
+    
+        dataSaveManager
             .SaveGameAsync()
             .ContinueWithOnMainThread((Task task) =>
             {

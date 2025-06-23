@@ -7,7 +7,6 @@ using UnityEngine;
 
 public class DataSaveManager : MonoBehaviour
 {
-    public static DataSaveManager Instance { get; private set; }
 
     [Header("Managers")]
     [SerializeField] private InventoryManager inventoryMgr;
@@ -20,18 +19,11 @@ public class DataSaveManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-
-            auth      = FirebaseAuth.DefaultInstance;
-            firestore = FirebaseFirestore.DefaultInstance;
-            
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        
+        auth      = FirebaseAuth.DefaultInstance;
+        firestore = FirebaseFirestore.DefaultInstance;
+        
+        LoadGame();
     }
 
 

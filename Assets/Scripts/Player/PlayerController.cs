@@ -139,6 +139,9 @@ public class PlayerController : MonoBehaviour
     
     private void HandleInput()
     {
+        if (UIManager.Instance.IsInventoryOpen)
+            return;
+        
         moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         isRunning = Input.GetKey(KeyCode.LeftShift);
         isJumping = Input.GetKeyDown(KeyCode.Space);

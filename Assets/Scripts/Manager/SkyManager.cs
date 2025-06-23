@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SkyManager : MonoBehaviour
 {
+    
+    
     public float blendDuration;
     
     [Header("Sky Materials")]
@@ -41,18 +43,11 @@ public class SkyManager : MonoBehaviour
 
     public void OnPeriodChanged(string newPhase)
     {
-        // 이전 단계 머티리얼과 새 단계 머티리얼 가져오기
         Material oldSky = GetSkyMaterial(currentPhase);
         Material nextSky = GetSkyMaterial(newPhase);
-
-        // null 예외처리 없이 바로 라이트 컬러 가져오기
         startLightColor = directionalLight.color;
         targetLightColor = GetLightColor(newPhase);
-
-        // 현재 단계 업데이트
         currentPhase = newPhase;
-
-        // 보간 코루틴 실행
         StartCoroutine(BlendSkyAndLight(oldSky, nextSky, blendDuration));
     }
     

@@ -23,9 +23,14 @@ public class InventoryManager : MonoBehaviour
   private Dictionary<string, GameObject> prefabDic = new Dictionary<string, GameObject>();
   private void Awake()
   {
-    if(Instance == null)
+    if (Instance == null)
+    {
       Instance = this;
-    else Destroy(gameObject);
+    }
+    else
+    {
+      Destroy(gameObject);
+    }
     
     foreach (var prefab in prefabList)
     {
