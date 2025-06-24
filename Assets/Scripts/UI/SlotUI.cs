@@ -38,7 +38,10 @@ public class SlotUI : MonoBehaviour
     }
     public void ClearHighlight()
     {
-        highlightSlot.enabled = false;
+        if (highlightSlot != null)
+        {
+            highlightSlot.enabled = false;
+        }
     }
 
     public void CanSell(bool canSell)
@@ -49,5 +52,18 @@ public class SlotUI : MonoBehaviour
         
         else if (currentItemUI != null && !canSell) 
             currentItemUI.canSell = false;
+    }
+    
+    public void Clear()
+    {
+       
+        ClearHighlight();
+
+        if (currentItemUI != null)
+        {
+            var ui = currentItemUI;
+            UnsetItem(ui);
+            Destroy(ui.gameObject);
+        }
     }
 }

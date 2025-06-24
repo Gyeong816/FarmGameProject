@@ -62,7 +62,7 @@ public class DataSaveManager : MonoBehaviour
     }
 
 
-    public void LoadGame()
+    public async Task LoadGameAsync()
     {
         if (auth.CurrentUser == null)
         {
@@ -74,41 +74,40 @@ public class DataSaveManager : MonoBehaviour
             .Collection("users")
             .Document(auth.CurrentUser.UserId);
 
-        docRef.GetSnapshotAsync()
-              .ContinueWithOnMainThread(task =>
+        var snap = await docRef
+            .GetSnapshotAsync()
+            .ContinueWithOnMainThread(t =>
+            {
+                if (t.IsFaulted) throw t.Exception;
+                return t.Result;
+            });
+
+        if (!snap.Exists)
         {
-            if (!(task.IsCompleted && task.Result.Exists))
-            {
-                Debug.Log("[DataSaveManager] 불러올 데이터가 없습니다.");
-                return;
-            }
+            Debug.Log("[DataSaveManager] 불러올 데이터가 없습니다.");
+            return;
+        }
 
-            string raw = null;
-            var snap = task.Result;
-            if (snap.TryGetValue("state", out string stateJson))
-                raw = stateJson;
+        if (!snap.TryGetValue("state", out string raw) || string.IsNullOrEmpty(raw))
+        {
+            Debug.Log("[DataSaveManager] 저장된 JSON이 비어있습니다.");
+            return;
+        }
 
-            if (string.IsNullOrEmpty(raw))
-            {
-                Debug.Log("[DataSaveManager] 저장된 JSON이 비어있습니다.");
-                return;
-            }
+        var save = JsonUtility.FromJson<GameSaveData>(raw);
 
-            var save = JsonUtility.FromJson<GameSaveData>(raw);
+        // 하늘 보간 이벤트 잠시 해제
+        TimeManager.Instance.OnTimePeriodChanged -= skyMgr.OnPeriodChanged;
 
-            // 하늘 보간 이벤트 잠시 해제
-            TimeManager.Instance.OnTimePeriodChanged -= skyMgr.OnPeriodChanged;
+        // 순차 복원
+        inventoryMgr.LoadFromSave(save.inventory);
+        timeMgr     .LoadFromSave    (save.time);
+        skyMgr      .SetPhaseImmediate(save.sky.phase);
+        mapMgr      .LoadFromSave   (save.map);
 
-            // 순차 복원
-            inventoryMgr.LoadFromSave(save.inventory);
-            timeMgr     .LoadFromSave    (save.time);
-            skyMgr      .SetPhaseImmediate(save.sky.phase);
-            mapMgr      .LoadFromSave   (save.map);
+        // 이벤트 재등록
+        TimeManager.Instance.OnTimePeriodChanged += skyMgr.OnPeriodChanged;
 
-            // 이벤트 재등록
-            TimeManager.Instance.OnTimePeriodChanged += skyMgr.OnPeriodChanged;
-
-            Debug.Log("[DataSaveManager] 게임 전체 로드 완료 (Firestore)");
-        });
+        Debug.Log("[DataSaveManager] 게임 전체 로드 완료 (Async)");
     }
 }

@@ -156,16 +156,20 @@ public class PlayerController : MonoBehaviour
     {
         bool isMoving = moveInput.sqrMagnitude >= 0.01f;
 
-        // 달리기 중이면 Run, 아니면 Walk
+        
         animator.SetBool("Run", isMoving && isRunning);
         animator.SetBool("Walk", isMoving);
-
-        // 멈췄으면 둘 다 끔
+        
         if (!isMoving)
         {
             animator.SetBool("Run", false);
             animator.SetBool("Walk", false);
         }
+        if (isMoving && isJumping)
+        {
+            animator.SetTrigger("RunJump");
+        }
+        
     }
 
     public void UseItem()
@@ -362,6 +366,7 @@ public class PlayerController : MonoBehaviour
 
     void Jump()
     {
+        animator.SetTrigger("Jump");
         velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
     }
 

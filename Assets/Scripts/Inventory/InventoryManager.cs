@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -43,22 +44,26 @@ public class InventoryManager : MonoBehaviour
   
   
 
-  private async void Start()
+  public async Task LoadDatabaseAsync()
   {
-    
+    // 1) TSV에서 테이블 불러오기
     var itemDataList = await TsvLoader.LoadTableAsync<ItemData>("ItemTable");
 
+    // 2) 로컬에 보관
     itemDatabase = itemDataList;
-    
     dataDict.Clear();
     foreach (var data in itemDatabase)
     {
       dataDict[data.id] = data;
     }
-    
+
+    // 3) 상점 UI 셋업 (필요하다면)
     shopInventory.shopItemDatabase = itemDataList;  
     shopInventory.ShowAllItems();
-    
+
+    // 4) 디버그
+    var allIds = itemDatabase.Select(x => x.id).ToArray();
+    Debug.Log($"[InventoryManager] DB 아이템 ID 목록: {string.Join(",", allIds)}");
   }
 
 
@@ -237,26 +242,46 @@ public class InventoryManager : MonoBehaviour
     // 1) 이전에 표시된 모든 아이템 UI를 지우고
     ClearAllSlots();
 
-    // 2) 저장된 슬롯 정보만큼 LoadSlot 호출
-    foreach (var slot in saveData.savedInvenDatas)
-      LoadSlot(slot);
+    foreach (var slotData in saveData.savedInvenDatas)
+    {
+      LoadSlot(slotData);
+    }
   }
   
   public void LoadSlot(SlotSaveData data)
   {
-    var slots = (data.inventoryType == InventoryType.Small) 
-      ? smallInventory.Slots : bigInventory.Slots;
-    
+    var slots = (data.inventoryType == InventoryType.Small)
+      ? smallInventory.Slots
+      : bigInventory.Slots;
+
+    // 2) 인덱스 검사 (범위 벗어나면 스킵)
+    if (data.slotIndex < 0 || data.slotIndex >= slots.Count)
+    {
+      Debug.LogWarning($"[InventoryManager] LoadSlot: 잘못된 slotIndex={data.slotIndex}");
+      return;
+    }
+
     var targetSlot = slots[data.slotIndex];
-    
-    if (targetSlot.currentItemUI != null)
-      Destroy(targetSlot.currentItemUI.gameObject);
-    
+
+    // 3) 기존 아이템 제거
+    targetSlot.Clear();
+
+    // 4) 빈 슬롯이면 리턴
+    if (data.itemId <= 0 || data.count <= 0)
+      return;
+
+    // 5) 아이템 데이터 조회
+    var itemData = itemDatabase.Find(x => x.id == data.itemId);
+    if (itemData == null)
+    {
+      Debug.LogWarning($"[InventoryManager] LoadSlot: 잘못된 itemId={data.itemId}");
+      return;
+    }
+
+    // 6) UI 생성 및 초기화
     var go     = Instantiate(itemUIPrefab, targetSlot.transform);
     var itemUI = go.GetComponent<ItemUI>();
-    var itemdata = itemDatabase.Find(x => x.id == data.itemId);
-    
-    itemUI.Init(itemdata);
+    itemUI.Init(itemData);
     itemUI.SetCount(data.count);
     targetSlot.SetItem(itemUI);
   }

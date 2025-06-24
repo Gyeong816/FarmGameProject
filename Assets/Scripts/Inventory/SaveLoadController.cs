@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -9,16 +10,28 @@ public class SaveLoadController : MonoBehaviour
     [SerializeField] private Button saveButton;
     [SerializeField] private Button mainmenuButton;
     [SerializeField] private DataSaveManager dataSaveManager;
+    [SerializeField] private InventoryManager inventoryManager;
+    [SerializeField] private GameObject bigInventory;
     
 
     private bool saveCompleted;
 
-    private void Start()
+    private async void Start()
     {
         saveCompleted = false; 
+        mainmenuButton.interactable = false;
+        try
+        {
+            await inventoryManager.LoadDatabaseAsync();
+            await dataSaveManager.LoadGameAsync();
+
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"[SaveLoadController] 로드 중 예외 발생: {e}");
+        }
         
-        dataSaveManager.LoadGame();
-        
+        bigInventory.SetActive(false);
         saveButton.onClick.AddListener(OnSaveClicked);
         mainmenuButton.onClick.AddListener(GoToMainMenu);
     }
@@ -33,6 +46,7 @@ public class SaveLoadController : MonoBehaviour
                 if (task.IsCompleted)
                 {
                     saveCompleted = true; 
+                    mainmenuButton.interactable = true;
                     Debug.Log("[SaveLoadController] 저장 완료");
                 }
                 else
