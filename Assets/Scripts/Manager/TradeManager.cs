@@ -154,7 +154,7 @@ public class TradeManager : MonoBehaviour
         playerDollar += tradePrice;
         vendorDollar -= tradePrice;
         
-        InventoryManager.Instance.SubtractItemToBigInventory(itemUI.data.id, tradeCount);
+        InventoryManager.Instance.SubtractItemFromBigInventory(itemUI.data.id, tradeCount);
     }
 
     private void UpdateDollarUI()
@@ -184,6 +184,5 @@ public class TradeManager : MonoBehaviour
             priceText.text = tradePrice.ToString();
         }
     }
-    
     
 }

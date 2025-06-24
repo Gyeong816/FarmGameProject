@@ -2,12 +2,14 @@ using UnityEngine;
 
 public class Npc : MonoBehaviour
 {
-    public int npcId = 1;
+
+    public NpcData npcData; 
+    
     private void OnTriggerEnter(Collider other)
     {
         if (!other.CompareTag("Player")) return;
 
-        UIManager.Instance.ShowPromptUI(gameObject.transform,UIManager.PromptType.Npc,npcId);
+        UIManager.Instance.ShowPromptUI(gameObject.transform,UIManager.PromptType.Npc,npcData);
     }
 
     private void OnTriggerExit(Collider other)

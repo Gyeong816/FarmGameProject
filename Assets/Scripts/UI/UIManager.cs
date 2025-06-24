@@ -15,12 +15,13 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject sleepPanel;
     [SerializeField] private GameObject dialoguePanel;
     [SerializeField] private GameObject backGround;
+    [SerializeField] private GameObject questPanel;
     
     
     [Header("기본 참조")]
     [SerializeField] private CameraController cameraController;
     [SerializeField] private Button closePauseMenuPanel;
-    [SerializeField] private DialogueManager dialogueManager;
+    [SerializeField] private NPCInteractionManager npcInteractionManager;
     
    
 
@@ -32,8 +33,6 @@ public class UIManager : MonoBehaviour
     
     [Header("버튼 UI")]
     [SerializeField] private Button sleepButton;
-    [SerializeField] private Button confirmButton;
-    [SerializeField] private Button openShopButton;
     [SerializeField] private Button closeShopButton;
     private GameObject currentPromptUI;
     
@@ -48,7 +47,8 @@ public class UIManager : MonoBehaviour
     private bool isPanelOpen; 
     private Camera mainCam;
     private int npcId;
-    
+    private string npcName;
+    private NpcData npcData;
     private void Awake()
     {
         if (Instance == null)
@@ -61,8 +61,6 @@ public class UIManager : MonoBehaviour
         
         closePauseMenuPanel.onClick.AddListener(() => TogglePanel(pauseMenuPanel));
         sleepButton.onClick.AddListener(OnSleep);
-        confirmButton.onClick.AddListener(() => TogglePanel(dialoguePanel));
-        openShopButton.onClick.AddListener(OpenShopPanel);
         closeShopButton.onClick.AddListener(() => TogglePanel(bigInvenPanel,shopInvenPanel));
     }
 
@@ -83,7 +81,7 @@ public class UIManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            TogglePanel(bigInvenPanel);
+            TogglePanel(bigInvenPanel,questPanel);
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
@@ -96,7 +94,7 @@ public class UIManager : MonoBehaviour
                     //TogglePanel(boxPanel);
                     break;
                 case PromptType.Npc:
-                    dialogueManager.ShowNpcDialogue(npcId, 0);
+                    npcInteractionManager.ShowNpcDialogue(npcData, npcData.npcId, 0);
                     TogglePanel(dialoguePanel);
                     break;
             }
@@ -112,6 +110,11 @@ public class UIManager : MonoBehaviour
     {
         TogglePanel(dialoguePanel);
         TogglePanel(bigInvenPanel,shopInvenPanel);
+    }
+
+    public void CloseDialoguePanel()
+    {
+        TogglePanel(dialoguePanel);
     }
     
     private void TogglePanel(params GameObject[] panels)
@@ -163,9 +166,9 @@ public class UIManager : MonoBehaviour
 
     
     
-    public void ShowPromptUI(Transform target, PromptType type, int npcId)
+    public void ShowPromptUI(Transform target, PromptType type, NpcData npcData)
     {
-        this.npcId = npcId;
+        this.npcData = npcData;
         promptTarget = target;
         switch (type)
         {
@@ -187,8 +190,8 @@ public class UIManager : MonoBehaviour
     
     public void HidePromptUI()
     {
+        npcData = null;
         promptTarget = null;
-        npcId = 0;
         
         if (currentPromptUI != null)
         {

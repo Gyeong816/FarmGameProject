@@ -168,39 +168,69 @@ public class InventoryManager : MonoBehaviour
     itemUI.AddItemCount(amount);
   }
 
-  public void SubtractItemToBigInventory(int itemId, int amount)
+  public void SubtractItemFromBigInventory(int itemId, int amount)
   {
-    var slot = bigInventory.Slots.Find(s => s.currentItemUI != null && s.currentItemUI.data.id == itemId);
-    if (slot == null) return;
     
-    var itemUI = slot.currentItemUI;
-    itemUI.SubtractItemCount(amount);
-    
-    if(itemUI.itemCount <= 0)
+    foreach (var slot in bigInventory.Slots)
     {
-      Destroy(slot.currentItemUI.gameObject);
-      slot.currentItemUI = null;
+      var existing = slot.currentItemUI;
+      if (existing != null && existing.data.id == itemId)
+      {   
+        existing.SubtractItemCount(amount);
+        if (existing.itemCount <= 1)
+        {
+          Destroy(slot.currentItemUI.gameObject);
+          slot.currentItemUI = null;
+        }
+        return;
+      }
     }
+    
   }
   
   
 
   public void SubtractItemFromSmallInventory(int itemId, int amount)
   {
-    var slot = smallInventory.Slots.Find(s => s.currentItemUI != null && s.currentItemUI.data.id == itemId);
-    if (slot == null) return;
     
-    var itemUI = slot.currentItemUI;
-    
-    itemUI.SubtractItemCount(amount);
-    
-    if (itemUI.itemCount <= 0)
+    foreach (var slot in smallInventory.Slots)
     {
-      Destroy(slot.currentItemUI.gameObject);
-      slot.currentItemUI = null;
-      smallInventory.DestroyCurrentItem();
+      var existing = slot.currentItemUI;
+      if (existing != null && existing.data.id == itemId)
+      {   
+        existing.SubtractItemCount(amount);
+        if (existing.itemCount <= 1)
+        {
+          Destroy(slot.currentItemUI.gameObject);
+          slot.currentItemUI = null;
+        }
+        return;
+      }
     }
+    
+    
   }
+  
+  
+  
+  public bool HasItem(int itemId, int amount)
+  {
+    int total = 0;
+
+    // Small 인벤토리에서 개수 합산
+    foreach (var slot in smallInventory.Slots)
+      if (slot.currentItemUI != null && slot.currentItemUI.data.id == itemId)
+        total += slot.currentItemUI.itemCount;
+
+    // Big 인벤토리도 필요하다면 합산
+    foreach (var slot in bigInventory.Slots)
+      if (slot.currentItemUI != null && slot.currentItemUI.data.id == itemId)
+        total += slot.currentItemUI.itemCount;
+
+    return total >= amount;
+  }
+  
+  
   public GameObject GetPrefab(string key)
   {
     if (prefabDic.TryGetValue(key, out var result))

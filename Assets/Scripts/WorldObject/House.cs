@@ -8,7 +8,7 @@ public class House : MonoBehaviour
     {
         if (!other.CompareTag("Player")) return;
 
-        UIManager.Instance.ShowPromptUI(gameObject.transform,UIManager.PromptType.House,0);
+        UIManager.Instance.ShowPromptUI(gameObject.transform,UIManager.PromptType.House,null);
     }
 
     private void OnTriggerExit(Collider other)
