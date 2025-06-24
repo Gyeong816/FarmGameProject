@@ -46,7 +46,7 @@ public class NPCInteractionManager : MonoBehaviour
     
     public Dictionary<int, NpcData> questNpcDict;
     private Dictionary<int, DialogueLine> dialogueDict;
-    
+    private Dictionary<int, QuestUI> activeQuestUIs;
     private DialogueLine currentLine;
     private int npcId;
 
@@ -57,6 +57,7 @@ public class NPCInteractionManager : MonoBehaviour
     {
         dialogueDict = new Dictionary<int, DialogueLine>();
         questNpcDict = new Dictionary<int, NpcData>();
+        activeQuestUIs = new Dictionary<int, QuestUI>();
         
         confirmButton.onClick.AddListener(uiManager.CloseDialoguePanel);
         openShopButton.onClick.AddListener(uiManager.OpenShopPanel);
@@ -148,7 +149,7 @@ public class NPCInteractionManager : MonoBehaviour
                 optionButtonObj.SetActive(false);
                 OnButtons(giveItemButtonObj, denyButtonObj);
                 giveItemButton.onClick.RemoveAllListeners();
-                giveItemButton.onClick.AddListener(() =>GiveItem(questData.requiredItemId, questData.requiredAmount));
+                giveItemButton.onClick.AddListener(() =>GiveItem(questData.requiredItemId, questData.requiredAmount,npcId));
                 break;
             
    
@@ -160,16 +161,16 @@ public class NPCInteractionManager : MonoBehaviour
 
     private void AcceptQuest(NpcData npcData)
     { 
-        questNpcDict.Add(npcData.npcId, npcData);
+        questNpcDict[npcData.npcId] = npcData;
         
         var questPrefab = Instantiate(questUIPrefab, questPanel);
         var questUI = questPrefab.GetComponent<QuestUI>();
         questUI.Init(npcData);
-        
+        activeQuestUIs[npcData.npcId] = questUI;
         uiManager.CloseDialoguePanel();
     }
 
-    private void GiveItem(int itemId, int amount)
+    private void GiveItem(int itemId, int amount, int npcId)
     {
         
         OffButtons(giveItemButtonObj, denyButtonObj);
@@ -182,12 +183,18 @@ public class NPCInteractionManager : MonoBehaviour
             confirmButton.onClick.AddListener(uiManager.CloseDialoguePanel);
             return;
         }
-        
+        questNpcDict.Remove(npcId);
         InventoryManager.Instance.SubtractItemFromSmallInventory(itemId, amount);
         InventoryManager.Instance.SubtractItemFromBigInventory(itemId, amount);
+        TradeManager.Instance.AddRewardCoin(100);
         
         npcCurrentText.text = "Here, take 100 coins as your reward.";
         
+        if (activeQuestUIs.TryGetValue(questData.npcId, out var questUI))
+        {
+            questUI.status = QuestStatus.Completed;
+            questUI.OnQuestCompleted();
+        }
         
         confirmButton.onClick.RemoveAllListeners();
         confirmButton.onClick.AddListener(uiManager.CloseDialoguePanel);

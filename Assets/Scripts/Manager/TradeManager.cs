@@ -184,5 +184,10 @@ public class TradeManager : MonoBehaviour
             priceText.text = tradePrice.ToString();
         }
     }
-    
+
+    public void AddRewardCoin(int amount)
+    {
+        playerDollar += amount;
+        UpdateDollarUI();
+    }
 }

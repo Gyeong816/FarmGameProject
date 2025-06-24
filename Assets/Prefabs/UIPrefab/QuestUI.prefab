@@ -175,6 +175,8 @@ MonoBehaviour:
     requiredItemName: 
     requiredItemId: 0
     requiredAmount: 0
+  InProgress: {fileID: 367141751864129368}
+  Completed: {fileID: 8941446306240250045}
 --- !u!1 &1425148124174260196
 GameObject:
   m_ObjectHideFlags: 0
