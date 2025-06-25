@@ -6,9 +6,7 @@ public class CropInstance : MonoBehaviour
 {
     [Header("Crop Data")]
     public CropData cropData;
-
-    public int cropNumber;
-
+    
     public bool canHarvest;
     public int currentStage = 0;
     private GameObject currentModel;

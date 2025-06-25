@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6885c57218acfe84bbd8fd107cdf8da2, type: 3}
+  m_Name: CropData_Mashroom
+  m_EditorClassIdentifier: 
+  cropId: 21
+  amount: 4
+  stagePrefabs:
+  - {fileID: 1558665303303309010, guid: 1d9bd8633a571a64c974d2ba5667c838, type: 3}
+  - {fileID: 3671648868132710387, guid: 81deb2d587bf15041867526f766c512c, type: 3}
+  - {fileID: 5787875867516966417, guid: 3b1e5cc58c2674149ba6c3d507969922, type: 3}
+  - {fileID: 1177130784684977186, guid: db349d6ba73da3244b8f16c2c0e30065, type: 3}
+  - {fileID: 1194758362680537124, guid: e70c65622922ec24c82972e9b9f6e55e, type: 3}

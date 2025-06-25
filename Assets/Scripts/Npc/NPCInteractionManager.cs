@@ -34,14 +34,13 @@ public class NPCInteractionManager : MonoBehaviour
     [SerializeField] private GameObject denyButtonObj;
     [SerializeField] private GameObject acceptButtonObj;
     [SerializeField] private GameObject giveItemButtonObj;
-    
-    
     [SerializeField] private GameObject questUIPrefab;
     [SerializeField] private Transform questPanel;
-        
-    public List<DialogueLine> dialogueDatabase;
-    
-    public Dictionary<int, NpcData> questNpcDict;
+    [SerializeField] private Image currentNpcImage;
+    [SerializeField] private List<Sprite> npcImagelist;
+    private Dictionary<string, Sprite> npcIconDic;
+    private List<DialogueLine> dialogueDatabase;
+    private Dictionary<int, NpcData> questNpcDict;
     private Dictionary<int, DialogueLine> dialogueDict;
     private Dictionary<int, QuestUI> activeQuestUIs;
     private DialogueLine currentLine;
@@ -49,12 +48,20 @@ public class NPCInteractionManager : MonoBehaviour
 
     private NpcData questData;
     
+    public static event System.Action<int, int> OnQuestCompleted;
 
     private void Awake()
     {
         dialogueDict = new Dictionary<int, DialogueLine>();
         questNpcDict = new Dictionary<int, NpcData>();
         activeQuestUIs = new Dictionary<int, QuestUI>();
+        npcIconDic = new Dictionary<string, Sprite>();
+        
+        foreach (var sprite in npcImagelist)
+        {
+            if (sprite != null)
+                npcIconDic[sprite.name] = sprite;
+        }
         
         confirmButton.onClick.AddListener(uiManager.CloseDialoguePanel);
         openShopButton.onClick.AddListener(uiManager.OpenShopPanel);
@@ -93,6 +100,7 @@ public class NPCInteractionManager : MonoBehaviour
         }
         
 
+        
         OffButtons(giveItemButtonObj,shopButtonObj,confirmButtonObj,denyButtonObj,acceptButtonObj);
         
         optionButtonObj.SetActive(true);
@@ -108,10 +116,12 @@ public class NPCInteractionManager : MonoBehaviour
             optionButton2.onClick.AddListener(() => ShowNpcDialogue(npcData, npcId, 4));
         else
             optionButton2.onClick.AddListener(() => ShowNpcDialogue(npcData, npcId, 2));
-  
+        
         
         npcNameText.text = npcData.npcName;
-        
+        var image = GetNpcImage(dialogueDict[npcId].imageKey);
+        currentNpcImage.sprite = image;
+        string itemName = InventoryManager.Instance.GetItemName(npcData.requiredItemId);
         switch (textId)
         {
             case 0:
@@ -130,11 +140,11 @@ public class NPCInteractionManager : MonoBehaviour
                 }
                 break;
             case 2:
-                npcCurrentText.text = $"Could you bring me {npcData.requiredAmount} {npcData.requiredItemName}?";
+                npcCurrentText.text = $"Could you bring me {npcData.requiredAmount} {itemName}?";
                 optionButtonObj.SetActive(false);
                 OnButtons(acceptButtonObj, denyButtonObj);
                 acceptButton.onClick.RemoveAllListeners();
-                acceptButton.onClick.AddListener(() =>AcceptQuest(npcData));
+                acceptButton.onClick.AddListener(() =>AcceptQuest(npcData,itemName));
                 break;
             case 3:
                 npcCurrentText.text = dialogueDict[npcId].answer3;
@@ -147,7 +157,7 @@ public class NPCInteractionManager : MonoBehaviour
                 optionButtonObj.SetActive(false);
                 OnButtons(giveItemButtonObj, denyButtonObj);
                 giveItemButton.onClick.RemoveAllListeners();
-                giveItemButton.onClick.AddListener(() =>GiveItem(questData.requiredItemId, questData.requiredAmount,npcId));
+                giveItemButton.onClick.AddListener(() =>GiveItem());
                 break;
             
    
@@ -157,24 +167,24 @@ public class NPCInteractionManager : MonoBehaviour
     }
     
 
-    private void AcceptQuest(NpcData npcData)
+    private void AcceptQuest(NpcData npcData, string itemName)
     { 
         questNpcDict[npcData.npcId] = npcData;
         
         var questPrefab = Instantiate(questUIPrefab, questPanel);
         var questUI = questPrefab.GetComponent<QuestUI>();
-        questUI.Init(npcData);
+        questUI.Init(npcData, itemName);
         activeQuestUIs[npcData.npcId] = questUI;
         uiManager.CloseDialoguePanel();
     }
 
-    private void GiveItem(int itemId, int amount, int npcId)
+    private void GiveItem()
     {
         
         OffButtons(giveItemButtonObj, denyButtonObj);
         confirmButtonObj.SetActive(true);
         
-        if (!InventoryManager.Instance.HasItem(itemId, amount))
+        if (!InventoryManager.Instance.HasItem(questData.requiredItemId, questData.requiredAmount))
         {
             npcCurrentText.text = "I think You don't have enough items.";
             confirmButton.onClick.RemoveAllListeners();
@@ -182,16 +192,19 @@ public class NPCInteractionManager : MonoBehaviour
             return;
         }
         questNpcDict.Remove(npcId);
-        InventoryManager.Instance.SubtractItemFromSmallInventory(itemId, amount);
-        InventoryManager.Instance.SubtractItemFromBigInventory(itemId, amount);
-        TradeManager.Instance.AddRewardCoin(100);
+        InventoryManager.Instance.SubtractItemFromSmallInventory(questData.requiredItemId, questData.requiredAmount);
+        InventoryManager.Instance.SubtractItemFromBigInventory(questData.requiredItemId, questData.requiredAmount);
+
+        int coin = 100 * questData.favorability;
+        TradeManager.Instance.AddRewardCoin(coin);
         
-        npcCurrentText.text = "Here, take 100 coins as your reward.";
+        npcCurrentText.text = $"Here, take {coin} coins as your reward.";
         
         if (activeQuestUIs.TryGetValue(questData.npcId, out var questUI))
         {
             questUI.status = QuestStatus.Completed;
             questUI.OnQuestCompleted();
+            OnQuestCompleted?.Invoke(npcId, questData.questId);
         }
         
         confirmButton.onClick.RemoveAllListeners();
@@ -219,6 +232,15 @@ public class NPCInteractionManager : MonoBehaviour
                     questNpcDict.Remove(npcId);
             }
         }
+    }
+    
+    public Sprite GetNpcImage(string imageKey)
+    {
+        if (npcIconDic.TryGetValue(imageKey, out var sprite))
+            return sprite;
+        
+        Debug.LogWarning($" '{imageKey}'를 찾을 수 없습니다.");
+        return null;
     }
     
     private void OffButtons(params GameObject[] buttons)

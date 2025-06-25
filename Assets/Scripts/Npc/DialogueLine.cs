@@ -11,4 +11,5 @@ public class DialogueLine
     public string answer1    { get; set; }
     public string answer3    { get; set; }
     
+    public string imageKey { get; set; }
 }

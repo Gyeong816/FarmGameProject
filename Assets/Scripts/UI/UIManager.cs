@@ -28,7 +28,7 @@ public class UIManager : MonoBehaviour
     [Header("상인 상호작용")]
     [SerializeField] private GameObject housePromptUI;
     [SerializeField] private GameObject boxPromptUI;
-    [SerializeField] private GameObject shopPromptUI;
+    [SerializeField] private GameObject talkPromptUI;
     [SerializeField] private BigInventory bigInventory;
     
     [Header("버튼 UI")]
@@ -181,7 +181,7 @@ public class UIManager : MonoBehaviour
                 currentPromptType = PromptType.Box;
                 break;
             case PromptType.Npc:
-                currentPromptUI = shopPromptUI;  
+                currentPromptUI = talkPromptUI;  
                 currentPromptType = PromptType.Npc;
                 break;
         }

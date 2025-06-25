@@ -142,7 +142,7 @@ public class MapManager : MonoBehaviour
         if (!seed.canHarvest) 
             return;
 
-        InventoryManager.Instance.AddItemToSmallInventory(seed.cropData.itemId,1);
+        InventoryManager.Instance.AddItemToSmallInventory(seed.cropData.cropId,seed.cropData.amount);
         Destroy(seed.gameObject);
         plantedCrops.Remove(tile.gridPos);
         tile.ResetTile();
@@ -190,7 +190,7 @@ public class MapManager : MonoBehaviour
                 isPlowed    = tile.isPlowed,
                 isWatered   = tile.IsWateredThisDay(),
                 isPlanted   = tile.isPlanted,
-                cropId      = tile.isPlanted ? plantedCrops[kv.Key].cropData.itemId : 0,
+                cropId      = tile.isPlanted ? plantedCrops[kv.Key].cropData.cropId : 0,
                 growthStage = tile.isPlanted ? plantedCrops[kv.Key].currentStage : 0,
                 fences      = new List<FenceSaveData>()
             };
@@ -233,7 +233,7 @@ public class MapManager : MonoBehaviour
             if (entry.isPlanted)
             {
                 // CropInstance 생성 및 단계 설정
-                var prefab = seedPrefabs.First(p => p.GetComponent<CropInstance>().cropData.itemId == entry.cropId);
+                var prefab = seedPrefabs.First(p => p.GetComponent<CropInstance>().cropData.cropId == entry.cropId);
                 var go     = Instantiate(prefab, tile.transform.position + Vector3.up*2f, Quaternion.identity, tile.transform);
                 var crop   = go.GetComponent<CropInstance>();
                 crop.SetStage(entry.growthStage);

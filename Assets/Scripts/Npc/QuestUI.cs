@@ -15,13 +15,13 @@ public class QuestUI : MonoBehaviour
     [SerializeField] private GameObject InProgress;
     [SerializeField] private GameObject Completed;
     
-    public void Init(NpcData data)
+    public void Init(NpcData data, string itemName)
     {
         npcData = data;
         InProgress.SetActive(true);
         
         status = QuestStatus.InProgress;
-        questDescription.text = $"Deliver {npcData.requiredAmount} {npcData.requiredItemName} to {npcData.npcName}";
+        questDescription.text = $"Deliver {npcData.requiredAmount} {itemName} to {npcData.npcName}";
     }
     
     public void OnQuestCompleted()

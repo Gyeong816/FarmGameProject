@@ -22,7 +22,7 @@ public class InventoryManager : MonoBehaviour
   public GameObject itemUIPrefab;
   public List<GameObject> prefabList;
   private Dictionary<string, GameObject> prefabDic;
-  public List<Sprite> iconList;                // 에디터에서 할당
+  public List<Sprite> iconList;                
   private Dictionary<string, Sprite> iconDic;
   private void Awake()
   {
@@ -259,6 +259,15 @@ public class InventoryManager : MonoBehaviour
 
     Debug.LogWarning($"[InventoryManager] 아이콘 키 '{iconKey}'를 찾을 수 없습니다.");
     return null;
+  }
+
+  public string GetItemName(int itemId)
+  {
+    if (dataDict.TryGetValue(itemId, out var data))
+      return data.itemName;
+
+    Debug.LogWarning($"[InventoryManager] 아이템 이름을 찾을 수 없습니다. id={itemId}");
+    return string.Empty;
   }
   
   public ItemData GetItemData(int id)
