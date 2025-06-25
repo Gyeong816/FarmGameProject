@@ -6,10 +6,16 @@
   <component name="ChangeListManager">
     <list default="true" id="7bd28b71-29f7-441d-94c9-45fdc8d40e2c" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.FarmGameProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.FarmGameProject/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/UIPrefab/QuestUI.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/UIPrefab/QuestUI.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Manager/TradeManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Manager/TradeManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resource/Image/ChatGPT Image 2025년 6월 19일 오전 10_49_38.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resource/Image/ChatGPT Image 2025년 6월 19일 오전 10_49_38.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/InGame.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/InGame.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Data/ItemData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Data/ItemData.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Inventory/InventoryManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Inventory/InventoryManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Npc/DialogueLine.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Npc/DialogueLine.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Npc/NPCInteractionManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Npc/NPCInteractionManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Npc/QuestUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Npc/QuestUI.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/ItemUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/ItemUI.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StreamingAssets/Table/DialogueLine.tsv" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/StreamingAssets/Table/DialogueLine.tsv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StreamingAssets/Table/ItemTable.tsv" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/StreamingAssets/Table/ItemTable.tsv" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -140,6 +146,7 @@
       <workItem from="1750580745231" duration="606000" />
       <workItem from="1750638784896" duration="31946000" />
       <workItem from="1750725685231" duration="29510000" />
+      <workItem from="1750811385997" duration="6073000" />
     </task>
     <servers />
   </component>
@@ -172,13 +179,13 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Scripts/Inventory/InventoryManager.cs</url>
-          <line>153</line>
+          <line>165</line>
           <properties documentPath="C:\Users\KGA\Documents\GitHub\FarmGameProject\Assets\Scripts\Inventory\InventoryManager.cs" containingFunctionPresentation="메서드 'AddItemToBigInventory'">
             <startOffsets>
-              <option value="3793" />
+              <option value="4125" />
             </startOffsets>
             <endOffsets>
-              <option value="3800" />
+              <option value="4132" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="5" />

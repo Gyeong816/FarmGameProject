@@ -10,12 +10,7 @@ public class NPCInteractionManager : MonoBehaviour
 {
     public UIManager uiManager;
     
-    [Header("Dialogue UI")]
-    [SerializeField] private TMP_Text npcCurrentText;
-
-    [SerializeField] private GameObject questUI;
-
-    [Header("Choice UI")]
+    
     [SerializeField] private Button optionButton1;
     [SerializeField] private Button optionButton2;
     [SerializeField] private Button optionButton3;
@@ -24,7 +19,9 @@ public class NPCInteractionManager : MonoBehaviour
     [SerializeField] private Button confirmButton;
     [SerializeField] private Button openShopButton;
     [SerializeField] private Button giveItemButton;
+    [SerializeField] private Button removeCompletedButton;
     
+    [SerializeField] private TMP_Text npcCurrentText;
     [SerializeField] private TMP_Text option1Text;
     [SerializeField] private TMP_Text option2Text;
     [SerializeField] private TMP_Text option3Text;
@@ -62,6 +59,7 @@ public class NPCInteractionManager : MonoBehaviour
         confirmButton.onClick.AddListener(uiManager.CloseDialoguePanel);
         openShopButton.onClick.AddListener(uiManager.OpenShopPanel);
         denyButton.onClick.AddListener(uiManager.CloseDialoguePanel);
+        removeCompletedButton.onClick.AddListener(RemoveCompletedQuest);
     }
 
     
@@ -132,7 +130,7 @@ public class NPCInteractionManager : MonoBehaviour
                 }
                 break;
             case 2:
-                npcCurrentText.text = dialogueDict[npcId].answer2;
+                npcCurrentText.text = $"Could you bring me {npcData.requiredAmount} {npcData.requiredItemName}?";
                 optionButtonObj.SetActive(false);
                 OnButtons(acceptButtonObj, denyButtonObj);
                 acceptButton.onClick.RemoveAllListeners();
@@ -200,7 +198,28 @@ public class NPCInteractionManager : MonoBehaviour
         confirmButton.onClick.AddListener(uiManager.CloseDialoguePanel);
     }
 
- 
+    private void RemoveCompletedQuest()
+    {
+        var completedKeys = activeQuestUIs
+            .Where(pair => pair.Value.status == QuestStatus.Completed)
+            .Select(pair => pair.Key)
+            .ToList();
+
+
+        foreach (var npcId in completedKeys)
+        {
+            if (activeQuestUIs.TryGetValue(npcId, out var questUI))
+            {
+             
+                Destroy(questUI.gameObject);
+          
+                activeQuestUIs.Remove(npcId);
+                
+                if (questNpcDict.ContainsKey(npcId))
+                    questNpcDict.Remove(npcId);
+            }
+        }
+    }
     
     private void OffButtons(params GameObject[] buttons)
     {
@@ -213,5 +232,6 @@ public class NPCInteractionManager : MonoBehaviour
             p.SetActive(true);
     }
    
+    
 }
 

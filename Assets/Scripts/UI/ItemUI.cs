@@ -18,7 +18,8 @@ public class ItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     public TMP_Text countText;
     public SlotUI originalSlotUI;
     public ItemType currentItem;
-
+    public Image iconImage; 
+    
     public int itemCount;
     public bool canSell;
     private Transform originalParent;
@@ -35,7 +36,7 @@ public class ItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
             nameText = GetComponentInChildren<TMP_Text>();
     }
     
-    public void Init(ItemData data)
+    public void Init(ItemData data, Sprite iconSprite)
     {
         this.data = data;
         canSell = true;
@@ -43,6 +44,7 @@ public class ItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         itemCount       = 0;
         nameText.text = data.itemName;
         countText.text = itemCount.ToString();
+        iconImage.sprite = iconSprite;
     }
     public void AddItemCount(int count)
     {

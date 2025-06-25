@@ -21,7 +21,9 @@ public class InventoryManager : MonoBehaviour
   [Header("프리팹")]
   public GameObject itemUIPrefab;
   public List<GameObject> prefabList;
-  private Dictionary<string, GameObject> prefabDic = new Dictionary<string, GameObject>();
+  private Dictionary<string, GameObject> prefabDic;
+  public List<Sprite> iconList;                // 에디터에서 할당
+  private Dictionary<string, Sprite> iconDic;
   private void Awake()
   {
     if (Instance == null)
@@ -33,13 +35,22 @@ public class InventoryManager : MonoBehaviour
       Destroy(gameObject);
     }
     
+    iconDic = new Dictionary<string, Sprite>();
+    prefabDic = new Dictionary<string, GameObject>();
+    dataDict = new Dictionary<int, ItemData>();
+    
+    
     foreach (var prefab in prefabList)
     {
       if (prefab != null)
         prefabDic[prefab.name] = prefab;
     }
+    foreach (var sp in iconList)
+    {
+      if (sp != null )
+        iconDic[sp.name] = sp;
+    }
     
-    dataDict = new Dictionary<int, ItemData>();
   }
   
   
@@ -133,7 +144,8 @@ public class InventoryManager : MonoBehaviour
     var go = Instantiate(itemUIPrefab, emptySlot.transform);
     var itemUI = go.GetComponent<ItemUI>();
     emptySlot.SetItem(itemUI);
-    itemUI.Init(data);
+    var iconSprite = GetIcon(data.iconKey);
+    itemUI.Init(data,iconSprite);
     itemUI.AddItemCount(amount);
   }
   
@@ -164,7 +176,8 @@ public class InventoryManager : MonoBehaviour
     var go = Instantiate(itemUIPrefab, emptySlot.transform);
     var itemUI = go.GetComponent<ItemUI>();
     emptySlot.SetItem(itemUI);
-    itemUI.Init(data);
+    var iconSprite = GetIcon(data.iconKey);
+    itemUI.Init(data,iconSprite);
     itemUI.AddItemCount(amount);
   }
 
@@ -236,6 +249,15 @@ public class InventoryManager : MonoBehaviour
     if (prefabDic.TryGetValue(key, out var result))
       return result;
     Debug.LogWarning($"프리팹 키 {key}를 찾을 수 없음");
+    return null;
+  }
+  
+  public Sprite GetIcon(string iconKey)
+  {
+    if (iconDic.TryGetValue(iconKey, out var sprite))
+      return sprite;
+
+    Debug.LogWarning($"[InventoryManager] 아이콘 키 '{iconKey}'를 찾을 수 없습니다.");
     return null;
   }
   
@@ -311,7 +333,8 @@ public class InventoryManager : MonoBehaviour
     // 6) UI 생성 및 초기화
     var go     = Instantiate(itemUIPrefab, targetSlot.transform);
     var itemUI = go.GetComponent<ItemUI>();
-    itemUI.Init(itemData);
+    var iconSprite = GetIcon(itemData.iconKey);    
+    itemUI.Init(itemData, iconSprite);  
     itemUI.SetCount(data.count);
     targetSlot.SetItem(itemUI);
   }

@@ -1,4 +1,4 @@
-npcId	startText	option1	option2	option3	answer1	answer2	answer3
-1	Hello! What can I do for you?	Show me your goods	Is there anything I can help you with?	See you next time!	Here are my best items.	Could you bring me two ears of corn? I'll reward you generously.	Safe travels!
-2	Ah, a new face! How can I help?	Nice to meet you. Tell me about yourself.	Is there anything I can help you with?	See you next time!	Here are my wares.	This town is famous for its market.	Very well, goodbye.
-3	Greetings, traveler! Looking for work?	Nice to meet you. Tell me about yourself.	Is there anything I can help you with?	See you next time!	I need someone to deliver a message.	Here's what I have to sell.	Farewell, safe journey.
+npcId	startText	option1	option2	option3	answer1	answer3
+1	Hello! What can I do for you?	Show me your goods	Is there anything I can help you with?	See you next time!	Here are my best items.	Safe travels!
+2	Ah, a new face! How can I help?	Nice to meet you. Tell me about yourself.	Is there anything I can help you with?	See you next time!	Hello, I’m Eliza Greenfield, the farm’s dedicated herbalist and remedy crafter. Each morning I harvest wild herbs and blend them into tonics that strengthen crops and livestock.	Very well, goodbye.
+3	Greetings, traveler! Looking for work?	Nice to meet you. Tell me about yourself.	Is there anything I can help you with?	See you next time!	Greetings, I’m Morin Fields, specialist in high-yield seeds and soil analysis. I survey this valley’s soil conditions to recommend the perfect seed varieties each season.	Farewell, safe journey.
