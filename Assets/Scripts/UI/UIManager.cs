@@ -229,7 +229,6 @@ public class UIManager : MonoBehaviour
     private void OnSleep()
     {
         TimeManager.Instance.SkipNight();
-        MapManager.Instance.WaterAllPlowedTiles();
         Time.timeScale = 1f;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;

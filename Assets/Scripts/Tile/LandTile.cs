@@ -17,26 +17,14 @@ public class LandTile : MonoBehaviour
     
     private void Start()
     {
-        TimeManager.Instance.OnDayPassed += OnDayPassed;
+        
         grassTile.SetActive(true);
         plowedTile.SetActive(false);
         wateredTile.SetActive(false);
+        
+       
     }
-
-    void OnDayPassed()
-    {
-        if (isPlowed)
-        {
-            wateredTile.SetActive(false);
-            plowedTile.SetActive(true);
-            isWatered = false;
-        }
-        else
-        {
-            grassTile.SetActive(true);
-        }
- 
-    }
+    
     
     public void ShowSelection()
     {
@@ -65,12 +53,19 @@ public class LandTile : MonoBehaviour
     }
     public void Water()
     {
-        if (!isPlowed || isWatered) return;
+        if (!isPlowed) return;
         isWatered = true;
         plowedTile.SetActive(false);
         wateredTile.SetActive(true);
         MapManager.Instance.WaterCropAt(this);
-        
+    }
+
+    public void Dry()
+    {
+        if (!isPlowed) return;
+        isWatered = false;
+        plowedTile.SetActive(true);
+        wateredTile.SetActive(false);
     }
 
     public void ResetTile()

@@ -6,6 +6,8 @@ public class TimeManager : MonoBehaviour
     public static TimeManager Instance { get; private set; }
     public event Action OnDayPassed;
     public event Action<string> OnTimePeriodChanged;
+    
+    public bool isRainingToday { get; private set; }
 
     [Header("시간 설정")]
     [SerializeField] private float dayDuration = 120f;          // 하루 길이(초)

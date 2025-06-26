@@ -110,7 +110,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Icon_Seed_Carrot_0
+      name: Icon_Seed_Carrot
       rect:
         serializedVersion: 2
         x: 72
@@ -118,7 +118,7 @@ TextureImporter:
         width: 231
         height: 265
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -141,7 +141,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Icon_Seed_Carrot_0: -961762795
+      Icon_Seed_Carrot: -961762795
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

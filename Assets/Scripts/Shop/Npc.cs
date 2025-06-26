@@ -39,7 +39,7 @@ public class Npc : MonoBehaviour
 
     private void HandleQuestCompleted(int completedNpcId, int questId)
     {
-        if (completedNpcId != npcData.npcId && questId != npcData.questId) return;
+        if (completedNpcId != npcData.npcId || questId != npcData.questId) return;
 
         npcData.questId++;
         npcData.affection++;

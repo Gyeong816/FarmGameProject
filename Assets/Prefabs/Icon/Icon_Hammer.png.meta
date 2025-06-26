@@ -110,7 +110,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Icon_Hammer_0
+      name: Icon_Hammer
       rect:
         serializedVersion: 2
         x: 50
@@ -118,7 +118,7 @@ TextureImporter:
         width: 255
         height: 280
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -141,7 +141,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Icon_Hammer_0: -1720341392
+      Icon_Hammer: -1720341392
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

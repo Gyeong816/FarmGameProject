@@ -8,6 +8,7 @@ public class CropInstance : MonoBehaviour
     public CropData cropData;
     
     public bool canHarvest;
+    public bool isCropRotten;
     public int currentStage = 0;
     private GameObject currentModel;
     private bool isWateredToday;
@@ -22,12 +23,11 @@ public class CropInstance : MonoBehaviour
     public void Water()
     {
         isWateredToday = true;
-        Debug.Log($"{name} 물 주기 완료");
     }
     
     void OnDayPassed()
     {
-        if (isWateredToday)
+        if (isWateredToday || canHarvest)
         {
             if (currentStage < cropData.stagePrefabs.Length - 1)
             {
@@ -38,13 +38,14 @@ public class CropInstance : MonoBehaviour
                 {
                     canHarvest = true;
                 }
+                
+                if (currentStage >= 4)
+                {
+                    isCropRotten = true;
+                }
             }    
         }
-        else
-        {
-            Debug.Log($"{name} 물을 안 줘서 성장 불가 ");
-        }
-
+       
         isWateredToday = false;
     }
     

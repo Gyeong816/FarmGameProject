@@ -110,7 +110,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Icon_Crop_Garlic_0
+      name: Icon_Crop_Garlic
       rect:
         serializedVersion: 2
         x: 90
@@ -118,7 +118,7 @@ TextureImporter:
         width: 838
         height: 867
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -141,7 +141,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Icon_Crop_Garlic_0: -620022496
+      Icon_Crop_Garlic: -620022496
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

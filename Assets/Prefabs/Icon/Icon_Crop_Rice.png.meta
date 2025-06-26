@@ -110,7 +110,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Icon_Crop_Rice_0
+      name: Icon_Crop_Rice
       rect:
         serializedVersion: 2
         x: 70
@@ -141,7 +141,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Icon_Crop_Rice_0: 1694954471
+      Icon_Crop_Rice: 1694954471
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

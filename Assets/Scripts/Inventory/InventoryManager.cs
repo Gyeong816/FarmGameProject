@@ -190,7 +190,7 @@ public class InventoryManager : MonoBehaviour
       if (existing != null && existing.data.id == itemId)
       {   
         existing.SubtractItemCount(amount);
-        if (existing.itemCount <= 1)
+        if (existing.itemCount <= 0)
         {
           Destroy(slot.currentItemUI.gameObject);
           slot.currentItemUI = null;
@@ -212,8 +212,9 @@ public class InventoryManager : MonoBehaviour
       if (existing != null && existing.data.id == itemId)
       {   
         existing.SubtractItemCount(amount);
-        if (existing.itemCount <= 1)
+        if (existing.itemCount <= 0)
         {
+          smallInventory.DestroyCurrentItem();
           Destroy(slot.currentItemUI.gameObject);
           slot.currentItemUI = null;
         }

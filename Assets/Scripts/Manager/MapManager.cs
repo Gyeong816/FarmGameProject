@@ -6,7 +6,7 @@ public class MapManager : MonoBehaviour
 {
     public static MapManager Instance;
     
-    
+    [SerializeField] private SmallInventory smallInventory;
     [Header("농작물 프리팹")]
     [SerializeField] private GameObject[] seedPrefabs;
     [Header("펜스 프리팹")]
@@ -64,7 +64,7 @@ public class MapManager : MonoBehaviour
     {
         if (!tile.isPlowed || tile.isPlanted) 
             return;
-        
+        Debug.Log("dfa");
         tile.MarkPlanted();
         var prefab = seedPrefabs[seedId];
         var pos = tile.transform.position + Vector3.up * 2f;
@@ -74,8 +74,7 @@ public class MapManager : MonoBehaviour
         plantedCrops[tile.gridPos] = seed;
         
         if (tile.IsWateredThisDay())
-            seed.Water();  
-        
+            seed.Water();
         InventoryManager.Instance.SubtractItemFromSmallInventory(itemId, 1);
     }
 
@@ -142,7 +141,15 @@ public class MapManager : MonoBehaviour
         if (!seed.canHarvest) 
             return;
 
-        InventoryManager.Instance.AddItemToSmallInventory(seed.cropData.cropId,seed.cropData.amount);
+        if (seed.isCropRotten)
+        {
+            InventoryManager.Instance.AddItemToSmallInventory(26,seed.cropData.amount);
+        }
+        else
+        {
+            InventoryManager.Instance.AddItemToSmallInventory(seed.cropData.cropId,seed.cropData.amount);
+        }
+        
         Destroy(seed.gameObject);
         plantedCrops.Remove(tile.gridPos);
         tile.ResetTile();
@@ -158,21 +165,21 @@ public class MapManager : MonoBehaviour
     
     public void WaterAllPlowedTiles()
     {
-        // (1) 타일 중 plowed 상태인 것만 Water() 호출
         foreach (var tile in tiles.Values)
         {
-            if (tile.isPlowed && !tile.IsWateredThisDay())
+            if (tile.isPlowed)
                 tile.Water();
         }
-
-        // (2) 이미 심어진 작물에도 Water()
-        foreach (var crop in plantedCrops.Values)
+        
+    }
+    
+    public void DryAllPlowedTiles()
+    {
+        foreach (var tile in tiles.Values)
         {
-            if (crop != null)
-                crop.Water();
+            if (tile.isPlowed)
+                tile.Dry();
         }
-
-        Debug.Log("[MapManager] Plowed tiles have been watered.");
     }
     
     // 저장 및 로드

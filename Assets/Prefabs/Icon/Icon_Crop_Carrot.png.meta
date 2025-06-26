@@ -110,7 +110,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Icon_Crop_Carrot_0
+      name: Icon_Crop_Carrot
       rect:
         serializedVersion: 2
         x: 31
@@ -118,7 +118,7 @@ TextureImporter:
         width: 230
         height: 283
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -141,7 +141,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Icon_Crop_Carrot_0: -425901109
+      Icon_Crop_Carrot: -425901109
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

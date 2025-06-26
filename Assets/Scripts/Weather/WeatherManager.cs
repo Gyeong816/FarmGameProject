@@ -5,14 +5,13 @@ public class WeatherManager : MonoBehaviour
 {
     public static WeatherManager Instance { get; private set; }
     
-    [Header("비 이펙트")] [SerializeField] private GameObject rainObj;
+    [Header("비 이펙트")]
+    [SerializeField] private GameObject rainObj;
 
-    [Header("주간 비 내리는 날 수동 설정 (0=월요일 … 6=일요일)")]
-    [SerializeField, Tooltip("길이가 7인 배열을 사용하세요. true인 인덱스의 요일에 비가 옵니다.")]
-    private bool[] weeklyRainSchedule = new bool[7]
-    {
-        false, true, false, false, true, false, false
-    };
+
+
+    [Header("주간 비 내리는 날 수동 설정")]
+    [SerializeField] private bool[] weeklyRainSchedule;
 
     public bool isRaining { get; private set; } 
     
@@ -34,8 +33,7 @@ public class WeatherManager : MonoBehaviour
         }
 
         TimeManager.Instance.OnDayPassed += HandleDayPassed;
-
-        // 시작 시 바로 오늘 날씨 적용
+        
         ApplyWeatherForToday(TimeManager.Instance.CurrentDay);
     }
 
@@ -84,7 +82,8 @@ public class WeatherManager : MonoBehaviour
         
         rainObj.SetActive(false);
 
-        // 안개 끄기
+        MapManager.Instance.DryAllPlowedTiles();
+        
         RenderSettings.fog = false;
 
         Debug.Log($"[Weather] Day {TimeManager.Instance.CurrentDay}: Rain end. Fog off.");
