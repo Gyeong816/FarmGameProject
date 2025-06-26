@@ -22,6 +22,7 @@ public class NPCInteractionManager : MonoBehaviour
     [SerializeField] private Button removeCompletedButton;
     
     [SerializeField] private TMP_Text npcCurrentText;
+    [SerializeField] private TMP_Text npcAffectionText;
     [SerializeField] private TMP_Text option1Text;
     [SerializeField] private TMP_Text option2Text;
     [SerializeField] private TMP_Text option3Text;
@@ -44,10 +45,9 @@ public class NPCInteractionManager : MonoBehaviour
     private Dictionary<int, DialogueLine> dialogueDict;
     private Dictionary<int, QuestUI> activeQuestUIs;
     private DialogueLine currentLine;
-    private int npcId;
-
-    private NpcData questData;
     
+    private NpcData questData;
+    private int currentNpcId;
     public static event System.Action<int, int> OnQuestCompleted;
 
     private void Awake()
@@ -88,6 +88,7 @@ public class NPCInteractionManager : MonoBehaviour
     
     public void ShowNpcDialogue(NpcData npcData, int npcId, int textId)
     {
+        currentNpcId = npcId;
         questData = null;
         bool canGiveItem = false;
         foreach (var data in questNpcDict)
@@ -99,12 +100,9 @@ public class NPCInteractionManager : MonoBehaviour
             }
         }
         
-
         
         OffButtons(giveItemButtonObj,shopButtonObj,confirmButtonObj,denyButtonObj,acceptButtonObj);
-        
         optionButtonObj.SetActive(true);
-        
         optionButton1.onClick.RemoveAllListeners();
         optionButton2.onClick.RemoveAllListeners();
         optionButton3.onClick.RemoveAllListeners();
@@ -117,11 +115,12 @@ public class NPCInteractionManager : MonoBehaviour
         else
             optionButton2.onClick.AddListener(() => ShowNpcDialogue(npcData, npcId, 2));
         
-        
+        npcAffectionText.text = $"Affection : {npcData.affection}";
         npcNameText.text = npcData.npcName;
         var image = GetNpcImage(dialogueDict[npcId].imageKey);
         currentNpcImage.sprite = image;
         string itemName = InventoryManager.Instance.GetItemName(npcData.requiredItemId);
+        
         switch (textId)
         {
             case 0:
@@ -191,11 +190,11 @@ public class NPCInteractionManager : MonoBehaviour
             confirmButton.onClick.AddListener(uiManager.CloseDialoguePanel);
             return;
         }
-        questNpcDict.Remove(npcId);
+        questNpcDict.Remove(currentNpcId);
         InventoryManager.Instance.SubtractItemFromSmallInventory(questData.requiredItemId, questData.requiredAmount);
         InventoryManager.Instance.SubtractItemFromBigInventory(questData.requiredItemId, questData.requiredAmount);
 
-        int coin = 100 * questData.favorability;
+        int coin = 100 * questData.affection;
         TradeManager.Instance.AddRewardCoin(coin);
         
         npcCurrentText.text = $"Here, take {coin} coins as your reward.";
@@ -204,7 +203,7 @@ public class NPCInteractionManager : MonoBehaviour
         {
             questUI.status = QuestStatus.Completed;
             questUI.OnQuestCompleted();
-            OnQuestCompleted?.Invoke(npcId, questData.questId);
+            OnQuestCompleted?.Invoke(currentNpcId, questData.questId);
         }
         
         confirmButton.onClick.RemoveAllListeners();

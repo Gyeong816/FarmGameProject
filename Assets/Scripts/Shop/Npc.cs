@@ -9,6 +9,7 @@ public class Npc : MonoBehaviour
     
     private void Start()
     {
+        npcData.affection = 1;
         npcData.questId = 1;
         npcData.requiredItemId = UnityEngine.Random.Range(16, 26);
         npcData.requiredAmount = UnityEngine.Random.Range(1, 4);
@@ -41,7 +42,7 @@ public class Npc : MonoBehaviour
         if (completedNpcId != npcData.npcId && questId != npcData.questId) return;
 
         npcData.questId++;
-        npcData.favorability++;
+        npcData.affection++;
         npcData.requiredItemId = UnityEngine.Random.Range(16, 26);
         npcData.requiredAmount = UnityEngine.Random.Range(1, 4);
     }

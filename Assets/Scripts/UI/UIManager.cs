@@ -45,10 +45,15 @@ public class UIManager : MonoBehaviour
     public bool IsPanelOpen => isPanelOpen;
     
     private bool isPanelOpen; 
+    private bool isSmallPanelOpen;
+    private bool isInventoryOpen;
+    private bool isMenuPanelOpen;
+    private bool isShopPanelOpen;
     private Camera mainCam;
     private int npcId;
     private string npcName;
     private NpcData npcData;
+
     private void Awake()
     {
         if (Instance == null)
@@ -61,7 +66,7 @@ public class UIManager : MonoBehaviour
         
         closePauseMenuPanel.onClick.AddListener(() => TogglePanel(pauseMenuPanel));
         sleepButton.onClick.AddListener(OnSleep);
-        closeShopButton.onClick.AddListener(() => TogglePanel(bigInvenPanel,shopInvenPanel));
+        closeShopButton.onClick.AddListener(CloseShopPanel);
     }
 
     private void Start()
@@ -81,10 +86,16 @@ public class UIManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
+            if (isSmallPanelOpen||isMenuPanelOpen || isShopPanelOpen) return;
+            isInventoryOpen = !isInventoryOpen;
+            
             TogglePanel(bigInvenPanel,questPanel);
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
+            if (isInventoryOpen || isMenuPanelOpen || isShopPanelOpen || currentPromptType == PromptType.None) return;
+            
+            isSmallPanelOpen = !isSmallPanelOpen;
             switch (currentPromptType)
             {
                 case PromptType.House:
@@ -101,6 +112,9 @@ public class UIManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            if (isInventoryOpen||isSmallPanelOpen || isShopPanelOpen) return;
+            
+            isMenuPanelOpen = !isMenuPanelOpen;
             TogglePanel(pauseMenuPanel);
         }
     }
@@ -108,12 +122,23 @@ public class UIManager : MonoBehaviour
 
     public void OpenShopPanel()
     {
-        TogglePanel(dialoguePanel);
+        if (isShopPanelOpen) return;
+        isShopPanelOpen = true;
+
+        CloseDialoguePanel();
+        TogglePanel(bigInvenPanel,shopInvenPanel);
+    }
+    
+    private void CloseShopPanel()
+    {
+        if (!isShopPanelOpen) return;
+        isShopPanelOpen = false;
         TogglePanel(bigInvenPanel,shopInvenPanel);
     }
 
     public void CloseDialoguePanel()
     {
+        isSmallPanelOpen = false;
         TogglePanel(dialoguePanel);
     }
     
@@ -197,6 +222,7 @@ public class UIManager : MonoBehaviour
         {
             currentPromptUI.SetActive(false);
             currentPromptUI = null;
+            currentPromptType = PromptType.None;
         }
     }
     

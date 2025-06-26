@@ -7,5 +7,5 @@ public class NpcData
     public string requiredItemName;
     public int    requiredItemId;
     public int    requiredAmount;
-    public int favorability;
+    public int affection;
 }
