@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float walkSpeed = 4f;
     [SerializeField] private float runSpeed = 7f;
     [SerializeField] private float rotationSpeed = 10f;
+    [SerializeField] private float tiredSpeed = 2f;
 
     [Header("점프/중력")]
     [SerializeField] private float jumpHeight = 1.2f;
@@ -35,6 +36,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float staminaCostPerAction = 5f;    // 도구 사용 시 고정 감소량
     [SerializeField] private float staminaRecoveryPerFood = 20f;  // 음식 먹을 때 고정 회복량
     public float currentStamina;
+    private bool isTired => currentStamina <= 0f; 
     
     private LandTile lastHighlighted; 
     public ItemType currentItem = ItemType.None;
@@ -65,6 +67,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        
         AnimatorStateInfo state = animator.GetCurrentAnimatorStateInfo(0);
         
         HandleInput();
@@ -129,12 +132,15 @@ public class PlayerController : MonoBehaviour
         }
         
         
+        
         float speed = GetCurrentSpeed();
         Move(speed);
         if (controller.isGrounded && isJumping)
         {
             Jump();
         }
+        
+        
     }
     
     private void HandleInput()
@@ -250,6 +256,11 @@ public class PlayerController : MonoBehaviour
     {
         currentStamina = Mathf.Clamp(currentStamina + amount, 0, maxStamina);
         staminaSlider.value = currentStamina;
+        if (currentStamina <= 0)
+            UIManager.Instance.OnFatigueWarningPanel();
+        else
+            UIManager.Instance.OffFatigueWarningPanel();
+
     }
     private void EatItem()
     {
@@ -337,8 +348,16 @@ public class PlayerController : MonoBehaviour
     }
     float GetCurrentSpeed()
     {
-        if (isRunning) return runSpeed;
-        else return walkSpeed;
+        if (!isTired)
+        {
+            if (isRunning) return runSpeed;
+            else return walkSpeed;
+            
+        }
+        else
+        {
+           return tiredSpeed;
+        }
     }
 
     void Move(float speed)

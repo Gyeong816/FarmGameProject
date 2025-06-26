@@ -6,44 +6,15 @@
   <component name="ChangeListManager">
     <list default="true" id="7bd28b71-29f7-441d-94c9-45fdc8d40e2c" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.FarmGameProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.FarmGameProject/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Animation/Player_Walk.anim" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Animation/Player_Walk.anim.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Icon/Icon_Crop_Broccoli.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Icon/Icon_Crop_Broccoli.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Icon/Icon_Crop_Cabbage.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Icon/Icon_Crop_Cabbage.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Icon/Icon_Crop_Carrot.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Icon/Icon_Crop_Carrot.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Icon/Icon_Crop_Corn.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Icon/Icon_Crop_Corn.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Icon/Icon_Crop_Garlic.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Icon/Icon_Crop_Garlic.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Icon/Icon_Crop_Mashroom.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Icon/Icon_Crop_Mashroom.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Icon/Icon_Crop_Potato.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Icon/Icon_Crop_Potato.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Icon/Icon_Crop_Pumpkin.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Icon/Icon_Crop_Pumpkin.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Icon/Icon_Crop_Rice.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Icon/Icon_Crop_Rice.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Icon/Icon_Crop_Wheat.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Icon/Icon_Crop_Wheat.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Icon/Icon_Fence.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Icon/Icon_Fence.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Icon/Icon_Hammer.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Icon/Icon_Hammer.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Icon/Icon_Hoe.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Icon/Icon_Hoe.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Icon/Icon_Seed_Broccoli.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Icon/Icon_Seed_Broccoli.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Icon/Icon_Seed_Cabbage.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Icon/Icon_Seed_Cabbage.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Icon/Icon_Seed_Carrot.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Icon/Icon_Seed_Carrot.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Icon/Icon_Seed_Corn.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Icon/Icon_Seed_Corn.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Icon/Icon_Seed_Garlic.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Icon/Icon_Seed_Garlic.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Icon/Icon_Seed_Mashroom.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Icon/Icon_Seed_Mashroom.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Icon/Icon_Seed_Potato.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Icon/Icon_Seed_Potato.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Icon/Icon_Seed_Pumpkin.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Icon/Icon_Seed_Pumpkin.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Icon/Icon_Seed_Rice.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Icon/Icon_Seed_Rice.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Icon/Icon_Seed_Wheat.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Icon/Icon_Seed_Wheat.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Icon/Icon_Sickle.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Icon/Icon_Sickle.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Icon/Icon_WateringPot.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Icon/Icon_WateringPot.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resource/GameDev Starter Kit - Farming/Material/Color_Palette_01.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resource/GameDev Starter Kit - Farming/Material/Color_Palette_01.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Animation/Injured Idle.fbx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Animation/Injured Idle.fbx.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Animation/PlayerAnimator.controller" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animation/PlayerAnimator.controller" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/InGame.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/InGame.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Crop/CropInstance.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Crop/CropInstance.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Inventory/InventoryManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Inventory/InventoryManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Manager/MapManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Manager/MapManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Shop/Npc.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Shop/Npc.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Tile/LandTile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Tile/LandTile.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Time/TimeManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Time/TimeManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/UIManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/UIManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Weather/WeatherManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Weather/WeatherManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/StreamingAssets/Table/ItemTable.tsv" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/StreamingAssets/Table/ItemTable.tsv" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -175,7 +146,7 @@
       <workItem from="1750638784896" duration="31946000" />
       <workItem from="1750725685231" duration="29510000" />
       <workItem from="1750811385997" duration="20932000" />
-      <workItem from="1750898647777" duration="17439000" />
+      <workItem from="1750898647777" duration="21094000" />
     </task>
     <servers />
   </component>

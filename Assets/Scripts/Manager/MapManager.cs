@@ -163,24 +163,6 @@ public class MapManager : MonoBehaviour
         }
     }
     
-    public void WaterAllPlowedTiles()
-    {
-        foreach (var tile in tiles.Values)
-        {
-            if (tile.isPlowed)
-                tile.Water();
-        }
-        
-    }
-    
-    public void DryAllPlowedTiles()
-    {
-        foreach (var tile in tiles.Values)
-        {
-            if (tile.isPlowed)
-                tile.Dry();
-        }
-    }
     
     // 저장 및 로드
     

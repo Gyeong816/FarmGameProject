@@ -15,6 +15,8 @@ public class WeatherManager : MonoBehaviour
 
     public bool isRaining { get; private set; } 
     
+    public event Action<bool> OnWeatherChanged;
+    
     private void Awake()
     {
         if (Instance == null)
@@ -68,9 +70,9 @@ public class WeatherManager : MonoBehaviour
         isRaining = true; 
         
         rainObj.SetActive(true);
-
-        MapManager.Instance.WaterAllPlowedTiles();
-    
+        
+        OnWeatherChanged?.Invoke(true);
+        
         RenderSettings.fog = true;
 
         Debug.Log($"[Weather] Day {TimeManager.Instance.CurrentDay}: Rain start. Fog on.");
@@ -81,8 +83,8 @@ public class WeatherManager : MonoBehaviour
         isRaining = false; 
         
         rainObj.SetActive(false);
-
-        MapManager.Instance.DryAllPlowedTiles();
+        
+        OnWeatherChanged?.Invoke(false);
         
         RenderSettings.fog = false;
 

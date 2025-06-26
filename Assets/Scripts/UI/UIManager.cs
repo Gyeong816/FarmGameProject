@@ -16,6 +16,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject dialoguePanel;
     [SerializeField] private GameObject backGround;
     [SerializeField] private GameObject questPanel;
+    [SerializeField] private GameObject fatigueWarningPanel;
     
     
     [Header("기본 참조")]
@@ -23,7 +24,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Button closePauseMenuPanel;
     [SerializeField] private NPCInteractionManager npcInteractionManager;
     
-   
 
     [Header("상인 상호작용")]
     [SerializeField] private GameObject housePromptUI;
@@ -81,6 +81,15 @@ public class UIManager : MonoBehaviour
         UpdatePromptUIPosition();
     }
 
+    public void OnFatigueWarningPanel()
+    {
+        fatigueWarningPanel.SetActive(true);
+    }
+
+    public void OffFatigueWarningPanel()
+    {
+        fatigueWarningPanel.SetActive(false);
+    }
     
     private void HandleInventoryToggle()
     {

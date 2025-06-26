@@ -13,18 +13,37 @@ public class LandTile : MonoBehaviour
     public bool isPlanted;
     public bool isPlowed;
     private bool isWatered;
+    private bool isRaining;
   
     
     private void Start()
     {
-        
+        WeatherManager.Instance.OnWeatherChanged += HandleWeatherChanged;
         grassTile.SetActive(true);
         plowedTile.SetActive(false);
         wateredTile.SetActive(false);
-        
-       
     }
     
+
+    private void OnDisable()
+    {
+        if (WeatherManager.Instance != null)
+            WeatherManager.Instance.OnWeatherChanged -= HandleWeatherChanged;
+    }
+    
+    private void HandleWeatherChanged(bool isNowRaining)
+    {
+        if (!isPlowed) return;
+        isRaining = isNowRaining;
+        if (isRaining)
+        {
+            Water();
+        }
+        else
+        {
+            Dry(); 
+        }
+    }
     
     public void ShowSelection()
     {
@@ -48,7 +67,7 @@ public class LandTile : MonoBehaviour
         grassTile.SetActive(false);
         plowedTile.SetActive(true);
         
-        if (WeatherManager.Instance.isRaining)
+        if (isRaining)
             Water();
     }
     public void Water()
