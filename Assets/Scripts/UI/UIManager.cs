@@ -17,6 +17,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject backGround;
     [SerializeField] private GameObject questPanel;
     [SerializeField] private GameObject fatigueWarningPanel;
+    [SerializeField] private GameObject dailyResultsPanel;
     
     
     [Header("기본 참조")]
@@ -65,7 +66,7 @@ public class UIManager : MonoBehaviour
         mainCam = Camera.main;
         
         closePauseMenuPanel.onClick.AddListener(() => TogglePanel(pauseMenuPanel));
-        sleepButton.onClick.AddListener(OnSleep);
+        sleepButton.onClick.AddListener(OpenDailyResultsPanel);
         closeShopButton.onClick.AddListener(CloseShopPanel);
     }
 
@@ -234,13 +235,11 @@ public class UIManager : MonoBehaviour
             currentPromptType = PromptType.None;
         }
     }
-    
-    private void OnSleep()
+
+    private void OpenDailyResultsPanel()
     {
-        TimeManager.Instance.SkipNight();
-        Time.timeScale = 1f;
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        TogglePanel(sleepPanel);
+        dailyResultsPanel.SetActive(true);
     }
 
 }

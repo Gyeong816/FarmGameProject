@@ -12,6 +12,7 @@ public class InventoryManager : MonoBehaviour
   [Header("아이템 데이터베이스")] 
   public List<ItemData> itemDatabase;
   private Dictionary<int, ItemData> dataDict;
+  private Dictionary<int, int> dailyAcquisitions;
   
   [Header("인벤토리")]
   public SmallInventory smallInventory;
@@ -38,7 +39,7 @@ public class InventoryManager : MonoBehaviour
     iconDic = new Dictionary<string, Sprite>();
     prefabDic = new Dictionary<string, GameObject>();
     dataDict = new Dictionary<int, ItemData>();
-    
+    dailyAcquisitions = new Dictionary<int,int>();
     
     foreach (var prefab in prefabList)
     {
@@ -147,6 +148,8 @@ public class InventoryManager : MonoBehaviour
     var iconSprite = GetIcon(data.iconKey);
     itemUI.Init(data,iconSprite);
     itemUI.AddItemCount(amount);
+    
+    RecordAcquisition(itemId, amount);
   }
   
   public void AddItemToBigInventory(int itemId, int amount)
@@ -179,8 +182,19 @@ public class InventoryManager : MonoBehaviour
     var iconSprite = GetIcon(data.iconKey);
     itemUI.Init(data,iconSprite);
     itemUI.AddItemCount(amount);
+    
+    RecordAcquisition(itemId, amount);
   }
-
+  public void RecordAcquisition(int itemId, int amount)
+  {
+    if (dailyAcquisitions.ContainsKey(itemId))
+      dailyAcquisitions[itemId] += amount;
+    else
+      dailyAcquisitions.Add(itemId, amount);
+  }
+  
+  
+  
   public void SubtractItemFromBigInventory(int itemId, int amount)
   {
     
@@ -276,6 +290,17 @@ public class InventoryManager : MonoBehaviour
     if (dataDict.TryGetValue(id, out var data))
       return data;
     return null;
+  }
+  public List<(int itemId, int count)> GetDailyAcquisitions()
+  {
+    return dailyAcquisitions
+      .Where(kv => kv.Value > 0)
+      .Select(kv => (kv.Key, kv.Value))
+      .ToList();
+  }
+  public void ResetDailyAcquisitions()
+  {
+    dailyAcquisitions.Clear();
   }
   
   

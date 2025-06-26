@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     [Header("참조")]
     [SerializeField] private Transform cameraTransform;
     [SerializeField] private MapManager mapManager;
+    [SerializeField] private UIManager uiManager;
     
     [Header("도구 오브젝트")]
     [SerializeField] private GameObject hoeObj;
@@ -145,37 +146,57 @@ public class PlayerController : MonoBehaviour
     
     private void HandleInput()
     {
-        if (UIManager.Instance.IsPanelOpen)
+        if (uiManager.IsPanelOpen)
             return;
-        
-        moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-        isRunning = Input.GetKey(KeyCode.LeftShift);
-        isJumping = Input.GetKeyDown(KeyCode.Space);
-        if (Input.GetMouseButtonDown(0))
-        { 
-            UseItem();
-        }
-         
 
+        moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+    
+        // 지쳤으면 달리기/점프 차단
+        if (!isTired)
+        {
+            isRunning = Input.GetKey(KeyCode.LeftShift);
+            isJumping = Input.GetKeyDown(KeyCode.Space);
+        }
+        else
+        {
+            isRunning = false;
+            isJumping = false;
+        }
+
+        if (Input.GetMouseButtonDown(0))
+            UseItem();
     }
+    
     private void UpdateAnimation()
     {
         bool isMoving = moveInput.sqrMagnitude >= 0.01f;
 
-        
-        animator.SetBool("Run", isMoving && isRunning);
-        animator.SetBool("Walk", isMoving);
-        
-        if (!isMoving)
+        // 모든 관련 파라미터 초기화
+        animator.SetBool("Run",       false);
+        animator.SetBool("Walk",      false);
+        animator.SetBool("TiredIdle", false);
+        animator.SetBool("TiredWalk", false);
+
+        if (isTired)
         {
-            animator.SetBool("Run", false);
-            animator.SetBool("Walk", false);
+            // 지쳤을 때
+            if (isMoving)
+                animator.SetBool("TiredWalk", true);
+            else
+                animator.SetBool("TiredIdle", true);
         }
+        else
+        {
+            // 정상 상태
+            if (isMoving && isRunning)
+                animator.SetBool("Run", true);
+            if (isMoving)
+                animator.SetBool("Walk", true);
+        }
+
+        // 점프 트리거 (지친 상태면 isJumping이 false라 절대 실행 안 됨)
         if (isMoving && isJumping)
-        {
             animator.SetTrigger("RunJump");
-        }
-        
     }
 
     public void UseItem()
@@ -257,9 +278,9 @@ public class PlayerController : MonoBehaviour
         currentStamina = Mathf.Clamp(currentStamina + amount, 0, maxStamina);
         staminaSlider.value = currentStamina;
         if (currentStamina <= 0)
-            UIManager.Instance.OnFatigueWarningPanel();
+            uiManager.OnFatigueWarningPanel();
         else
-            UIManager.Instance.OffFatigueWarningPanel();
+            uiManager.OffFatigueWarningPanel();
 
     }
     private void EatItem()
