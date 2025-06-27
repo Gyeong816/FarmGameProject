@@ -10,14 +10,14 @@ public class TimeManager : MonoBehaviour
     public bool isRainingToday { get; private set; }
 
     [Header("시간 설정")]
-    [SerializeField] private float dayDuration = 120f;        
-    [SerializeField] private float fastForwardMultiplier = 2f;  
+    [SerializeField] private float dayDuration = 120f;          // 하루 길이(초)
+    [SerializeField] private float fastForwardMultiplier = 2f;  // 빠른 진행 배율
     [SerializeField] private SkyManager skyManager;
     private float DayStartOffset = 5f / 24f;  
     
 
     private int currentDay = 1;
-    private float timeOfDay;                                    
+    private float timeOfDay;                                    // 0.0 ~ 1.0 (0==00:00, 1==24:00)
     private string currentPeriod;
 
     public float NormalizedTime => timeOfDay;

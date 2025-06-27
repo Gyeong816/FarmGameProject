@@ -25,7 +25,7 @@ public class TradeManager : MonoBehaviour
     [SerializeField] private TMP_Text playerDollarText;
     [SerializeField] private TMP_Text vendorDollarText;
     [SerializeField] private int playerDollar  = 150;
-    [SerializeField] private int vendorDollar  = 1000;
+    [SerializeField] private int vendorDollar  = 10000;
 
     private Action _onConfirm;
     private Action _onCancel;
@@ -41,7 +41,8 @@ public class TradeManager : MonoBehaviour
   
         confirmPanel.SetActive(false);
         warningPanel.SetActive(false);
-        
+
+        // 버튼 리스너 정리 & 연결
         buyButton.onClick.RemoveAllListeners();
         buyButton.onClick.AddListener(OnConfirm);
 
@@ -56,12 +57,12 @@ public class TradeManager : MonoBehaviour
         
         minusButton.onClick.RemoveAllListeners();
         minusButton.onClick.AddListener(SubtractTradeCount);
+        
     }
 
     private void Start()
     {
         UpdateDollarUI();
-        TimeManager.Instance.OnDayPassed += ResetShopCoin;
     }
     
     public void RequestPurchase(ShopItemUI shopItemUI)
@@ -193,25 +194,5 @@ public class TradeManager : MonoBehaviour
     public int GetCoinCount()
     {
         return playerDollar;
-    }
-
-    private void ResetShopCoin()
-    {
-        vendorDollar = 1000;
-        UpdateDollarUI();
-    }
-    public TradeSaveData GetSaveData()
-    {
-        return new TradeSaveData
-        {
-            playerCoin = playerDollar,
-            shopCoin = vendorDollar
-        };
-    }
-    public void LoadFromSave(TradeSaveData data)
-    {
-        playerDollar = data.playerCoin;
-        vendorDollar = data.shopCoin;
-        UpdateDollarUI();
     }
 }

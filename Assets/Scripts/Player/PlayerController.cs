@@ -64,8 +64,6 @@ public class PlayerController : MonoBehaviour
         
         controller = GetComponent<CharacterController>();
         animator = GetComponentInChildren<Animator>();
-        
-        TimeManager.Instance.OnDayPassed += ResetStamina;
     }
 
     void Update()
@@ -144,18 +142,6 @@ public class PlayerController : MonoBehaviour
         }
         
         
-    }
-    
-
-    private void OnDisable()
-    {
-        if (TimeManager.Instance != null)
-            TimeManager.Instance.OnDayPassed -= ResetStamina;
-    }
-    
-    private void ResetStamina()
-    {
-        ChangeStamina(100);
     }
     
     private void HandleInput()
@@ -414,7 +400,9 @@ public class PlayerController : MonoBehaviour
                 Time.deltaTime * rotationSpeed);
         }
     }
-    
+
+
+
 
     void Jump()
     {
@@ -432,31 +420,5 @@ public class PlayerController : MonoBehaviour
         {
             velocity.y += gravity * Time.deltaTime;
         }
-    }
-    
-    
-    public PlayerSaveData GetSaveData()
-    {
-        return new PlayerSaveData
-        {
-            position = transform.position,
-            rotation = transform.rotation,  
-            stamina  = currentStamina
-        };
-    }
-    public void LoadFromSave(PlayerSaveData data)
-    {
-        var cc = GetComponent<CharacterController>();
-        cc.enabled = false;
-        
-        transform.position = data.position;
-        transform.rotation = data.rotation;
-        
-        cc.enabled = true;
-        
-        currentStamina       = data.stamina;
-        staminaSlider.value  = data.stamina;
-        if (currentStamina <= 0) uiManager.OnFatigueWarningPanel();
-        else                     uiManager.OffFatigueWarningPanel();
     }
 }

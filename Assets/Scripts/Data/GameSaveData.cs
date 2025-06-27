@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 
 public enum InventoryType
@@ -16,8 +15,6 @@ public class GameSaveData
     public TimeSaveData      time;       // 날짜·시간 정보
     public SkySaveData       sky;        // 하늘 상태 정보
     public MapSaveData       map;        // 타일·크롭·펜스 상태
-    public TradeSaveData     trade; 
-    public PlayerSaveData    player;
 }
 
 
@@ -30,20 +27,6 @@ public class SlotSaveData
     public int           count;      
 }
 
-[Serializable]
-public class TradeSaveData
-{
-    public int playerCoin;
-    public int shopCoin;
-}
-
-[Serializable]
-public class PlayerSaveData
-{
-    public Vector3    position;
-    public Quaternion rotation;  
-    public float      stamina;
-}
 
 [Serializable]
 public class InventorySaveData
@@ -51,15 +34,6 @@ public class InventorySaveData
     public List<SlotSaveData> savedInvenDatas;
 }
 
-[Serializable]
-public class NpcSaveData
-{
-    public int  npcId;          
-    public int  affection;      
-    public bool hasQuest;      
-    public int  requiredItemId; 
-    public int  requiredAmount; 
-}
 
 [Serializable]
 public class TimeSaveData
