@@ -11,23 +11,32 @@ public class CropInstance : MonoBehaviour
     public bool isCropRotten;
     public int currentStage = 0;
     private GameObject currentModel;
-    private bool isWateredToday;
+    public bool isWateredToday;
+    private bool isRaining;
 
     private void Start()
     {
-        
+        WeatherManager.Instance.OnWeatherChanged += HandleWeatherChanged;
         TimeManager.Instance.OnDayPassed += OnDayPassed;
         UpdateCropModel();
     }
     
-    public void Water()
+    private void HandleWeatherChanged(bool isNowRaining)
     {
-        isWateredToday = true;
+        
+        if (isNowRaining)
+        {
+            isRaining = true;
+        }
+        else
+        {
+            isRaining = false;
+        }
     }
     
     void OnDayPassed()
     {
-        if (isWateredToday || canHarvest)
+        if (isWateredToday)
         {
             if (currentStage < cropData.stagePrefabs.Length - 1)
             {
@@ -43,10 +52,16 @@ public class CropInstance : MonoBehaviour
                 {
                     isCropRotten = true;
                 }
-            }    
+            }        
+            
         }
-       
-        isWateredToday = false;
+        
+        isWateredToday = isRaining;
+    }
+    
+    public void Water()
+    {
+        isWateredToday = true;
     }
     
     void UpdateCropModel()

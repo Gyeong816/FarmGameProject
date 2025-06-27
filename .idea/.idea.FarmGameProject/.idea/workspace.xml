@@ -6,17 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="7bd28b71-29f7-441d-94c9-45fdc8d40e2c" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.FarmGameProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.FarmGameProject/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Animation/NpcAnimator.controller" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animation/NpcAnimator.controller" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Animation/Npc_Hello.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animation/Npc_Hello.anim" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Animation/Npc_Hello.anim.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animation/Npc_Hello.anim.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Animation/Npc_Idle.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animation/Npc_Idle.anim" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Animation/Npc_Idle.anim.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animation/Npc_Idle.anim.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/InGame.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/InGame.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Inventory/InventoryManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Inventory/InventoryManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Manager/TradeManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Manager/TradeManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Time/TimeManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Time/TimeManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/DailyResultsPanel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/DailyResultsPanel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/UIManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/UIManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Crop/CropInstance.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Crop/CropInstance.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Manager/MapManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Manager/MapManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Tile/LandTile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Tile/LandTile.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -150,7 +144,7 @@
       <workItem from="1750811385997" duration="20932000" />
       <workItem from="1750898647777" duration="21094000" />
       <workItem from="1750926103018" duration="8080000" />
-      <workItem from="1750987271571" duration="2484000" />
+      <workItem from="1750987271571" duration="9030000" />
     </task>
     <servers />
   </component>

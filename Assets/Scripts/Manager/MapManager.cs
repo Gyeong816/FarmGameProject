@@ -20,6 +20,8 @@ public class MapManager : MonoBehaviour
     private float tileSize = 2f;
     private Dictionary<Vector2Int, LandTile> tiles;
     private Dictionary<Vector2Int, CropInstance> plantedCrops = new();
+    
+    private Dictionary<int, GameObject> seedPrefabMap;
     private void Awake()
     {
         if (Instance == null)
@@ -37,6 +39,14 @@ public class MapManager : MonoBehaviour
             tiles[key] = tile;
             tile.SetGridPosition(x, z);
             
+        }
+        seedPrefabMap = new Dictionary<int, GameObject>();
+        foreach (var prefab in seedPrefabs)
+        {
+            var ci = prefab.GetComponent<CropInstance>();
+            int id = ci.cropData.cropId;
+            if (!seedPrefabMap.ContainsKey(id))
+                seedPrefabMap.Add(id, prefab);
         }
     }
 
@@ -183,8 +193,7 @@ public class MapManager : MonoBehaviour
                 growthStage = tile.isPlanted ? plantedCrops[kv.Key].currentStage : 0,
                 fences      = new List<FenceSaveData>()
             };
-
-            // Tag 대신 'Fence' 스크립트 컴포넌트를 찾아서 회전값 저장
+            
             foreach (var fence in tile.GetComponentsInChildren<Fence>())
             {
                 entry.fences.Add(new FenceSaveData {
@@ -199,15 +208,14 @@ public class MapManager : MonoBehaviour
     }
     public void LoadFromSave(MapSaveData data)
     {
-        // (1) 기존 모든 타일 초기화
+     
         foreach (var kv in tiles.Values)
         {
-            kv.ResetTile();  // plowed=false, planted=false, water=false
-            // 필요 시 fence 제거 로직도 추가
+            kv.ResetTile();  
         }
         plantedCrops.Clear();
 
-        // (2) 저장된 데이터대로 복원
+ 
         foreach (var entry in data.tiles)
         {
             var key = new Vector2Int(entry.x, entry.z);
@@ -215,21 +223,20 @@ public class MapManager : MonoBehaviour
 
             if (entry.isPlowed)
                 tile.Hoe();
-
             if (entry.isWatered)
                 tile.Water();
-
             if (entry.isPlanted)
             {
-                // CropInstance 생성 및 단계 설정
-                var prefab = seedPrefabs.First(p => p.GetComponent<CropInstance>().cropData.cropId == entry.cropId);
-                var go     = Instantiate(prefab, tile.transform.position + Vector3.up*2f, Quaternion.identity, tile.transform);
-                var crop   = go.GetComponent<CropInstance>();
-                crop.SetStage(entry.growthStage);
-                plantedCrops[key] = crop;
+                tile.MarkPlanted();
+                if (seedPrefabMap.TryGetValue(entry.cropId, out var prefab))
+                {
+                    var go   = Instantiate(prefab, tile.transform.position + Vector3.up * 2f, Quaternion.identity, tile.transform);
+                    var crop = go.GetComponent<CropInstance>();
+                    crop.SetStage(entry.growthStage);
+                    plantedCrops[key] = crop;
+                }
             }
-
-            // 펜스 여러 개 복원
+            
             foreach (var f in entry.fences)
             {
                 Instantiate(fencePrefabs,

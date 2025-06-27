@@ -306,8 +306,8 @@ public class PlayerController : MonoBehaviour
         var checkPos = transform.position + transform.forward * toolDistance;
         
         var tile = mapManager.GetTileAtWorldPos(checkPos);
-        if (tile != null) 
-            tile.Water();
+        tile.Water();   
+        MapManager.Instance.WaterCropAt(tile);
     }
     private void PlantInFront()
     {
