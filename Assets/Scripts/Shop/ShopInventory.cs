@@ -13,7 +13,10 @@ public class ShopInventory : MonoBehaviour
 
     public GameObject shopPanel;
     
-
+    private void Start()
+    {
+        TimeManager.Instance.OnDayPassed += ResetItemCount;
+    }
     public void ShowItemsByType(params ItemType[] types)
     {
         foreach (var itemUI in shopItems.ToArray())
@@ -65,6 +68,14 @@ public class ShopInventory : MonoBehaviour
         scrollRect.verticalNormalizedPosition = 1f;
     }
 
+    private void ResetItemCount()
+    {
+        foreach (var data in shopItemDatabase)
+            data.isSoldOut = false;
+        
+        ShowAllItems();
+    }
+    
     public void OnClickAllButton()
     {
         ShowAllItems();

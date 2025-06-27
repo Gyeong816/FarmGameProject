@@ -13,6 +13,8 @@ public class DataSaveManager : MonoBehaviour
     [SerializeField] private TimeManager      timeMgr;
     [SerializeField] private SkyManager       skyMgr;
     [SerializeField] private MapManager       mapMgr;
+    [SerializeField] private TradeManager       tradeMgr;
+    [SerializeField] private PlayerController       playerController;
 
     private FirebaseAuth      auth;
     private FirebaseFirestore firestore;
@@ -32,20 +34,19 @@ public class DataSaveManager : MonoBehaviour
             Debug.LogWarning("[DataSaveManager] 로그인된 사용자가 없습니다. 저장 생략");
             return Task.CompletedTask;
         }
-
-        // 1) 각 매니저에서 저장 데이터 수집
+        
         var save = new GameSaveData
         {
             inventory = inventoryMgr.GetSaveData(),
             time      = timeMgr.GetSaveData(),
             sky       = skyMgr.GetSaveData(),
-            map       = mapMgr.GetSaveData()
+            map       = mapMgr.GetSaveData(),
+            trade      = tradeMgr.GetSaveData(),
+            player     = playerController.GetSaveData()
         };
-
-        // 2) JSON 직렬화
+        
         string json = JsonUtility.ToJson(save);
-
-        // 3) Firestore에 비동기 저장
+        
         var docRef = firestore
             .Collection("users")
             .Document(auth.CurrentUser.UserId);
@@ -95,19 +96,18 @@ public class DataSaveManager : MonoBehaviour
         }
 
         var save = JsonUtility.FromJson<GameSaveData>(raw);
-
-        // 하늘 보간 이벤트 잠시 해제
+        
         TimeManager.Instance.OnTimePeriodChanged -= skyMgr.OnPeriodChanged;
-
-        // 순차 복원
+        
         inventoryMgr.LoadFromSave(save.inventory);
-        timeMgr     .LoadFromSave    (save.time);
-        skyMgr      .SetPhaseImmediate(save.sky.phase);
-        mapMgr      .LoadFromSave   (save.map);
+        timeMgr.LoadFromSave(save.time);
+        skyMgr.SetPhaseImmediate(save.sky.phase);
+        mapMgr.LoadFromSave   (save.map);
+        tradeMgr.LoadFromSave(save.trade);
+        playerController.LoadFromSave(save.player);
 
-        // 이벤트 재등록
+
         TimeManager.Instance.OnTimePeriodChanged += skyMgr.OnPeriodChanged;
-
         Debug.Log("[DataSaveManager] 게임 전체 로드 완료 (Async)");
     }
 }
