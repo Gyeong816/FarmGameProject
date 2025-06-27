@@ -39,6 +39,7 @@ public class LoginManager : MonoBehaviour
 
     private void Start()
     {
+        SoundManager.Instance.PlayBgm("BGM_MenuBgm");
         ShowLogin();
         FirebaseApp.CheckAndFixDependenciesAsync()
             .ContinueWithOnMainThread(task =>

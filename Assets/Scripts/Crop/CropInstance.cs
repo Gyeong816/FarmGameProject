@@ -38,20 +38,19 @@ public class CropInstance : MonoBehaviour
     {
         if (isWateredToday)
         {
-            if (currentStage < cropData.stagePrefabs.Length - 1)
+            if (currentStage < 5)
             {
                 currentStage++;
-                UpdateCropModel();
                 
                 if (currentStage >= 3)
                 {
                     canHarvest = true;
                 }
-                
                 if (currentStage >= 4)
                 {
                     isCropRotten = true;
                 }
+                UpdateCropModel();
             }        
             
         }

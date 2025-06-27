@@ -80,8 +80,10 @@ public class UIManager : MonoBehaviour
     {
         HandleInventoryToggle();
         UpdatePromptUIPosition();
-    }
 
+       
+    }
+    
     public void OnFatigueWarningPanel()
     {
         fatigueWarningPanel.SetActive(true);

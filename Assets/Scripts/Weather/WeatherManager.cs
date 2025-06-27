@@ -75,6 +75,8 @@ public class WeatherManager : MonoBehaviour
         
         RenderSettings.fog = true;
 
+        SoundManager.Instance.PlayAmbience("RainLoop", 0.5f);
+        
         Debug.Log($"[Weather] Day {TimeManager.Instance.CurrentDay}: Rain start. Fog on.");
     }
 
@@ -88,6 +90,8 @@ public class WeatherManager : MonoBehaviour
         
         RenderSettings.fog = false;
 
+        SoundManager.Instance.PlayAmbience("ClearDayLoop",1f);
+        
         Debug.Log($"[Weather] Day {TimeManager.Instance.CurrentDay}: Rain end. Fog off.");
     }
 }

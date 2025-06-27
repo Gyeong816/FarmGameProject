@@ -67,6 +67,7 @@ public class NPCInteractionManager : MonoBehaviour
         openShopButton.onClick.AddListener(uiManager.OpenShopPanel);
         denyButton.onClick.AddListener(uiManager.CloseDialoguePanel);
         removeCompletedButton.onClick.AddListener(RemoveCompletedQuest);
+        
     }
 
     

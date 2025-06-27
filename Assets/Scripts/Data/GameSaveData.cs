@@ -21,6 +21,13 @@ public class GameSaveData
     public List<NpcSaveData> npcs;
 }
 
+[Serializable]
+public class QuestSaveData
+{
+    public int         npcId;   // 퀘스트를 준 NPC의 ID
+    public int         questId; // 해당 NPC의 현재 퀘스트 ID
+    public QuestStatus status;  // 진행 상태
+}
 
 
 [Serializable]

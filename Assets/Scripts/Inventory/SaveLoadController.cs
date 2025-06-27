@@ -17,7 +17,8 @@ public class SaveLoadController : MonoBehaviour
     private bool saveCompleted;
 
     private async void Start()
-    {
+    { 
+        SoundManager.Instance.PlayBgm("BGM_InGameBgm");
         saveCompleted = false; 
         mainmenuButton.interactable = false;
         try
