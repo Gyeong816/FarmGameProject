@@ -76,4 +76,18 @@ public class Npc : MonoBehaviour
         npcData.requiredItemId = UnityEngine.Random.Range(16, 26);
         npcData.requiredAmount = UnityEngine.Random.Range(1, 4);
     }
+    public NpcSaveData GetSaveData()
+    {
+        return new NpcSaveData
+        {
+            npcId = npcData.npcId,
+            affection = npcData.affection,
+        };
+    }
+    public void LoadFromSave(NpcSaveData data)
+    {
+        npcData.npcId = data.npcId;
+        npcData.affection = data.affection;
+    }
+    
 }

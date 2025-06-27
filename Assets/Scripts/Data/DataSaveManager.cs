@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Firebase.Auth;
 using Firebase.Firestore;
@@ -13,6 +15,9 @@ public class DataSaveManager : MonoBehaviour
     [SerializeField] private TimeManager      timeMgr;
     [SerializeField] private SkyManager       skyMgr;
     [SerializeField] private MapManager       mapMgr;
+    [SerializeField] private TradeManager       tradMgr;
+    [SerializeField] private PlayerController   playerController;
+    [SerializeField] private List<Npc> npcList; 
 
     private FirebaseAuth      auth;
     private FirebaseFirestore firestore;
@@ -39,7 +44,11 @@ public class DataSaveManager : MonoBehaviour
             inventory = inventoryMgr.GetSaveData(),
             time      = timeMgr.GetSaveData(),
             sky       = skyMgr.GetSaveData(),
-            map       = mapMgr.GetSaveData()
+            map       = mapMgr.GetSaveData(),
+            trade   = tradMgr.GetSaveData(),
+            player = playerController.GetSaveData(),
+            
+            npcs = npcList.Select(npc => npc.GetSaveData()).ToList()
         };
 
         // 2) JSON 직렬화
@@ -104,8 +113,14 @@ public class DataSaveManager : MonoBehaviour
         timeMgr     .LoadFromSave    (save.time);
         skyMgr      .SetPhaseImmediate(save.sky.phase);
         mapMgr      .LoadFromSave   (save.map);
-
-        // 이벤트 재등록
+        tradMgr     .LoadFromSave    (save.trade);
+        playerController.LoadFromSave    (save.player);
+        foreach (var npc in npcList)
+        {
+            var data = save.npcs.FirstOrDefault(d => d.npcId == npc.npcData.npcId);
+            if (data != null)
+                npc.LoadFromSave(data);
+        }
         TimeManager.Instance.OnTimePeriodChanged += skyMgr.OnPeriodChanged;
 
         Debug.Log("[DataSaveManager] 게임 전체 로드 완료 (Async)");

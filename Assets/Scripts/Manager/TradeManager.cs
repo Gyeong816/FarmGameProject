@@ -63,6 +63,7 @@ public class TradeManager : MonoBehaviour
     private void Start()
     {
         UpdateDollarUI();
+        TimeManager.Instance.OnDayPassed += ResetShopCoin;
     }
     
     public void RequestPurchase(ShopItemUI shopItemUI)
@@ -194,5 +195,26 @@ public class TradeManager : MonoBehaviour
     public int GetCoinCount()
     {
         return playerDollar;
+    }
+    
+    private void ResetShopCoin()
+    {
+        vendorDollar = 1000;
+        UpdateDollarUI();
+    }
+    
+    public TradeSaveData GetSaveData()
+    {
+        return new TradeSaveData
+        {
+            playerCoin = playerDollar,
+            shopCoin = vendorDollar
+        };
+    }
+    public void LoadFromSave(TradeSaveData data)
+    {
+        playerDollar = data.playerCoin;
+        vendorDollar = data.shopCoin;
+        UpdateDollarUI();
     }
 }

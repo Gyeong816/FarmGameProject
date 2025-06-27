@@ -13,7 +13,19 @@ public class ShopInventory : MonoBehaviour
 
     public GameObject shopPanel;
     
+    private void Start()
+    {
+        TimeManager.Instance.OnDayPassed += ResetItemCount;
+    }
 
+    
+    private void ResetItemCount()
+    {
+        foreach (var data in shopItemDatabase)
+            data.isSoldOut = false;
+        
+        ShowAllItems();
+    }
     public void ShowItemsByType(params ItemType[] types)
     {
         foreach (var itemUI in shopItems.ToArray())
