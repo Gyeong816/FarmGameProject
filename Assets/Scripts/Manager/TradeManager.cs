@@ -190,4 +190,9 @@ public class TradeManager : MonoBehaviour
         playerDollar += amount;
         UpdateDollarUI();
     }
+
+    public int GetCoinCount()
+    {
+        return playerDollar;
+    }
 }

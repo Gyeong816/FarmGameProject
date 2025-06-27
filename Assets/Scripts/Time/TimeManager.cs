@@ -133,5 +133,10 @@ public class TimeManager : MonoBehaviour
         OnDayPassed?.Invoke();
         OnTimePeriodChanged?.Invoke(currentPeriod);
     }
+
+    public int GetCurrentDay()
+    {
+        return currentDay;
+    }
     
 }

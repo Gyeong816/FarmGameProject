@@ -238,6 +238,7 @@ public class UIManager : MonoBehaviour
 
     private void OpenDailyResultsPanel()
     {
+        isSmallPanelOpen = false;
         TogglePanel(sleepPanel);
         dailyResultsPanel.SetActive(true);
     }

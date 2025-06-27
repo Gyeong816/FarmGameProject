@@ -131,6 +131,7 @@ public class InventoryManager : MonoBehaviour
       if (existing != null && existing.data.id == itemId)
       {
         existing.AddItemCount(amount);
+        RecordAcquisition(itemId, amount);
         return;
       }
     }
@@ -166,6 +167,7 @@ public class InventoryManager : MonoBehaviour
       if (existing != null && existing.data.id == itemId)
       {
         existing.AddItemCount(amount);
+        RecordAcquisition(itemId, amount);
         return;
       }
     }
