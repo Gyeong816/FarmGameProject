@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ShopInventory : MonoBehaviour
 {
-    //public List<ShopSlot> shopSlots;
+    [Header("Scroll View")]
+    [SerializeField] private ScrollRect scrollRect;
     public List<ItemData> shopItemDatabase;
     public List<ShopItemUI> shopItems;
     public GameObject shopItemUIPrefab;
@@ -34,7 +36,12 @@ public class ShopInventory : MonoBehaviour
             var itemUI = go.GetComponent<ShopItemUI>();
             itemUI.Init(data);         
             shopItems.Add(itemUI);
+            if (itemUI.data.isSoldOut)
+                itemUI.SoldOut();
         }
+        
+        Canvas.ForceUpdateCanvases();
+        scrollRect.verticalNormalizedPosition = 1f;
     }
 
     public void ShowAllItems()
@@ -54,6 +61,8 @@ public class ShopInventory : MonoBehaviour
             if (itemUI.data.isSoldOut)
                 itemUI.SoldOut();
         }
+        Canvas.ForceUpdateCanvases();
+        scrollRect.verticalNormalizedPosition = 1f;
     }
 
     public void OnClickAllButton()
