@@ -82,6 +82,17 @@ public class ItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     {
         GameObject target = eventData.pointerEnter;
         
+        var targetItem = target?.GetComponentInParent<ItemUI>();
+        if (targetItem != null && targetItem != this && targetItem.data.id == this.data.id)
+        {
+            // 같은 아이템끼리 합치기
+            targetItem.AddItemCount(this.itemCount);
+            originalSlotUI.UnsetItem(this);
+            Destroy(gameObject);
+            return;
+        }
+        
+        
         if (target.CompareTag("S_Inven"))
         {
             var slot = target.GetComponent<SlotUI>();

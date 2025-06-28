@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 public class SaveLoadController : MonoBehaviour
 {
+    [SerializeField] private GameObject loadingPanel;    
+    [SerializeField] private Slider progressSlider; 
     [SerializeField] private Button saveButton;
     [SerializeField] private Button mainmenuButton;
     [SerializeField] private DataSaveManager dataSaveManager;
@@ -21,20 +23,44 @@ public class SaveLoadController : MonoBehaviour
         SoundManager.Instance.PlayBgm("BGM_InGameBgm");
         saveCompleted = false; 
         mainmenuButton.interactable = false;
+        
+        loadingPanel.SetActive(true);
+        progressSlider.value = 0f;
+        
+        loadingPanel.SetActive(true);
+        progressSlider.value = 0f;
+
+      
+        var progress = new Progress<float>(p => progressSlider.value = p);
+
         try
         {
-            await inventoryManager.LoadDatabaseAsync();
-            await dataSaveManager.LoadGameAsync();
-
+            await LoadAllDataAsync(progress);
         }
         catch (Exception e)
         {
             Debug.LogError($"[SaveLoadController] 로드 중 예외 발생: {e}");
         }
+        finally
+        {
+            bigInventory.SetActive(false);
+            loadingPanel.SetActive(false);
+        }
         
-        bigInventory.SetActive(false);
         saveButton.onClick.AddListener(OnSaveClicked);
         mainmenuButton.onClick.AddListener(GoToMainMenu);
+    }
+
+    private async Task LoadAllDataAsync(IProgress<float> progress)
+    {
+        progress.Report(0.5f);
+        await inventoryManager.LoadDatabaseAsync();
+        
+        progress.Report(0.8f);
+        await dataSaveManager.LoadGameAsync();
+        
+        progress.Report(1f);
+        await Task.Delay(100);
     }
 
     private void OnSaveClicked()
