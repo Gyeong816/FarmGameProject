@@ -22,6 +22,7 @@ public class MainmenuUIController : MonoBehaviour
   private void Start()
   {
     SoundManager.Instance.PlayBgm("BGM_MenuBgm");
+    SoundManager.Instance.StopAmbience();
   }
 
   private void GoToInGame()
