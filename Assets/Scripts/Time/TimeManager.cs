@@ -108,6 +108,7 @@ public class TimeManager : MonoBehaviour
         
         skyManager.StopAllCoroutines();
         skyManager.SetPhaseImmediate(currentPeriod);
+        saveLoadController.OnSaveClicked();
         Debug.Log($"Skipped to Day {currentDay}");
     }
     

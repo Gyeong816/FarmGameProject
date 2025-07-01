@@ -19,7 +19,6 @@ public class LandTile : MonoBehaviour
     private void Start()
     {
         WeatherManager.Instance.OnWeatherChanged += HandleWeatherChanged;
-        TimeManager.Instance.OnDayPassed += OnDayPassed;
         grassTile.SetActive(true);
         plowedTile.SetActive(false);
         wateredTile.SetActive(false);
@@ -36,11 +35,6 @@ public class LandTile : MonoBehaviour
     {
         if (!isPlowed) return;
         isRaining = isNowRaining;
-       
-    }
-    
-    void OnDayPassed()
-    {
         if (isRaining)
         {
             Water();

@@ -39,8 +39,7 @@ public class CropInstance : MonoBehaviour
     {
         if (isWateredToday)
         {
-            int maxStage = cropData.stagePrefabs.Length - 1; 
-            if (currentStage < maxStage)
+            if (currentStage < 5)
             {
                 currentStage++;
                 
