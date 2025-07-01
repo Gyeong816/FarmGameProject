@@ -14,6 +14,7 @@ public class LandTile : MonoBehaviour
     public bool isPlowed;
     private bool isWatered;
     private bool isRaining;
+    
   
     
     private void Start()
@@ -33,7 +34,6 @@ public class LandTile : MonoBehaviour
     
     private void HandleWeatherChanged(bool isNowRaining)
     {
-        if (!isPlowed) return;
         isRaining = isNowRaining;
         if (isRaining)
         {
@@ -66,9 +66,13 @@ public class LandTile : MonoBehaviour
         isPlowed = true;
         grassTile.SetActive(false);
         plowedTile.SetActive(true);
-        
+
         if (isRaining)
+        {
             MapManager.Instance.WaterCropAt(this);
+            Water();
+        }
+         
     }
     public void Water()
     {
