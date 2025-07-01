@@ -13,7 +13,6 @@ public class TimeManager : MonoBehaviour
     [SerializeField] private float dayDuration = 120f;          // 하루 길이(초)
     [SerializeField] private float fastForwardMultiplier = 2f;  // 빠른 진행 배율
     [SerializeField] private SkyManager skyManager;
-    [SerializeField] private SaveLoadController saveLoadController;
     private float DayStartOffset = 5f / 24f;  
     
 
@@ -109,7 +108,7 @@ public class TimeManager : MonoBehaviour
         
         skyManager.StopAllCoroutines();
         skyManager.SetPhaseImmediate(currentPeriod);
-        saveLoadController.OnSaveClicked();
+        
         Debug.Log($"Skipped to Day {currentDay}");
     }
     

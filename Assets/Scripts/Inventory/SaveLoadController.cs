@@ -63,7 +63,7 @@ public class SaveLoadController : MonoBehaviour
         await Task.Delay(100);
     }
 
-    public void OnSaveClicked()
+    private void OnSaveClicked()
     {
     
         dataSaveManager
