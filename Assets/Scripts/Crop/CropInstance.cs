@@ -34,11 +34,20 @@ public class CropInstance : MonoBehaviour
         }
     }
     
+    private void OnDestroy()
+    {
+        if (WeatherManager.Instance != null)
+            WeatherManager.Instance.OnWeatherChanged -= HandleWeatherChanged;
+        if (TimeManager.Instance != null)
+            TimeManager.Instance.OnDayPassed     -= OnDayPassed;
+    }
+    
     void OnDayPassed()
     {
+        int maxStage = cropData.stagePrefabs.Length - 1;
         if (isWateredToday)
         {
-            if (currentStage < 5)
+            if (currentStage < maxStage)
             {
                 currentStage++;
                 
