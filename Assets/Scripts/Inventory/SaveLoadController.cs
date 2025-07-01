@@ -27,6 +27,9 @@ public class SaveLoadController : MonoBehaviour
         loadingPanel.SetActive(true);
         progressSlider.value = 0f;
         
+        loadingPanel.SetActive(true);
+        progressSlider.value = 0f;
+
       
         var progress = new Progress<float>(p => progressSlider.value = p);
 

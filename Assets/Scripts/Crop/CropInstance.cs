@@ -19,7 +19,6 @@ public class CropInstance : MonoBehaviour
         WeatherManager.Instance.OnWeatherChanged += HandleWeatherChanged;
         TimeManager.Instance.OnDayPassed += OnDayPassed;
         UpdateCropModel();
-        
     }
     
     private void HandleWeatherChanged(bool isNowRaining)
