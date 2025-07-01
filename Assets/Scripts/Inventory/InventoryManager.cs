@@ -58,11 +58,10 @@ public class InventoryManager : MonoBehaviour
 
   public async Task LoadDatabaseAsync()
   {
-    // 1) TSV에서 테이블 불러오기
+   
     var itemDataList = await TsvLoader.LoadTableAsync<ItemData>("ItemTable");
-
-    // 2) 로컬에 보관
     itemDatabase = itemDataList;
+    
     dataDict.Clear();
     foreach (var data in itemDatabase)
     {

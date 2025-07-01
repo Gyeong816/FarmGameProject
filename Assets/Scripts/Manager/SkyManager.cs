@@ -28,16 +28,16 @@ public class SkyManager : MonoBehaviour
 
     private void Start()
     {
-        // 스카이박스 초기 설정
+        
         blendedSky = new Material(eveningSky);
         RenderSettings.skybox = blendedSky;
 
-        // 라이트 초기 컬러 세팅
+      
         directionalLight.color = eveningLightColor;
         startLightColor = eveningLightColor;
         targetLightColor = eveningLightColor;
 
-        // 시간대 변경 이벤트 구독
+     
         TimeManager.Instance.OnTimePeriodChanged += OnPeriodChanged;
     }
 

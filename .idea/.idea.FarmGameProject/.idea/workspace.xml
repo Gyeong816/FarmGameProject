@@ -26,7 +26,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/37cc348edc804f4cb176b63962c716e7177200/16/a0ff17c4/SceneManager.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5a41d6b7189842eca409fd0b1c3e3dcf17bf78/a9/2c732b35/IProgress`1.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Crop/CropInstance.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Data/ItemData.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Data/ItemType.cs" root0="FORCE_HIGHLIGHTING" />
@@ -56,7 +56,7 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;develop&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;&lt;알 수 없음&gt;&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -72,9 +72,6 @@
       <option name="WORKING_DIRECTORY" value="C:\Users\KGA\Documents\GitHub\FarmGameProject" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
-      <option name="ENV_FILE_PATHS" value="" />
-      <option name="REDIRECT_INPUT_PATH" value="" />
-      <option name="PTY_MODE" value="Auto" />
       <method v="2" />
     </configuration>
     <configuration name="Unity 시작" type="RunUnityExe" factoryName="Unity Executable">
@@ -83,9 +80,6 @@
       <option name="WORKING_DIRECTORY" value="C:\Users\KGA\Documents\GitHub\FarmGameProject" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
-      <option name="ENV_FILE_PATHS" value="" />
-      <option name="REDIRECT_INPUT_PATH" value="" />
-      <option name="PTY_MODE" value="Auto" />
       <method v="2" />
     </configuration>
     <configuration name="Unity 에디터에 연결" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
@@ -99,7 +93,6 @@
       <option name="selectedOptions">
         <list />
       </option>
-      <option name="useMixedMode" value="false" />
       <method v="2" />
     </configuration>
     <configuration name="Unreal 에디터에 연결 후 재생" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
@@ -113,7 +106,6 @@
       <option name="selectedOptions">
         <list />
       </option>
-      <option name="useMixedMode" value="false" />
       <method v="2" />
     </configuration>
   </component>
@@ -167,6 +159,9 @@
       <workItem from="1751193888480" duration="1793000" />
       <workItem from="1751211912072" duration="706000" />
       <workItem from="1751212895831" duration="3874000" />
+      <workItem from="1751249343216" duration="831000" />
+      <workItem from="1751250309743" duration="3081000" />
+      <workItem from="1751332027062" duration="5315000" />
     </task>
     <servers />
   </component>
@@ -199,13 +194,13 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Scripts/Inventory/InventoryManager.cs</url>
-          <line>215</line>
+          <line>214</line>
           <properties documentPath="C:\Users\KGA\Documents\GitHub\FarmGameProject\Assets\Scripts\Inventory\InventoryManager.cs" containingFunctionPresentation="메서드 'SubtractItemFromBigInventory'">
             <startOffsets>
-              <option value="5504" />
+              <option value="5470" />
             </startOffsets>
             <endOffsets>
-              <option value="5505" />
+              <option value="5471" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="5" />

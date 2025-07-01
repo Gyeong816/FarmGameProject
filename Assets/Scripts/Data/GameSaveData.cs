@@ -12,10 +12,10 @@ public enum InventoryType
 [Serializable]
 public class GameSaveData
 {
-    public InventorySaveData inventory;  // 인벤토리 슬롯 정보
-    public TimeSaveData      time;       // 날짜·시간 정보
-    public SkySaveData       sky;        // 하늘 상태 정보
-    public MapSaveData       map;        // 타일·크롭·펜스 상태
+    public InventorySaveData inventory;  
+    public TimeSaveData      time;       
+    public SkySaveData       sky;        
+    public MapSaveData       map;        
     public TradeSaveData     trade; 
     public PlayerSaveData    player;
     public List<NpcSaveData> npcs;

@@ -4,21 +4,23 @@ using UnityEngine;
 public class TimeManager : MonoBehaviour
 {
     public static TimeManager Instance { get; private set; }
+    
     public event Action OnDayPassed;
     public event Action<string> OnTimePeriodChanged;
+    
     
     public bool isRainingToday { get; private set; }
 
     [Header("시간 설정")]
-    [SerializeField] private float dayDuration = 120f;          // 하루 길이(초)
-    [SerializeField] private float fastForwardMultiplier = 2f;  // 빠른 진행 배율
+    [SerializeField] private float dayDuration = 120f;          
+    [SerializeField] private float fastForwardMultiplier = 2f;  
     [SerializeField] private SkyManager skyManager;
     [SerializeField] private SaveLoadController saveLoadController;
     private float DayStartOffset = 5f / 24f;  
     
 
     private int currentDay = 1;
-    private float timeOfDay;                                    // 0.0 ~ 1.0 (0==00:00, 1==24:00)
+    private float timeOfDay;                                   
     private string currentPeriod;
 
     public float NormalizedTime => timeOfDay;
@@ -44,24 +46,21 @@ public class TimeManager : MonoBehaviour
 
     private void Update()
     {
-        // 1) 시간 증가
         float delta = Time.deltaTime / dayDuration;
         if (Input.GetKey(KeyCode.T))
             delta *= fastForwardMultiplier;
         timeOfDay += delta;
         
-
-        // 3) AM 5시 경계 단발성 감지
+      
         if (timeOfDay >= 1f)
         {
             timeOfDay -= 1f;
             currentDay++;
             OnDayPassed?.Invoke();
         }
-
-
-        // 4) 시간대 변경 판단
+        
         string newPeriod = GetPeriodFromHour(GetCurrentHour());
+        
         if (newPeriod != currentPeriod)
         {
             currentPeriod = newPeriod;
